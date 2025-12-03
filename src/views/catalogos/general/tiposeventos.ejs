@@ -1,0 +1,236 @@
+<%
+
+ %>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <%- include('../../components/web-header') %>
+</head>
+<body id="kt_body"
+      class="header-fixed header-tablet-and-mobile-fixed toolbar-enabled toolbar-fixed toolbar-tablet-and-mobile-fixed aside-enabled aside-fixed"
+      style="--kt-toolbar-height:55px;--kt-toolbar-height-tablet-and-mobile:55px">
+<!--begin::Main-->
+<!--begin::Root-->
+<div class="d-flex flex-column flex-root">
+    <!--begin::Page-->
+    <div class="page d-flex flex-row flex-column-fluid">
+        <%- include('../../components/left-aside.ejs') %>
+        <!--begin::Wrapper-->
+        <div class="wrapper d-flex flex-column flex-row-fluid" id="kt_wrapper">
+            <%- include('../../components/kt-header.ejs') %>
+            <!--begin::Content-->
+            <div class="content d-flex flex-column flex-column-fluid" id="kt_content">
+                <div class="d-flex flex-column-fluid">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="card card-bordered shadow-sm">
+                                    <div class="card-header">
+                                        <div class="card-title"><h3 class="card-label">Tipos de Eventos</h3></div>
+                                        <div class="card-toolbar">
+                                            <button class="btn btn-icon btn-primary btn-circle pulse btn-hover-scale"
+                                                    data-bs-toggle="modal"
+                                                    data-bs-target="#kt_modal_sol"
+                                                    type="button">
+                                                <i class="bi bi-plus fs-2hx"></i>
+                                            </button>
+                                            <button onclick="window.location.href='/excel/eventos.vw_rep_tipo'"
+                                                    class="btn btn-success btn-icon btn-circle pulse btn-hover-scale"
+                                                    type="button">
+                                                <i class="bi bi-file-earmark-excel fs-2"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="d-flex align-items-center position-relative mb-6">
+                                            <span class="svg-icon svg-icon-1 position-absolute ms-4">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                                     viewBox="0 0 24 24" fill="none">
+                                                    <rect opacity="0.5" x="17.0365" y="15.1223" width="8.15546"
+                                                          height="2" rx="1" transform="rotate(45 17.0365 15.1223)"
+                                                          fill="currentColor"></rect>
+                                                    <path d="M11 19C6.55556 19 3 15.4444 3 11C3 6.55556 6.55556 3 11 3C15.4444 3 19 6.55556 19 11C19 15.4444 15.4444 19 11 19ZM11 5C7.53333 5 5 7.53333 5 11C5 14.4667 7.53333 17 11 17C14.4667 17 17 14.4667 17 11C17 7.53333 14.4667 5 11 5Z"
+                                                          fill="currentColor"></path>
+                                                </svg>
+                                            </span>
+                                            <input type="text" data-kt-filter="search" name="search"
+                                                   class="form-control form-control-solid w-100 ps-14 text-uppercase"
+                                                   placeholder="Buscar..."/>
+                                        </div>
+                                        <table class="table table-row-dashed" id="tb-tipos">
+                                            <thead class="fw-bolder text-uppercase">
+                                            <tr>
+                                                <th>#</th>
+                                                <th>Tipo</th>
+                                                <th>Codigo Commcare</th>
+                                                <th>Estado</th>
+                                                <th></th>
+                                            </tr>
+                                            </thead>
+                                            <tbody></tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <!--end::Content-->
+            <%- include('../../components/bottom-footer.ejs', {ip: ip}) %>
+        </div>
+        <!--end::Wrapper-->
+    </div>
+    <!--end::Page-->
+    <!-- begin::modals -->
+    <%- include('modal-nueva-tipo-evento.ejs') %>
+    <!-- end::modals -->
+</div>
+<!--end::Root-->
+
+
+<%- include('../../components/kt-scrolltop.ejs') %>
+<!--end::Main-->
+<%- include('../../components/web-footer.ejs') %>
+
+
+<script>
+    const url = `${window.location.origin}/api`;
+    var tbtiposeventos
+    var sToast = null;
+    const nuevoButton = document.querySelector('#kt_nuevo')
+
+    sToast = Swal.mixin({
+        toast: true,
+        position: "top-end",
+        showConfirmButton: false,
+        timer: 3000,
+        timerProgressBar: true,
+        didOpen: (toast) => {
+            toast.onmouseenter = Swal.stopTimer;
+            toast.onmouseleave = Swal.resumeTimer;
+        }
+    });
+/**/
+    function fnToast(res) {
+        const {code, message} = res
+
+        if (code == undefined) {
+            console.error(res)
+            throw 'Formato invalido'
+        }
+        sToast.fire({
+            icon: code == 'true' ? 'success' : 'error',
+            title: message
+        })
+    }
+
+    function delTipoEvento(id) {
+        Swal.fire({
+            text: "¿Esta seguro que desea eliminar el tipo de evento?",
+            showCancelButton: true,
+            icon: "warning",
+            buttonsStyling: false,
+            confirmButtonText: "Eliminar",
+            cancelButtonText: "Cancelar",
+            customClass: {
+                confirmButton: "order-2 btn btn-danger",
+                cancelButton: "order-1 btn btn-light"
+            }
+        }).then(function (button) {
+            if (button.isConfirmed) {
+                $.ajax({
+                    url: `${url}/catalogo/eventos.tipo/codtipo/${id}`,
+                    type: 'delete'
+                }).done(function (request) {
+                    console.log(request)
+                    sToast.fire({
+                        icon: "success",
+                        title: "Registro Eliminado"
+                    })
+                    tbtiposeventos.ajax.reload(null, false);
+                }).fail(function (reason) {
+                    console.log(reason)
+                    sToast.fire({
+                        icon: "error",
+                        title: "Se produjo un error"
+                    })
+                })
+            }
+        })
+    }
+
+    document.addEventListener("DOMContentLoaded", function () {
+
+        function search_table(event){
+            tbtiposeventos.search(event.target.value).draw();
+        }
+
+        let filterSearch = document.querySelector('[data-kt-filter="search"]');
+        filterSearch.addEventListener('keyup', search_table);
+
+
+        tbtiposeventos = $('#tb-tipos').DataTable({
+            search: true,
+            ajax: `${url}/catalogo/view/eventos.tipo`,
+            columns: [
+                {data: "codtipo"},
+                {data: "strtipo"},
+                {data: "codcommcare"},
+                {data: "codestado"},
+                {data: null}
+            ],
+            columnDefs: [{
+                targets: [0],
+                render: function (data, type, row) {
+                    return `<a href="/catalogo/general/tipoeventos/${data}">${data}</a>`
+                }
+            }, {
+                targets: [3],
+                render: function (data, type, row) {
+                    let strestado = "OCULTO"
+                    let color = "badge-light-danger"
+
+                    if (data) {
+                        strestado = "VISIBLE"
+                        color = "badge-light-success"
+                    }
+
+                    return `<span class="badge badge-pill ${color}">${strestado}</span>`
+                }
+            }, {
+                targets: [4],
+                render: function (data, type, row) {
+                    return `<button class="btn btn-icon btn-circle btn-light-danger"
+onclick="delTipoEvento('${row.codtipo}')"><i class="bi bi-trash"></i></button>`
+                }
+            }
+            ],
+            order: [[0, 'asc']]
+        });
+
+        $("#frm-ins").submit(function (e) {
+            e.preventDefault()
+            nuevoButton.setAttribute('data-kt-indicator', 'on')
+            nuevoButton.disabled = true
+            $.ajax({
+                url: `${url}/catalogo/general/tipoeventos/0`,
+                type: 'post',
+                data: $("#frm-ins").serializeArray()
+            }).done(function (result) {
+                tbtiposeventos.ajax.reload(null, false);
+                $("#kt_modal_sol").modal('hide')
+                $("#frm-ins").trigger("reset")
+            }).fail(fnToast).always(function () {
+                nuevoButton.removeAttribute('data-kt-indicator');
+                nuevoButton.disabled = false;
+            })
+        })
+    })
+
+</script>
+<!--end::Page Custom Javascript-->
+<!--end::Javascript-->
+</body>
+</html>

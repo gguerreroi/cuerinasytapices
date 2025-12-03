@@ -1,0 +1,146 @@
+<%
+let GTQ = new Intl.NumberFormat('es-GT', {
+    style: 'currency',
+    currency: 'GTQ'
+})
+let USD = new Intl.NumberFormat('us-US', {
+    style: 'currency',
+    currency: 'USD'
+})
+ %>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reporte de Venta</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @media print {
+            body {
+                background: white; /* Fondo blanco */
+                -webkit-print-color-adjust: exact; /* Ajustar colores de impresión */
+                margin: 0; /* Quitar márgenes de la página */
+                padding: 0; /* Quitar padding */
+            }
+
+            .bg-gray-100 {
+                background: white !important; /* Fondo blanco para el contenedor */
+            }
+
+            .shadow-md {
+                box-shadow: none !important; /* Quitar sombras */
+            }
+
+            .p-6, .p-8 {
+                padding: 0 !important; /* Quitar paddings del contenedor */
+            }
+
+            .max-w-4xl {
+                max-width: 100% !important; /* Usar todo el ancho disponible */
+            }
+
+            table {
+                width: 100% !important; /* Asegurar que las tablas ocupen todo el ancho */
+            }
+
+            /* Encabezado de tabla con color */
+            table thead th {
+                background-color: #f3f4f6 !important; /* Color gris claro */
+                color: black !important; /* Asegura que el texto sea visible */
+                -webkit-print-color-adjust: exact; /* Permite que los colores se impriman */
+            }
+
+            @page {
+                size: A4; /* Tamaño del papel */
+                margin: 2cm; /* Márgenes de la página */
+            }
+        }
+    </style>
+
+</head>
+<body class="">
+
+<div class="p-8 max-w-4xl mx-auto">
+    <div class="flex items-center justify-between mb-8">
+        <img src="/assets/media/logos/logo-ra.png" alt="Logo" class="w-24">
+        <div class="text-center flex-grow">
+            <h1 class="text-2xl font-bold ">Registro Trimestral de Ventas por Pyme</h1>
+            <h2 class="text-xl font-semibold">Nombre del Proyecto: <%= encabezado.strproyectos %></h2>
+        </div>
+    </div>
+    <!-- Encabezado -->
+    <div class="mt-6 grid grid-cols-2 gap-4">
+        <div>
+            <p><span class="font-bold">ID plataforma:</span> <%= encabezado.codventa %></p>
+            <p><span class="font-bold">Socio que reporta:</span> <%= encabezado.strsocio %></p>
+            <p><span class="font-bold">Fecha:</span> <%= encabezado.datfchventa %></p>
+        </div>
+        <div><% console.log('poa ventas', poa)%>
+            <p><span class="font-bold">Estrategia:</span> <%= poa[0].strestrategia %></p>
+            <p><span class="font-bold">No. Actividad del POA:</span> <%= poa[0].strcodigoactividad %></p>
+            <p><span class="font-bold">Año fiscal:</span> <%= encabezado.strtrimestre_usaid.split('-')[1] %></p>
+            <p><span class="font-bold">Trimestre:</span> <%= encabezado.strtrimestre_usaid.split('-')[0] %></p>
+        </div>
+    </div>
+
+    <div class="mt-6">
+        <p><span class="font-bold">Total Ventas en:</span> <%= GTQ.format(encabezado.totventas_ml) %></p>
+        <p><span class="font-bold">Total Ventas en:</span> <%= USD.format(encabezado.totventas_usd) %></p>
+    </div>
+
+    <!-- Detalle -->
+    <div class="mt-8">
+        <h2 class="text-xl font-bold mb-4">Detalle de Ventas</h2>
+        <table class="table-auto w-full border-collapse border border-gray-300 text-sm">
+            <thead>
+            <tr class="bg-gray-100">
+                <th class="border border-gray-300 p-2">Organización</th>
+                <th class="border border-gray-300 p-2">Categoría</th>
+                <th class="border border-gray-300 p-2">Cadena de Valor</th>
+                <th class="border border-gray-300 p-2">Producto</th>
+                <th class="border border-gray-300 p-2">Certificación</th>
+                <th class="border border-gray-300 p-2">Volumen</th>
+                <th class="border border-gray-300 p-2">Precio</th>
+                <th class="border border-gray-300 p-2">Unidad</th>
+                <th class="border border-gray-300 p-2">Total en Q</th>
+                <th class="border border-gray-300 p-2">Total en $</th>
+            </tr>
+            </thead>
+            <tbody>
+            <% detalle.forEach(item => { %>
+                <tr>
+                    <td class="border border-gray-300 p-2"><%= item.strorganizacion %></td>
+                    <td class="border border-gray-300 p-2"><%= item.strcategoria %></td>
+                    <td class="border border-gray-300 p-2"><%= item.strcadenavalor %></td>
+                    <td class="border border-gray-300 p-2"><%= item.strproducto %></td>
+                    <td class="border border-gray-300 p-2"><%= item.strtipocertificacion.trim() %></td>
+                    <td class="border border-gray-300 p-2"><%= isNaN(item.fltvolumencantidad) ? item.fltvolumencantidad : item.fltvolumencantidad.toLocaleString('en-US',{
+                            minimumFractionDigits: 2,
+                            maximumFractionDigits: 2
+                        }) %></td>
+                    <td class="border border-gray-300 p-2"><%= GTQ.format(item.fltpreciounitario) %></td>
+                    <td class="border border-gray-300 p-2"><%= item.strunidadmedida %></td>
+                    <td class="border border-gray-300 p-2"><%= GTQ.format(item.totalmoneda) %></td>
+                    <td class="border border-gray-300 p-2"><%= USD.format(item.total_usd) %></td>
+                </tr>
+            <% }); %>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Firmas -->
+    <div class="mt-8 grid grid-cols-2 gap-8">
+        <div>
+            <p class="font-bold underline">Nombre, puesto</p>
+            <p>Firma y sello de autoridad de PYME que garantiza la veracidad de la información.</p>
+        </div>
+        <div>
+            <p class="font-bold underline">Nombre, puesto</p>
+            <p>Firma y sello de personal de proyecto que garantiza la veracidad de la información.</p>
+        </div>
+    </div>
+</div>
+</body>
+</html>

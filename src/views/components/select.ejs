@@ -1,0 +1,17 @@
+<%
+
+ %>
+<div class="<%= className %>">
+    <label class="input-group-text" for="<%= id %>">
+        <%= label %>
+    </label>
+    <select
+            class="form-select"
+            id="<%= id %>"
+            name="<%= name %>"
+            required>
+        <% options.map(function(item){ %>
+            <option value="<%= item.value %>"><%= item.text %></option>
+        <% }) %>
+    </select>
+</div>

@@ -1,0 +1,922 @@
+<%
+
+   %>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <%- include('../../components/web-header') %>
+</head>
+<body id="kt_body"
+      class="header-fixed header-tablet-and-mobile-fixed toolbar-enabled toolbar-fixed toolbar-tablet-and-mobile-fixed aside-enabled aside-fixed"
+      style="--kt-toolbar-height:55px;--kt-toolbar-height-tablet-and-mobile:55px">
+<!--begin::Main-->
+<!--begin::Root-->
+<div class="d-flex flex-column flex-root">
+    <!--begin::Page-->
+    <div class="page d-flex flex-row flex-column-fluid">
+        <%- include('../../components/left-aside.ejs') %>
+        <!--begin::Wrapper-->
+        <div class="wrapper d-flex flex-column flex-row-fluid" id="kt_wrapper">
+            <%- include('../../components/kt-header.ejs') %>
+            <!--begin::Content-->
+            <div class="content d-flex flex-column flex-column-fluid" id="kt_content">
+                <div class="d-flex flex-column-fluid">
+                    <div class="container">
+                        <div class="row g-6">
+                            <div class="col-12">
+                                <div class="card shadow-sm">
+                                    <div class="card-header">
+                                        <div class="card-title"><h3 class="card-label">Region</h3></div>
+                                        <div class="card-toolbar">
+                                            <button class="btn btn-primary btn-icon btn-circle btn-pulse btn-hover-scale"
+                                                    onclick="Region('0')"
+                                                    type="button">
+                                                <i class="bi bi-plus fs-2hx"></i>
+                                            </button>
+                                            <button onclick="window.location.href='/excel/geografica.vw_rep_region'"
+                                                    class="btn btn-success btn-icon btn-circle pulse btn-hover-scale"
+                                                    type="button">
+                                                <i class="bi bi-file-earmark-excel fs-2"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="d-flex align-items-center position-relative mb-6">
+                                            <span class="svg-icon svg-icon-1 position-absolute ms-4">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                                     viewBox="0 0 24 24" fill="none">
+                                                    <rect opacity="0.5" x="17.0365" y="15.1223" width="8.15546"
+                                                          height="2" rx="1" transform="rotate(45 17.0365 15.1223)"
+                                                          fill="currentColor"></rect>
+                                                    <path d="M11 19C6.55556 19 3 15.4444 3 11C3 6.55556 6.55556 3 11 3C15.4444 3 19 6.55556 19 11C19 15.4444 15.4444 19 11 19ZM11 5C7.53333 5 5 7.53333 5 11C5 14.4667 7.53333 17 11 17C14.4667 17 17 14.4667 17 11C17 7.53333 14.4667 5 11 5Z"
+                                                          fill="currentColor"></path>
+                                                </svg>
+                                            </span>
+                                            <input type="text" data-kt-filter="search-region" name="search-region"
+                                                   class="form-control form-control-solid w-100 ps-14 text-uppercase"
+                                                   placeholder="Buscar..."/>
+                                        </div>
+                                        <table class="table table-row-dashed" id="tb-region">
+                                            <thead class="fw-bolder text-uppercase">
+                                            <tr>
+                                                <th class="">#</th>
+                                                <th class="">Region</th>
+                                                <th class="">Codigo de Commcare</th>
+                                                <th>Estado</th>
+                                                <th></th>
+                                            </tr>
+                                            </thead>
+                                            <tbody></tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <div class="card shadow-sm">
+                                    <div class="card-header">
+                                        <div class="card-title"><h3 class="card-label">País</h3></div>
+                                        <div class="card-toolbar">
+                                            <button class="btn btn-primary btn-icon btn-circle btn-pulse btn-hover-scale"
+                                                    onclick="Pais('0')"
+                                                    type="button">
+                                                <i class="bi bi-plus fs-2hx"></i>
+                                            </button>
+                                            <button onclick="window.location.href='/excel/geografica.vw_rep_pais'"
+                                                    class="btn btn-success btn-icon btn-circle pulse btn-hover-scale"
+                                                    type="button">
+                                                <i class="bi bi-file-earmark-excel fs-2"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="d-flex align-items-center position-relative mb-6">
+                                            <span class="svg-icon svg-icon-1 position-absolute ms-4">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                                     viewBox="0 0 24 24" fill="none">
+                                                    <rect opacity="0.5" x="17.0365" y="15.1223" width="8.15546"
+                                                          height="2" rx="1" transform="rotate(45 17.0365 15.1223)"
+                                                          fill="currentColor"></rect>
+                                                    <path d="M11 19C6.55556 19 3 15.4444 3 11C3 6.55556 6.55556 3 11 3C15.4444 3 19 6.55556 19 11C19 15.4444 15.4444 19 11 19ZM11 5C7.53333 5 5 7.53333 5 11C5 14.4667 7.53333 17 11 17C14.4667 17 17 14.4667 17 11C17 7.53333 14.4667 5 11 5Z"
+                                                          fill="currentColor"></path>
+                                                </svg>
+                                            </span>
+                                            <input type="text" data-kt-filter="search-pais" name="searchpais"
+                                                   class="form-control form-control-solid w-100 ps-14 text-uppercase"
+                                                   placeholder="Buscar..."/>
+                                        </div>
+                                        <table class="table table-row-dashed" id="tb-pais">
+                                            <thead class="fw-bolder text-uppercase">
+                                            <tr>
+                                                <th>#</th>
+                                                <th>Pais</th>
+                                                <th>Region</th>
+                                                <th>Commcare</th>
+                                                <th>Estado</th>
+                                                <th></th>
+                                            </tr>
+                                            </thead>
+                                            <tbody></tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <div class="card shadow-sm">
+                                    <div class="card-header">
+                                        <div class="card-title"><h3 class="card-label">Moneda</h3></div>
+                                        <div class="card-toolbar">
+                                            <button class="btn btn-primary btn-icon btn-circle btn-pulse btn-hover-scale"
+                                                    onclick="Moneda('0')"
+                                                    type="button">
+                                                <i class="bi bi-plus fs-2hx"></i>
+                                            </button>
+                                            <button onclick="window.location.href='/excel/geografica.vw_rep_moneda'"
+                                                    class="btn btn-success btn-icon btn-circle pulse btn-hover-scale"
+                                                    type="button">
+                                                <i class="bi bi-file-earmark-excel fs-2"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="d-flex align-items-center position-relative mb-6">
+                                            <span class="svg-icon svg-icon-1 position-absolute ms-4">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                                     viewBox="0 0 24 24" fill="none">
+                                                    <rect opacity="0.5" x="17.0365" y="15.1223" width="8.15546"
+                                                          height="2" rx="1" transform="rotate(45 17.0365 15.1223)"
+                                                          fill="currentColor"></rect>
+                                                    <path d="M11 19C6.55556 19 3 15.4444 3 11C3 6.55556 6.55556 3 11 3C15.4444 3 19 6.55556 19 11C19 15.4444 15.4444 19 11 19ZM11 5C7.53333 5 5 7.53333 5 11C5 14.4667 7.53333 17 11 17C14.4667 17 17 14.4667 17 11C17 7.53333 14.4667 5 11 5Z"
+                                                          fill="currentColor"></path>
+                                                </svg>
+                                            </span>
+                                            <input type="text" data-kt-filter="search-moneda" name="searchmoneda"
+                                                   class="form-control form-control-solid w-100 ps-14 text-uppercase"
+                                                   placeholder="Buscar..."/>
+                                        </div>
+                                        <table class="table table-row-dashed" id="tb-moneda">
+                                            <thead class="fw-bolder text-uppercase">
+                                            <tr>
+                                                <th class="">#</th>
+                                                <th class="">Moneda</th>
+                                                <th class="">Simbolo</th>
+                                                <th class="">Pais</th>
+                                                <th class="">Commcare</th>
+                                                <th>Estado</th>
+                                                <th></th>
+                                            </tr>
+                                            </thead>
+                                            <tbody></tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <div class="card shadow-sm">
+                                    <div class="card-header">
+                                        <div class="card-title"><h3 class="card-label">Departamento</h3></div>
+                                        <div class="card-toolbar">
+                                            <button class="btn btn-primary btn-icon btn-circle btn-pulse btn-hover-scale"
+                                                    onclick="Departamento('0')"
+                                                    type="button">
+                                                <i class="bi bi-plus fs-2hx"></i>
+                                            </button>
+                                            <button onclick="window.location.href='/excel/geografica.vw_rep_departamento'"
+                                                    class="btn btn-success btn-icon btn-circle pulse btn-hover-scale"
+                                                    type="button">
+                                                <i class="bi bi-file-earmark-excel fs-2"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="d-flex align-items-center position-relative mb-6">
+                                            <span class="svg-icon svg-icon-1 position-absolute ms-4">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                                     viewBox="0 0 24 24" fill="none">
+                                                    <rect opacity="0.5" x="17.0365" y="15.1223" width="8.15546"
+                                                          height="2" rx="1" transform="rotate(45 17.0365 15.1223)"
+                                                          fill="currentColor"></rect>
+                                                    <path d="M11 19C6.55556 19 3 15.4444 3 11C3 6.55556 6.55556 3 11 3C15.4444 3 19 6.55556 19 11C19 15.4444 15.4444 19 11 19ZM11 5C7.53333 5 5 7.53333 5 11C5 14.4667 7.53333 17 11 17C14.4667 17 17 14.4667 17 11C17 7.53333 14.4667 5 11 5Z"
+                                                          fill="currentColor"></path>
+                                                </svg>
+                                            </span>
+                                            <input type="text" data-kt-filter="search-departamento" name="searchdepartamento"
+                                                   class="form-control form-control-solid w-100 ps-14 text-uppercase"
+                                                   placeholder="Buscar..."/>
+                                        </div>
+                                        <table class="table table-row-dashed" id="tb-depto">
+                                            <thead class="fw-bolder text-uppercase">
+                                            <tr>
+                                                <th>#</th>
+                                                <th>País</th>
+                                                <th>Departamento</th>
+                                                <th>Estado</th>
+                                                <th></th>
+                                            </tr>
+                                            </thead>
+                                            <tbody></tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <div class="card shadow-sm">
+                                    <div class="card-header">
+                                        <div class="card-title"><h3 class="card-label">Municipio</h3></div>
+                                        <div class="card-toolbar">
+                                            <button class="btn btn-primary btn-icon btn-circle btn-pulse btn-hover-scale"
+                                                    onclick="Municipio('0')"
+                                                    type="button">
+                                                <i class="bi bi-plus fs-2hx"></i>
+                                            </button>
+                                            <button onclick="window.location.href='/excel/geografica.vw_rep_municipio'"
+                                                    class="btn btn-success btn-icon btn-circle pulse btn-hover-scale"
+                                                    type="button">
+                                                <i class="bi bi-file-earmark-excel fs-2"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="d-flex align-items-center position-relative mb-6">
+                                            <span class="svg-icon svg-icon-1 position-absolute ms-4">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                                     viewBox="0 0 24 24" fill="none">
+                                                    <rect opacity="0.5" x="17.0365" y="15.1223" width="8.15546"
+                                                          height="2" rx="1" transform="rotate(45 17.0365 15.1223)"
+                                                          fill="currentColor"></rect>
+                                                    <path d="M11 19C6.55556 19 3 15.4444 3 11C3 6.55556 6.55556 3 11 3C15.4444 3 19 6.55556 19 11C19 15.4444 15.4444 19 11 19ZM11 5C7.53333 5 5 7.53333 5 11C5 14.4667 7.53333 17 11 17C14.4667 17 17 14.4667 17 11C17 7.53333 14.4667 5 11 5Z"
+                                                          fill="currentColor"></path>
+                                                </svg>
+                                            </span>
+                                            <input type="text" data-kt-filter="search-municipio" name="searchmunicipio"
+                                                   class="form-control form-control-solid w-100 ps-14 text-uppercase"
+                                                   placeholder="Buscar..."/>
+                                        </div>
+                                        <table class="table table-row-dashed" id="tb-municipio">
+                                            <thead class="fw-bolder text-uppercase center">
+                                            <tr>
+                                                <th>#</th>
+                                                <th>Municipio</th>
+                                                <th>Departamento</th>
+                                                <th>Commcare</th>
+                                                <th>Estado</th>
+                                                <th></th>
+                                            </tr>
+                                            </thead>
+                                            <tbody></tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--end::Content-->
+            <%- include('../../components/bottom-footer.ejs', {ip: ip}) %>
+        </div>
+        <!--end::Wrapper-->
+    </div>
+    <!--end::Page-->
+    <!-- begin::modals -->
+    <%- include('modal-region.ejs') %>
+    <%- include('modal-pais.ejs') %>
+    <%- include('modal-moneda.ejs') %>
+    <%- include('modal-departamento.ejs') %>
+    <%- include('modal-municipio.ejs') %>
+
+    <!-- end::modals -->
+</div>
+<!--end::Root-->
+
+
+<%- include('../../components/kt-scrolltop.ejs') %>
+<!--end::Main-->
+<%- include('../../components/web-footer.ejs') %>
+
+<script>
+
+	var tbregion, tbpais, tbmoneda, tbdepto, tbmun;
+	var btnSave_Region, btnSave_Pais, btnSave_Moneda, btnSave_Departamento, btnSave_Municipio;
+	var data_region, data_pais
+	/* NO BORRAR ESTO ::: INICIO ::: */
+	const url = `${window.location.origin}/api`;
+	var sToast = null;
+	sToast = Swal.mixin({
+		toast: true,
+		position: "top-end",
+		showConfirmButton: false,
+		timer: 3000,
+		timerProgressBar: true,
+		didOpen: (toast) => {
+			toast.onmouseenter = Swal.stopTimer;
+			toast.onmouseleave = Swal.resumeTimer;
+		}
+	});
+	function fnToast(res) {
+		const {code, message} = res
+		if (code == undefined) {
+			console.error('error in fnToast', res)
+			throw 'Formato invalido'
+		}
+		sToast.fire({
+			icon: code == 'true' ? 'success' : 'error',
+			title: message
+		})
+	}
+	function delBase(message, path){
+		Swal.fire({
+			text: message,
+			showCancelButton: true,
+			icon: "warning",
+			buttonsStyling: false,
+			confirmButtonText: "Eliminar",
+			cancelButtonText: "Cancelar",
+			customClass: {
+				confirmButton: "order-2 btn btn-danger",
+				cancelButton: "order-1 btn btn-light"
+			}
+		}).then(function (button) {
+			if (button.isConfirmed) {
+				$.ajax({
+					url: `${url}/catalogo/${path}`,
+					type: 'delete'
+				}).done(function (request) {
+					tbregion.ajax.reload(null, false);
+					tbpais.ajax.reload(null, false);
+					tbmoneda.ajax.reload(null, false);
+					tbdepto.ajax.reload(null, false);
+					tbmun.ajax.reload(null, false);
+					sToast.fire({
+						icon: "success",
+						title: "Registro Eliminado"
+					})
+				}).fail(function (reason) {
+					sToast.fire({
+						icon: "error",
+						title: "Se produjo un error"
+					})
+				})
+			}
+		})
+	}
+	/* NO BORRAR ESTO ::: FIN ::: */
+
+	function Region(id){
+		$("#frmregion").trigger('reset')
+		if (id == 0) {
+			$("#codregion").val('0');
+			$("#kt_modal_region").modal('show');
+        }else {
+			$.ajax({
+				url: `${url}/catalogo/view/geografica.region/codregion/${id}`
+			}).done(function(result){
+				const {
+					codregion,
+					strregion,
+					codcommcare,
+					codestado
+				} = result.data[0]
+
+				$("#codregion").val(codregion)
+				$("#strregion").val(strregion)
+				$("#codcommcare").val(codcommcare)
+				$("#codestado").prop("checked", codestado)
+				$("#kt_modal_region").modal('show');
+			}).fail(function(reason){
+				console.log('fail load',reason)
+			})
+        }
+	}
+
+	function Pais(id){
+		$("#frmpais").trigger('reset')
+		if (id == 0) {
+			$("#codpais").val('0').prop('readonly', false);
+			//$("#codpais").prop('readonly', false)
+			$("#kt_modal_pais").modal('show');
+		}else {
+			$.ajax({
+				url: `${url}/catalogo/view/geografica.pais/codpais/${id}`
+			}).done(function(result){
+				const {
+					codpais,
+					strpais,
+                    codregion,
+					codcommcare,
+					codestado
+				} = result.data[0]
+
+				$("#codpais").val(codpais)
+				$("#strpais").val(strpais)
+                $("#codregion_pais").val(codregion).trigger('change')
+				$("#codcommcare_pais").val(codcommcare)
+				$("#codestado_pais").prop("checked", codestado)
+				$("#kt_modal_pais").modal('show');
+			}).fail(function(reason){
+				console.log('fail load',reason)
+			})
+		}
+    }
+
+	function Moneda(id){
+		$("#frmmoneda").trigger('reset')
+		if (id == 0) {
+			$("#codmoneda").val('0');
+			$("#kt_modal_moneda").modal('show');
+		}else {
+			$.ajax({
+				url: `${url}/catalogo/view/geografica.moneda/codmoneda/${id}`
+			}).done(function(result){
+				const {
+					codmoneda,
+					strmoneda,
+					strsimbolo,
+					codpais,
+					codcommcare,
+					codestado
+				} = result.data[0]
+
+				$("#codmoneda").val(codmoneda)
+				$("#strmoneda").val(strmoneda)
+				$("#strsimbolo").val(strsimbolo)
+				$("#codpais_moneda").val(codpais).trigger('change')
+				$("#codcommcare_moneda").val(codcommcare)
+				$("#codestado_moneda").prop("checked", codestado)
+				$("#kt_modal_moneda").modal('show');
+			}).fail(function(reason){
+				console.log('fail load',reason)
+			})
+		}
+	}
+
+	function Departamento(id){
+		$("#frmdepartamento").trigger('reset')
+		if (id == 0) {
+			$("#coddepartamento").val('0');
+			$("#kt_modal_departamento").modal('show');
+		}else {
+			$.ajax({
+				url: `${url}/catalogo/view/geografica.departamento/coddepartamento/${id}`
+			}).done(function(result){
+				const {
+					coddepartamento,
+					strdepartamento,
+					codpais,
+					codcommcare,
+					codestado
+				} = result.data[0]
+
+				$("#coddepartamento").val(coddepartamento)
+				$("#strdepartamento").val(strdepartamento)
+				$("#codpais_departamento").val(codpais).trigger('change')
+				$("#codcommcare_departamento").val(codcommcare)
+				$("#codestado_departamento").prop("checked", codestado)
+				$("#kt_modal_departamento").modal('show');
+			}).fail(function(reason){
+				console.log('fail load',reason)
+			})
+		}
+	}
+
+	function Municipio(id){
+		$("#frmmunicipio").trigger('reset')
+		if (id == 0) {
+			$("#codmunicipio").val('0');
+			$("#kt_modal_municipio").modal('show');
+		}else {
+			$.ajax({
+				url: `${url}/catalogo/view/geografica.municipio/codmunicipio/${id}`
+			}).done(function(result){
+				const {
+					codmunicipio,
+					strmunicipio,
+					coddepartamento,
+					codcommcare,
+					codestado
+				} = result.data[0]
+
+				$("#codmunicipio").val(codmunicipio)
+				$("#strmunicipio").val(strmunicipio)
+				$("#coddepartamento_municipio").val(coddepartamento).trigger('change')
+				$("#codcommcare_municipio").val(codcommcare)
+				$("#codestado_municipio").prop("checked", codestado)
+				$("#kt_modal_municipio").modal('show');
+			}).fail(function(reason){
+				console.log('fail load',reason)
+			})
+		}
+	}
+
+
+	function delregion(id) {
+		delBase('¿Esta seguro que desea eliminar la region?',`geografica.region/codregion/${id}`);
+	}
+
+	function delpais(id) {
+		delBase('¿Esta seguro que desea eliminar el país?',`geografica.pais/codpais/${id}`);
+	}
+
+	function delmoneda(id) {
+		delBase('¿Esta seguro que desea eliminar la moneda?',`geografica.moneda/codmoneda/${id}`);
+	}
+
+	function deldepartamento(id) {
+		delBase('¿Esta seguro que desea eliminar el departamento?',`geografica.departamento/coddepartamento/${id}`);
+	}
+
+	function delmunicipio(id) {
+		delBase('¿Esta seguro que desea eliminar el municipio?',`geografica.municipio/codmunicipio/${id}`);
+	}
+
+	$.ajax({
+        url: `${url}/catalogo/select2/geografica.region/codregion/strregion`,
+        type: 'get'
+    }).done(function(result){
+	    data_region = result.results;
+		$("#codregion_pais").select2({
+            data: data_region,
+            dropdownParent: $("#kt_modal_pais")
+        })
+    }).fail(function(reason){
+		console.error('error al cargar datos de regiones', reason)
+    })
+
+    $.ajax({
+		url: `${url}/catalogo/select2/geografica.pais/codpais/strpais`,
+		type: 'get'
+    }).done(function(result){
+        data_pais = result.results;
+		$("#codpais_moneda").select2({
+            data: data_pais,
+            dropdownParent: $("#kt_modal_moneda")
+        })
+        $("#codpais_departamento").select2({
+            data: data_pais,
+            dropdownParent: $("#kt_modal_departamento")
+        })
+    })
+
+	$.ajax({
+		url: `${url}/catalogo/select2/geografica.departamento/coddepartamento/strdepartamento`,
+		type: 'get'
+	}).done(function(result){
+		$("#coddepartamento_municipio").select2({
+			data: result.results,
+			dropdownParent: $("#kt_modal_municipio")
+		})
+	})
+
+	document.addEventListener("DOMContentLoaded", function () {
+		btnSave_Region = document.getElementById('kt_guardar_region')
+		btnSave_Pais = document.getElementById('kt_guardar_pais')
+        btnSave_Moneda = document.getElementById('kt_guardar_moneda')
+        btnSave_Departamento = document.getElementById('kt_guardar_departamento')
+        btnSave_Municipio = document.getElementById('kt_guardar_municipio')
+
+		let filterSearch = document.querySelector('[data-kt-filter="search-region"]')
+		filterSearch.addEventListener('keyup', function(event){
+			tbregion.search(event.target.value).draw();
+        });
+
+		tbregion = $('#tb-region').DataTable({
+			search: true,
+			ajax: `${url}/catalogo/view/geografica.region`,
+			columns: [
+				{data: "codregion"},
+				{data: "strregion"},
+				{data: "codcommcare"},
+				{data: "codestado"},
+				{data: null}
+			],
+			columnDefs: [{
+				targets: [0],
+				render: function (data, type, row) {
+					return `<button class="btn btn-light-primary hover-scale btn-icon btn-circle" onclick="Region('${data}')">${data}</button>`
+				}
+			}, {
+				targets: [3],
+				render: function (data, type, row) {
+					let strestado = "OCULTO"
+					let color = "badge-light-danger"
+
+					if (data) {
+						strestado = "VISIBLE"
+						color = "badge-light-success"
+					}
+					return `<span class="badge badge-pill ${color}">${strestado}</span>`
+				}
+			}, {
+				targets: [4],
+				render: function (data, type, row) {
+					return `<button onclick="delregion('${row.codregion}')" class="btn btn-icon btn-circle btn-light-danger"><i class="bi bi-trash"></i></button>`
+				}
+			}],
+			order: [[0, 'asc']]
+		});
+
+		$("#frmregion").submit(function (e){
+			e.preventDefault()
+			let id = document.getElementById('codregion').value
+			let metodo = id == 0 ? "post" : "put"
+
+			btnSave_Region.setAttribute('data-kt-indicator', 'on')
+			btnSave_Region.disabled = true
+
+			$.ajax({
+				url: `${url}/catalogo/general/region/${id}`,
+				type: metodo,
+				data: $("#frmregion").serializeArray()
+			}).done(function (result) {
+				console.log('done...', result)
+				fnToast(result)
+				tbregion.ajax.reload(null, false);
+				$("#kt_modal_region").modal('hide')
+				$("#frmregion").trigger("reset")
+			}).fail(function(fail){
+				console.log('fail', fail)
+			}).always(function () {
+				btnSave_Region.removeAttribute('data-kt-indicator');
+				btnSave_Region.disabled = false;
+			})
+		})
+
+		$("#frmpais").submit(function (e){
+			e.preventDefault()
+			let id = document.getElementById('codpais').value
+			let metodo = id == 0 ? "post" : "put"
+
+			btnSave_Pais.setAttribute('data-kt-indicator', 'on')
+			btnSave_Pais.disabled = true
+
+			$.ajax({
+				url: `${url}/catalogo/general/pais/${id}`,
+				type: metodo,
+				data: $("#frmpais").serializeArray()
+			}).done(function (result) {
+				console.log('done...', result)
+				fnToast(result)
+				tbpais.ajax.reload(null, false);
+				$("#kt_modal_pais").modal('hide')
+				$("#frmpais").trigger("reset")
+			}).fail(function(fail){
+				console.log('fail', fail)
+			}).always(function () {
+				btnSave_Pais.removeAttribute('data-kt-indicator');
+				btnSave_Pais.disabled = false;
+				$("#codpais").val('0').prop('readonly', true);
+			})
+		})
+
+		$("#frmmoneda").submit(function (e){
+			e.preventDefault()
+			let id = document.getElementById('codmoneda').value
+			let metodo = id == 0 ? "post" : "put"
+
+			btnSave_Moneda.setAttribute('data-kt-indicator', 'on')
+			btnSave_Moneda.disabled = true
+
+			$.ajax({
+				url: `${url}/catalogo/general/moneda/${id}`,
+				type: metodo,
+				data: $("#frmmoneda").serializeArray()
+			}).done(function (result) {
+				console.log('done...', result)
+				fnToast(result)
+				tbmoneda.ajax.reload(null, false);
+				$("#kt_modal_moneda").modal('hide')
+				$("#frmmoneda").trigger("reset")
+			}).fail(function(fail){
+				console.log('fail', fail)
+			}).always(function () {
+				btnSave_Moneda.removeAttribute('data-kt-indicator');
+				btnSave_Moneda.disabled = false;
+			})
+		})
+
+		$("#frmdepartamento").submit(function (e){
+			e.preventDefault()
+			let id = document.getElementById('coddepartamento').value
+			let metodo = id == 0 ? "post" : "put"
+
+			btnSave_Departamento.setAttribute('data-kt-indicator', 'on')
+			btnSave_Departamento.disabled = true
+
+			$.ajax({
+				url: `${url}/catalogo/general/departamento/${id}`,
+				type: metodo,
+				data: $("#frmdepartamento").serializeArray()
+			}).done(function (result) {
+				console.log('done...', result)
+				fnToast(result)
+				tbdepto.ajax.reload(null, false);
+				$("#kt_modal_departamento").modal('hide')
+				$("#frmdepartamento").trigger("reset")
+			}).fail(function(fail){
+				console.log('fail', fail)
+			}).always(function () {
+				btnSave_Departamento.removeAttribute('data-kt-indicator');
+				btnSave_Departamento.disabled = false;
+			})
+		})
+
+		$("#frmmunicipio").submit(function (e){
+			e.preventDefault()
+			let id = document.getElementById('codmunicipio').value
+			let metodo = id == 0 ? "post" : "put"
+
+			btnSave_Municipio.setAttribute('data-kt-indicator', 'on')
+			btnSave_Municipio.disabled = true
+			$.ajax({
+				url: `${url}/catalogo/general/municipio/${id}`,
+				type: metodo,
+				data: $("#frmmunicipio").serializeArray()
+			}).done(function (result) {
+				console.log('done...', result)
+				fnToast(result)
+				tbmun.ajax.reload(null, false);
+				$("#kt_modal_municipio").modal('hide')
+				$("#frmmunicipio").trigger("reset")
+			}).fail(function(fail){
+				console.log('fail', fail)
+			}).always(function () {
+				btnSave_Municipio.removeAttribute('data-kt-indicator');
+				btnSave_Municipio.disabled = false;
+			})
+		})
+
+		let fSearchPais = document.querySelector('[data-kt-filter="search-pais"]')
+		fSearchPais.addEventListener('keyup', function(event){
+			tbpais.search(event.target.value).draw();
+		});
+
+		tbpais = $('#tb-pais').DataTable({
+			search: true,
+			ajax: `${url}/catalogo/view/geografica.pais`,
+			columns: [
+				{data: "codpais"},
+				{data: "strpais"},
+				{data: "codregion"},
+				{data: "codcommcare"},
+				{data: "codestado"},
+				{data: null}
+			],
+			columnDefs: [{
+				targets: [0],
+				render: function (data, type, row) {
+					return `<button class="btn btn-light-primary hover-scale btn-icon btn-circle" onclick="Pais('${data}')">${data}</button>`
+				}
+			}, {
+				targets: [4],
+				render: function (data, type, row) {
+					let strestado = "OCULTO"
+					let color = "badge-light-danger"
+
+					if (data) {
+						strestado = "VISIBLE"
+						color = "badge-light-success"
+					}
+					return `<span class="badge badge-pill ${color}">${strestado}</span>`
+				}
+			}, {
+				targets: [5],
+				render: function (data, type, row) {
+					return `<button onclick="delpais('${row.codpais}')" class="btn btn-icon btn-circle btn-light-danger"><i class="bi bi-trash"></i></button>`
+				}
+			}],
+			order: [[0, 'asc']]
+		});
+
+		let fSearchMoneda = document.querySelector('[data-kt-filter="search-moneda"]')
+		fSearchMoneda.addEventListener('keyup', function(event){
+			tbmoneda.search(event.target.value).draw();
+		});
+
+		tbmoneda = $('#tb-moneda').DataTable({
+			search: true,
+			ajax: `${url}/catalogo/view/geografica.moneda`,
+			columns: [
+				{data: "codmoneda"},
+				{data: "strmoneda"},
+				{data: "strsimbolo"},
+				{data: "codpais"},
+				{data: "codcommcare"},
+				{data: "codestado"},
+				{data: null}
+			],
+			columnDefs: [{
+				targets: [0],
+				render: function (data, type, row) {
+					return `<button class="btn btn-light-primary hover-scale btn-icon btn-circle" onclick="Moneda('${data}')">${data}</button>`
+				}
+			}, {
+				targets: [5],
+				render: function (data, type, row) {
+					let strestado = "OCULTO"
+					let color = "badge-light-danger"
+
+					if (data) {
+						strestado = "VISIBLE"
+						color = "badge-light-success"
+					}
+					return `<span class="badge badge-pill ${color}">${strestado}</span>`
+				}
+			}, {
+				targets: [6],
+				render: function (data, type, row) {
+					return `<button onclick="delmoneda('${row.codmoneda}')" class="btn btn-icon btn-circle btn-light-danger"><i class="bi bi-trash"></i></button>`
+				}
+			}],
+			order: [[0, 'asc']]
+		});
+
+		let fSearchDepto = document.querySelector('[data-kt-filter="search-departamento"]')
+		fSearchDepto.addEventListener('keyup', function(event){
+			tbdepto.search(event.target.value).draw();
+		});
+
+		tbdepto = $('#tb-depto').DataTable({
+			search: true,
+			ajax: `${url}/catalogo/view/geografica.vw_departamento`,
+			columns: [
+				{data: "coddepartamento"},
+				{data: "strpais"},
+				{data: "strdepartamento"},
+				{data: "codestado"},
+				{data: null}
+			],
+			columnDefs: [{
+				targets: [0],
+				render: function (data, type, row) {
+					return `<button class="btn btn-light-primary hover-scale btn-icon btn-circle" onclick="Departamento('${data}')">${data}</button>`
+				}
+			}, {
+				targets: [3],
+				render: function (data, type, row) {
+					let strestado = "OCULTO"
+					let color = "badge-light-danger"
+
+					if (data) {
+						strestado = "VISIBLE"
+						color = "badge-light-success"
+					}
+					return `<span class="badge badge-pill ${color}">${strestado}</span>`
+				}
+			}, {
+				targets: [4],
+				render: function (data, type, row) {
+					return `<button onclick="deldepartamento('${row.coddepartamento}')" class="btn btn-icon btn-circle btn-light-danger"><i class="bi bi-trash"></i></button>`
+				}
+			}],
+			order: [[0, 'asc']]
+		});
+
+		let fSearchMunicipio = document.querySelector('[data-kt-filter="search-municipio"]')
+		fSearchMunicipio.addEventListener('keyup', function(event){
+			tbmun.search(event.target.value).draw();
+		});
+
+		tbmun = $('#tb-municipio').DataTable({
+			search: true,
+			ajax: `${url}/catalogo/view/geografica.vw_municipio`,
+			columns: [
+				{data: "codmunicipio"},
+				{data: "strmunicipio"},
+				{data: "strdepartamento"},
+				{data: "codcommcare"},
+				{data: "codestado"},
+				{data: null}
+			],
+			columnDefs: [{
+				targets: [0],
+				render: function (data, type, row) {
+					return `<button class="btn btn-light-primary hover-scale btn-icon btn-circle" onclick="Municipio('${data}')">${data}</button>`
+				}
+			}, {
+				targets: [4],
+				render: function (data, type, row) {
+					let strestado = "OCULTO"
+					let color = "badge-light-danger"
+
+					if (data) {
+						strestado = "VISIBLE"
+						color = "badge-light-success"
+					}
+					return `<span class="badge badge-pill ${color}">${strestado}</span>`
+				}
+			}, {
+				targets: [5],
+				render: function (data, type, row) {
+					return `<button onclick="delmunicipio('${row.codmunicipio}')" class="btn btn-icon btn-circle btn-light-danger"><i class="bi bi-trash"></i></button>`
+				}
+			}],
+			order: [[0, 'asc']]
+		});
+
+
+
+	})
+</script>
+<!--end::Page Custom Javascript-->
+<!--end::Javascript-->
+</body>
+</html>

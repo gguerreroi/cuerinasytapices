@@ -1,0 +1,672 @@
+<%
+let hecEncabezado = encabezado != undefined ? encabezado : {
+    codhectarea: 0,
+    datfchregistro: ''
+}
+let poaString = JSON.stringify(poa)
+%>
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <%- include('../components/web-header') %>
+    <style>
+        tr {
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body id="kt_body"
+      class="header-fixed header-tablet-and-mobile-fixed toolbar-enabled toolbar-fixed toolbar-tablet-and-mobile-fixed aside-enabled aside-fixed"
+      style="--kt-toolbar-height:55px;--kt-toolbar-height-tablet-and-mobile:55px">
+<!--begin::Main-->
+<div class="d-flex flex-column flex-root">
+    <!--begin::Page-->
+    <div class="page d-flex flex-row flex-column-fluid">
+        <%- include('../components/left-aside.ejs') %>
+        <!--begin::Wrapper-->
+        <div class="wrapper d-flex flex-column flex-row-fluid" id="kt_wrapper">
+            <%- include('../components/kt-header.ejs') %>
+            <!--begin::Content-->
+            <div class="content d-flex flex-column flex-column-fluid" id="kt_content">
+                <div class="d-flex flex-column-fluid">
+                    <div class="container">
+                        <div class="row g-6">
+                            <div class="col-12">
+                                <div class="card gutter-b">
+                                    <div class="card-header justify-content-end ribbon ribbon-start ribbon-clip">
+                                        <div class="ribbon-label ">
+                                            <%- hecEncabezado.codhectarea || 0 %>
+                                            <span class="ribbon-inner bg-primary"></span>
+                                        </div>
+                                        <div class="card-title"><h3 class="card-label">Registro de Hectáreas</h3></div>
+                                        <div class="card-toolbar">
+                                            <% if(id != 0) { %>
+                                                <div class="btn-group">
+                                                    <button type="button" class="btn btn-secondary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-filetype-pdf" viewBox="0 0 16 16">
+                                                            <path fill-rule="evenodd" d="M14 4.5V14a2 2 0 0 1-2 2h-1v-1h1a1 1 0 0 0 1-1V4.5h-2A1.5 1.5 0 0 1 9.5 3V1H4a1 1 0 0 0-1 1v9H2V2a2 2 0 0 1 2-2h5.5zM1.6 11.85H0v3.999h.791v-1.342h.803q.43 0 .732-.173.305-.175.463-.474a1.4 1.4 0 0 0 .161-.677q0-.375-.158-.677a1.2 1.2 0 0 0-.46-.477q-.3-.18-.732-.179m.545 1.333a.8.8 0 0 1-.085.38.57.57 0 0 1-.238.241.8.8 0 0 1-.375.082H.788V12.48h.66q.327 0 .512.181.185.183.185.522m1.217-1.333v3.999h1.46q.602 0 .998-.237a1.45 1.45 0 0 0 .595-.689q.196-.45.196-1.084 0-.63-.196-1.075a1.43 1.43 0 0 0-.589-.68q-.396-.234-1.005-.234zm.791.645h.563q.371 0 .609.152a.9.9 0 0 1 .354.454q.118.302.118.753a2.3 2.3 0 0 1-.068.592 1.1 1.1 0 0 1-.196.422.8.8 0 0 1-.334.252 1.3 1.3 0 0 1-.483.082h-.563zm3.743 1.763v1.591h-.79V11.85h2.548v.653H7.896v1.117h1.606v.638z"/>
+                                                        </svg>
+                                                    </button>
+                                                    <ul class="dropdown-menu">
+                                                        <li><button type="button" class="dropdown-item" onclick="window.location.href='/mye/hectareas/reporte/<%- id %>'">Pantalla</button></li>
+                                                        <li><button type="button" class="dropdown-item" onclick="window.location.href='/mye/hectareas/pdf/<%- id %>'">PDF</button></li>
+                                                    </ul>
+                                                </div>
+                                            <% } %>
+                                        </div>
+                                    </div>
+                                    <div class="card-body">
+                                        <form class="row g-3" id="frmhectareas">
+                                            <div class="col-sm-12">
+                                                <label class="input-group-text" for="datfchregistro">Fecha de Registro</label>
+                                                <input type="date" name="datfchregistro" id="datfchregistro" class="form-control"
+                                                       value="<%- hecEncabezado.datfchregistro %>" required>
+                                            </div>
+                                            <div class="col-sm-12">
+                                                <label class="input-group-text" for="codactividad">Seleccionar Actividades del POA</label>
+                                                <select name="codactividad" id="codactividad" class="form-control" multiple required></select>
+                                            </div>
+                                            <% if (id != 0) { %>
+                                                <div class="col-sm-12 col-md-6">
+                                                    <label class="input-group-text">Proyectos</label>
+                                                    <input class="form-control" type="text" value="<%- hecEncabezado.strproyectos %>" disabled>
+                                                </div>
+                                                <div class="col-sm-12 col-md-6">
+                                                    <label class="input-group-text">Socio</label>
+                                                    <input class="form-control" type="text" value="<%- hecEncabezado.strsocio %>" disabled>
+                                                </div>
+                                            <% } %>
+                                            <div class="col-12">
+                                                <button type="submit" id="kt_submit_frmhectareas" class="btn col-12 btn-success">
+                                                    <span class="indicator-label">Guardar Encabezado</span>
+                                                    <span class="indicator-progress">Procesando...
+                                                        <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
+                                                    </span>
+                                                </button>
+                                            </div>
+                                        </form>
+
+                                        <% if (id != 0) { %>
+                                            <div class="row g-4 mt-4">
+                                                <div class="separator"></div>
+                                                <div class="table-responsive">
+                                                    <table class="col-12 table table-bordered table-borderless table-sm"
+                                                           id="tb-hectareasDetalle">
+                                                        <thead class="fw-bolder">
+                                                        <tr>
+                                                            <th>#</th>
+                                                            <th>Organización</th>
+                                                            <th>Cadena de Valor</th>
+                                                            <th>Uso del Suelo</th>
+                                                            <th>Área Impactada</th>
+                                                            <th>Área Reportada Trimestre</th>
+                                                            <th>Polígono</th>
+                                                            <th>Link Evidencia</th>
+                                                            <th>Link Poligono</th>
+                                                            <th></th>
+                                                        </tr>
+                                                        </thead>
+                                                        <tbody></tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        <% } %>
+                                    </div>
+                                </div>
+                            </div>
+                            <% if (id != 0) { %>
+                                <div class="col-12">
+                                    <div class="card">
+                                        <div class="card-header">
+                                            <div class="card-title">Registro de Detalle de Hectáreas</div>
+                                        </div>
+                                        <div class="card-body">
+                                            <form class="row g-4" id="frmhectareas_detalle">
+                                                <div class="col-sm-12 col-md-4">
+                                                    <label for="codorganizacion" class="input-group-text">Organización</label>
+                                                    <select class="form-select form-select-sm" required name="codorganizacion"
+                                                            id="codorganizacion"></select>
+                                                </div>
+                                                <div class="col-sm-12 col-md-4">
+                                                    <label for="codusosuelo" class="input-group-text">Uso del Suelo</label>
+                                                    <select class="form-select form-select-sm" required name="codusosuelo"
+                                                            id="codusosuelo"></select>
+                                                </div>
+                                                <div class="col-sm-12 col-md-4">
+                                                    <label for="codtipocertificacion" class="input-group-text">Tipo de Certificación</label>
+                                                    <select class="form-select form-select-sm" required name="codtipocertificacion"
+                                                            id="codtipocertificacion"></select>
+                                                </div>
+                                                <div class="col-sm-12 col-md-12">
+                                                    <label for="codcadenavalor" class="input-group-text">Cadena de Valor</label>
+                                                    <select class="form-select form-select-sm" required name="codcadenavalor"
+                                                            id="codcadenavalor"></select>
+                                                </div>
+                                                <div class="col-sm-12 col-md-12">
+                                                    <div class="input-group">
+                                                        <div class="input-group-prepend">
+                                                            <label for="hreflinkpoligono" class="input-group-text">Link del Poligono</label>
+                                                        </div>
+                                                        <input type="url" class="form-control form-control-sm" required name="hreflinkpoligono"
+                                                               id="hreflinkpoligono">
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 col-md-12">
+                                                    <div class="input-group">
+                                                        <div class="input-group-prepend">
+                                                            <label for="hreflinkevidencia" class="input-group-text">Link Evidencia</label>
+                                                        </div>
+                                                        <input type="url" class="form-control form-control-sm" required name="hreflinkevidencia"
+                                                               id="hreflinkevidencia">
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 col-md-6">
+                                                    <div class="input-group">
+                                                        <div class="input-group-prepend">
+                                                            <label for="dblareaimpactada" class="input-group-text">Hectárea Impactada</label>
+                                                        </div>
+                                                        <input class="form-control form-control-sm" type="number" step="0.01" value="0.00"
+                                                               required name="dblareaimpactada" id="dblareaimpactada">
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 col-md-6">
+                                                    <div class="input-group">
+                                                        <div class="input-group-prepend">
+                                                            <label for="dblareareportadatrim" class="input-group-text">Hectárea reportada para el trimestre</label>
+                                                        </div>
+                                                        <input class="form-control form-control-sm" type="number" step="0.01" value="0.00"
+                                                               required name="dblareareportadatrim" id="dblareareportadatrim">
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 col-md-12">
+                                                    <label for="codperteneceareareportada" class="input-group-text">¿El área reportada pertenece a algún programa de incentivos?</label>
+                                                    <select class="form-select form-select-sm" required name="codperteneceareareportada"
+                                                            id="codperteneceareareportada">
+                                                        <option value="1">NINGUNO</option>
+                                                        <option value="2">PINPEP</option>
+                                                        <option value="3">PROBOSQUE</option>
+                                                        <option value="4">MANEJO DE PLANTACIONES (Antiguo PINFOR o plantaciones voluntarias manejadas por INAB)</option>
+                                                    </select>
+                                                </div>
+                                                <div class="col-sm-12 col-md-12">
+                                                    <label for="flgpertenecepre" class="input-group-text">¿Está área pertenece al Programa de Reducción de Emisiones (PRE)?</label>
+                                                    <select class="form-select form-select-sm" required name="flgpertenecepre"
+                                                            id="flgpertenecepre">
+                                                        <option value="0">No</option>
+                                                        <option value="1">Sí</option>
+                                                    </select>
+                                                </div>
+                                                <div class="col-sm-12 col-md-4">
+                                                    <div class="input-group">
+                                                        <div class="input-group-prepend">
+                                                            <label for="codsecuencia" class="input-group-text">#</label>
+                                                        </div>
+                                                        <input type="number" class="form-control form-control-sm"
+                                                               required readonly
+                                                               value="0"
+                                                               name="codsecuencia" id="codsecuencia">
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 col-md-4">
+                                                    <button type="submit" id="kt_submit_frmdetallehectareas" class="btn col-12 btn-success">
+                                                        <span class="indicator-label"><i class="bi bi-save"></i>Guardar</span>
+                                                        <span class="indicator-progress">Procesando...
+                                                        <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
+                                                    </span>
+                                                    </button>
+                                                </div>
+                                                <div class="col-sm-12 col-md-4">
+                                                    <button type="button" id="kt_delete_frmdetallehectareas"
+                                                            class="btn col-12 btn-danger">
+                                                        <span class="indicator-label"><i class="bi bi-trash"></i>Borrar</span>
+                                                        <span class="indicator-progress">Procesando...
+                                                    <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
+                                                    </span>
+                                                    </button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            <% } %>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--end::Content-->
+            <%- include('../components/bottom-footer.ejs', {ip: ip}) %>
+        </div>
+    </div>
+</div>
+<%- include('../components/kt-scrolltop.ejs') %>
+<%- include('../components/web-footer.ejs') %>
+<script src="assets/js/custom/widgets.js"></script>
+<script>
+	const url = `${window.location.origin}/api`;
+	const codSocio = '<%- UserInfo.codsocio %>';
+	const codRole = '<%- UserInfo.codrole %>'
+	const codPais = '<%- UserInfo.codpais %>'
+	const filtSocioUrl = codRole == 1 ? '': `/codsocio/${codSocio}`;
+	let codactividad = $("#codactividad")
+	var dataCodActividades;
+	const codHectarea = '<%- id || 0 %>';
+	const formHectareas = $("#frmhectareas");
+	const submitHeader = document.querySelector('#kt_submit_frmhectareas');
+	const poaSelectedString = '<%- poaString %>';
+	const poaSelected = JSON.parse(poaSelectedString);
+	let poaActividadSel = poaSelected.map(function(value, index){
+		return value.codactividad
+	})
+	/* :::BEGIN::: */
+	let sToast = Swal.mixin({
+		toast: true,
+		position: "top-end",
+		showConfirmButton: false,
+		timer: 3000,
+		timerProgressBar: true,
+		didOpen: (toast) => {
+			toast.onmouseenter = Swal.stopTimer;
+			toast.onmouseleave = Swal.resumeTimer;
+		}
+	})
+
+	function fnToast(res) {
+		const {code, message} = res
+
+		if (code == undefined) {
+			console.error(res)
+			throw 'Formato invalido'
+		}
+		sToast.fire({
+			icon: code == 'true' ? 'success' : 'error',
+			title: message
+		})
+	}
+
+	function delBase(message, path) {
+		Swal.fire({
+			text: message,
+			showCancelButton: true,
+			icon: "warning",
+			buttonsStyling: false,
+			confirmButtonText: "Eliminar",
+			cancelButtonText: "Cancelar",
+			customClass: {
+				confirmButton: "order-2 btn btn-danger",
+				cancelButton: "order-1 btn btn-light"
+			}
+		}).then(function (action) {
+			if (action.isConfirmed) {
+				buttonDeleteDetalle.setAttribute('data-kt-indicator', 'on');
+				buttonDeleteDetalle.disabled = true;
+				$.ajax({
+					url: `${url}/catalogo/${path}`,
+					type: 'delete'
+				}).done(function (request) {
+					sToast.fire({
+						icon: "success",
+						title: "Registro Eliminado"
+					})
+					tableDetalle.ajax.reload(null, false);
+				}).fail(function (reason) {
+					console.log(reason)
+					sToast.fire({
+						icon: "error",
+						title: "Se produjo un error"
+					})
+				}).always(function (){
+					buttonDeleteDetalle.removeAttribute('data-kt-indicator')
+					buttonDeleteDetalle.disabled = false;
+                })
+			}
+		})
+	}
+
+	function upBase(message, icon, path, data) {
+		Swal.fire({
+			text: message,
+			showCancelButton: true,
+			icon: icon,
+			buttonsStyling: false,
+			confirmButtonText: "Procesar"
+		})
+	}
+	let GTQ = new Intl.NumberFormat('es-GT', {
+		style: 'currency',
+		currency: 'GTQ'
+	})
+	let USD = new Intl.NumberFormat('us-US', {
+		style: 'currency',
+		currency: 'USD'
+	})
+	/* :::END::: */
+	$.ajax({
+		url: `${url}/catalogo/select2/poa.vw_actividad_proyecto_estrategia_busqueda/codactividad/stractividad`,
+		type: 'get',
+		dataType: 'json',
+		data: {
+			colname: 'codsocio',
+			colvalue: `${codSocio}`
+		}
+	}).done(function(result){
+		dataCodActividades = result.results;
+		codactividad.select2({
+			placeholder: "Seleccione una actividad",
+			data: dataCodActividades,
+			templateResult: function(data){
+				if (!data.id)
+					return data.text;
+				const [stractividad, strproyecto, strestrategia] = data.text.split('|')
+				let template = ""
+				template += `<div>`
+				template += `<p class="fw-bold small mb-1"> <span class="badge badge-success">${strproyecto}</span> <span class="badge badge-primary">${strestrategia}</span></p>`
+				template += `<p class="mb-0 fw-bold">${stractividad}</p>`
+				template += `</div>`
+				return $(`${template}`)
+			},
+			templateSelection: function(result) {
+				const [stractividad, strproyecto, strestrategia] = result.text.split('|')
+				let template = ""
+				template += `<div>`
+				template += `<p class="fw-bold small mb-1"><span class="badge badge-success">${strproyecto}</span> <span class="badge badge-primary">${strestrategia}</span></p>`
+				template += `<p class="mb-0 fw-bold">${stractividad}</p>`
+				template += `</div>`
+				return $(`${template}`)
+			}
+		})
+		codactividad.val(poaActividadSel).trigger('change')
+	})
+    formHectareas.submit(function (e) {
+		e.preventDefault();
+		// Lógica para guardar encabezado
+		submitHeader.disabled = true;
+		submitHeader.setAttribute('data-kt-indicator', 'on');
+		let method = codHectarea != 0 ? 'put' : 'post';
+		$.ajax({
+			url: `${url}/mye/hectareas/registro/${codHectarea}`,
+			type: `${method}`,
+			data: formHectareas.serializeArray()
+		}).done(function (result) {
+			const { code, message, data } = result;
+			const { CodHectarea } = data[0];
+			console.log('datas', data)
+			fnToast({
+				code: code != undefined ? 'true' : '500',
+				message: code != undefined ? message : 'No se puede leer el mensaje del servidor'
+			});
+
+			setTimeout(function () {
+				submitHeader.disabled = false;
+				submitHeader.removeAttribute('data-kt-indicator');
+				window.location.href = "/mye/hectareas/registro/" + CodHectarea;
+			}, 500);
+		}).fail(function (reason) {
+			console.log(reason);
+			const { code, message } = reason.responseJSON;
+			fnToast({
+				code: '500',
+				message: code != undefined ? message : 'Se produjo un error al guardar'
+			});
+			submitHeader.disabled = false;
+			submitHeader.removeAttribute('data-kt-indicator');
+		});
+	});
+
+    <% if (id != 0) { %>
+	/* CODIGO PARA REGISTRAR EL DETALLE */
+	var dataOrganizaciones = []
+	var dataUsoSuelo = []
+	var dataCadenaValor = []
+	var dataTipoCertificacion = []
+	const formDetalle = $("#frmhectareas_detalle");
+	var inputsDetalle = {
+		codsecuencia: $("#codsecuencia"),
+		codorganizacion: $("#codorganizacion"),
+		codcadenavalor: $("#codcadenavalor"),
+		codusosuelo: $("#codusosuelo"),
+        codtipocertificacion: $("#codtipocertificacion"),
+		hreflinkpoligono: $("#hreflinkpoligono"),
+		hreflinkevidencia: $("#hreflinkevidencia"),
+		dblareaimpactada: $("#dblareaimpactada"),
+		dblareareportadatrim: $("#dblareareportadatrim"),
+		codperteneceareareportada: $("#codperteneceareareportada"),
+		flgpertenecepre: $("#flgpertenecepre")
+	}
+	var buttonSubmitDetalle = document.querySelector('#kt_submit_frmdetallehectareas')
+	var buttonDeleteDetalle = document.querySelector('#kt_delete_frmdetallehectareas')
+	buttonDeleteDetalle.style.display = "none";
+	var tableDetalle
+	function delHectareaDetalle(id){
+		delBase('¿Esta seguro que desea eliminar este registro?', `hectareas.detalle/codsecuencia/${id}`)
+		cleanFormDetalle()
+	}
+	$.ajax({
+		url: `${url}/catalogo/select2/organizacion.core/codorganizacion/strnombre`,
+		type: 'get'
+	}).done(function(result){
+		dataOrganizaciones = result.results;
+		$("#codorganizacion").select2({
+			placeholder: "Seleccione organizacion",
+			data: dataOrganizaciones,
+			templateResult: function(data){
+				if (!data.id)
+					return data.text;
+				let template = ""
+				template += `<p class="mb-0 fw-bold small">${data.text}</p>`
+				return $(`${template}`)
+			},
+			templateSelection: function(result) {
+				return $(`<div class="small fw-bold ">${result.text}</div>`)
+			}
+		})
+	})
+	$.ajax({
+		url: `${url}/catalogo/select2/hectareas.usosuelo/codusosuelo/strusosuelo`,
+		type: 'get'
+	}).done(function(result){
+		dataUsoSuelo = result.results;
+		$("#codusosuelo").select2({
+			placeholder: "Seleccione el Uso de Suelo",
+			data: dataUsoSuelo,
+			templateResult: function(data){
+				if (!data.id)
+					return data.text;
+				let template = ""
+				template += `<p class="mb-0 fw-bold small">${data.text}</p>`
+				return $(`${template}`)
+			},
+			templateSelection: function(result) {
+				return $(`<div class="small fw-bold ">${result.text}</div>`)
+			}
+		})
+	})
+	$.ajax({
+		url: `${url}/catalogo/select2/cadenavalor.vw_categoria_cadenavalor/codcadenavalor/strcadenavalor`,
+		type: 'get'
+	}).done(function(result){
+		dataProducto = result.results;
+		$("#codcadenavalor").select2({
+			placeholder: "Seleccione la cadena de valor",
+			data: dataProducto,
+			templateResult: function(data){
+				if (!data.id)
+					return data.text;
+				const [cadena, categoria] = data.text.split('|')
+				let template = `<div>`
+				template += `<p class="mb-1 small "><span class="badge badge-secondary"><small>${categoria}</small></span></p>`
+				template += `<p class="mb-0 small fw-bold">${cadena}</p>`
+				template += `</div>`
+				return $(`${template}`)
+			},
+			templateSelection: function(result) {
+				const [cadena, categoria] = result.text.split('|')
+				let template = `<div>`
+				template += `<p class="mb-1 small"><span class="badge badge-secondary"><small>${categoria}</small></span> </p>`
+				template += `<p class="mb-0 small fw-bold">${cadena}</p>`
+				template += `</div>`
+				return $(`${template}`)
+			}
+		})
+	})
+	$.ajax({
+		url: `${url}/catalogo/select2/hectareas.certificacion/codcertificacion/strcertificacion`,
+		type: 'get'
+	}).done(function(result){
+		dataTipoCertificacion = result.results;
+		$("#codtipocertificacion").select2({
+			placeholder: "Seleccione la certificacion",
+			data: dataTipoCertificacion,
+			templateResult: function(data){
+				if (!data.id)
+					return data.text;
+				let template = ""
+				template += `<p class="mb-0 fw-bold small">${data.text}</p>`
+				return $(`${template}`)
+			},
+			templateSelection: function(result) {
+				return $(`<div class="small fw-bold ">${result.text}</div>`)
+			}
+		})
+	})
+	function cleanFormDetalle(){
+		formDetalle.trigger('reset')
+		inputsDetalle.codsecuencia.val('0')
+		inputsDetalle.codorganizacion.val(null).trigger('change')
+		inputsDetalle.codcadenavalor.val(null).trigger('change')
+		inputsDetalle.codusosuelo.val(null).trigger('change')
+		inputsDetalle.codtipocertificacion.val(null).trigger('change')
+	}
+
+	formDetalle.submit(function (e) {
+		e.preventDefault();
+		// Lógica para guardar detalle
+		buttonSubmitDetalle.setAttribute('data-kt-indicator', 'on');
+		buttonSubmitDetalle.disabled = true;
+		let method = inputsDetalle.codsecuencia.val() != 0 ? 'put' : 'post'
+		$.ajax({
+			url: `${url}/mye/hectareas/detalle/${codHectarea}`,
+			type: `${method}`,
+			data: formDetalle.serializeArray()
+		}).done(function(result){
+			const {code, message, data} = result
+			fnToast({
+				code: code != undefined ? 'true' : '500',
+				message: code != undefined ? message: 'No se puede leer el mensaje del servidor'
+			})
+			tableDetalle.ajax.reload(null, false)
+			cleanFormDetalle()
+		}).fail(function(reason){
+			let sms = "Error al guardar el detalle";
+			if (reason.responseJSON)
+				sms = reason.responseJSON.message
+
+			console.log('no se pudo guardar', reason)
+			fnToast({
+				code: 'false',
+				message: sms
+			})
+		}).always(function(){
+			buttonSubmitDetalle.removeAttribute('data-kt-indicator')
+			buttonSubmitDetalle.disabled = false
+		})
+	});
+	tableDetalle = $("#tb-hectareasDetalle").DataTable({
+		search: false,
+		ajax: `${url}/catalogo/view/hectareas.vw_detalle/codhectarea/${codHectarea}`,
+		columns: [
+			{data: "codsecuencia"},
+			{data: "strorganizacion"},
+			{data: "strcadenavalor"},
+			{data: "strusosuelo"},
+			{data: "dblareaimpactada"},
+			{data: "dblareareportadatrim"},
+			{data: "strpoligono"},
+			{data: "hreflinkevidencia"},
+			{data: "hreflinkpoligono"},
+			{data: null}
+		],
+		columnDefs: [
+			{
+				targets: [1],
+				render: function (data, type, row) {
+					return `${row.strorganizacion}`;
+				}
+			},
+			{
+				targets: [2],
+				render: function (data, type, row) {
+					return `${row.strcategoria}/${row.strcadenavalor}`;
+				}
+			}, {
+			    targets: [4,5],
+                render: function(data,type, row){
+					if (!isNaN(data))
+					    return data.toLocaleString('en-US')
+                    return data
+                }
+            }, {
+			    targets: [6],
+                visible: false
+            }, {
+			    targets: [7, 8],
+                render: function (data, type, row){
+					return `<a href="${data}" target="_blank">Link</a>`
+                }
+            },
+			{
+				targets: [9],
+                visible: false,
+				render: function (data, type, row) {
+					let s0 = `<button onclick="delHectareaDetalle('${row.codsecuencia}')" class="btn btn-icon btn-circle btn-light-danger"><i class="bi bi-trash"></i></button>`;
+					return `${s0}`;
+				}
+			}
+		]
+	});
+
+	tableDetalle.on('click', 'tbody tr', function(e){
+		let classList = e.currentTarget.classList;
+		var data = tableDetalle.row(this).data();
+		if (data != undefined)
+			if (classList.contains('selected')) {
+				classList.remove('selected');
+				buttonDeleteDetalle.style.display = "none";
+				cleanFormDetalle()
+			}
+			else {
+				tableDetalle.rows('.selected').nodes().each((row) => row.classList.remove('selected'));
+				classList.add('selected');
+				buttonDeleteDetalle.style.display = "block";
+				fillDetalleWithSelect(data)
+			}
+	})
+
+	buttonDeleteDetalle.addEventListener('click', function(){
+		const id = inputsDetalle.codsecuencia.val()
+		delHectareaDetalle(id)
+	})
+
+	function fillDetalleWithSelect(data){
+		console.log(data)
+		if (data != undefined) {
+			inputsDetalle.codsecuencia.val(data.codsecuencia)
+			inputsDetalle.codorganizacion.val(data.codorganizacion).trigger('change')
+			inputsDetalle.codusosuelo.val(data.codusosuelo).trigger('change')
+			inputsDetalle.codtipocertificacion.val(data.codtipocertificacion).trigger('change')
+			inputsDetalle.codcadenavalor.val(data.codcadenavalor).trigger('change')
+			inputsDetalle.hreflinkpoligono.val(data.hreflinkpoligono)
+			inputsDetalle.hreflinkevidencia.val(data.hreflinkevidencia)
+			inputsDetalle.dblareaimpactada.val(data.dblareaimpactada)
+			inputsDetalle.dblareareportadatrim.val(data.dblareareportadatrim)
+			inputsDetalle.codperteneceareareportada.val(data.codperteneceareareportada)
+			inputsDetalle.flgpertenecepre.val(data.flgpertenecepre ? "1" : "0")
+		}
+	}
+
+
+
+    <% } %>
+</script>
+</body>
+</html>

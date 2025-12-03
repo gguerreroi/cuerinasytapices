@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <base href="/">
+    <title>mye 1.0</title>
+    <meta charset="utf-8"/>
+    <meta name="referrer" content="origin-when-cross-origin" />
+    <meta property="og:site_name" content="RainForest"/>
+    <meta property="og:title" content="RainForest Alliance"/>
+    <meta name="description" content="Aplicacion para la evaluación y monitoreo de proyectos "/>
+    <meta name="keywords" content="mye"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <meta property="og:locale" content="es_GT"/>
+    <meta property="og:type" content="website"/>
+    <meta property="og:url" content="https://mye.sonivitac.com"/>
+    <link rel="canonical" href="https://mye.sonivitac.com"/>
+    <link rel="shortcut icon" href="/assets/media/logos/favicon.ico"/>
+    <!--begin::Fonts-->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700"/>
+    <!--end::Fonts-->
+    <!--begin::Global Stylesheets Bundle(used by all pages)-->
+    <link href="/assets/plugins/global/plugins.bundle.css" rel="stylesheet" type="text/css" crossorigin="anonymous"/>
+    <link href="/assets/css/style.bundle.css" rel="stylesheet" type="text/css" crossorigin="anonymous"/>
+    <!--end::Global Stylesheets Bundle-->
+    <link href="/assets/css/style.custom.css" rel="stylesheet" type="text/css" crossorigin="anonymous"/>
+</head>
+<!--begin::Body-->
+<body id="kt_body" class="bg-body">
+<!--begin::Main-->
+<div class="d-flex flex-column flex-root">
+    <!--begin::Authentication - Sign-in -->
+    <div class="d-flex flex-column flex-lg-row flex-column-fluid">
+        <!--begin::Aside-->
+        <div class="d-flex flex-column flex-lg-row-auto w-xl-600px positon-xl-relative"
+             style="background-color: rgb(222, 219, 196)">
+            <!--begin::Wrapper-->
+            <div class="d-flex flex-column position-xl-fixed top-0 bottom-0 w-xl-600px scroll-y">
+                <!--begin::Content-->
+                <div class="d-flex flex-row-fluid flex-column text-center p-10 pt-lg-20">
+                    <!--begin::Logo-->
+                    <div  class="py-9 mb-5">
+                         <img alt="Logo" src="assets/media/logos/logo-cuerinasytapices.jpeg" class="h-70px"/>
+<!--                        <img alt="Logo" src="assets/media/logos/tactinet-logo.png" class="h-150px"/>-->
+                    </div>
+                    <!--end::Logo-->
+                    <!--begin::Title-->
+                    <h1 class="fw-bolder fs-2qx pb-5 pb-md-10 ra-text-color"  >Bienvenido</h1>
+                    <!--end::Title-->
+                    <!--begin::Description-->
+                    <p class="fw-bold fs-2 ra-text-color">Sistema control de envios</p>
+                    <!--end::Description-->
+                </div>
+                <!--end::Content-->
+            </div>
+            <!--end::Wrapper-->
+        </div>
+        <!--end::Aside-->
+        <!--begin::Body-->
+        <div class="d-flex flex-column flex-lg-row-fluid py-10">
+            <!--begin::Content-->
+            <div class="d-flex flex-center flex-column flex-column-fluid">
+                <!--begin::Wrapper-->
+                <div class="w-lg-500px p-10 p-lg-15 mx-auto">
+                    <!--begin::Form-->
+                    <form class="w-100" novalidate="novalidate" id="kt_sign_in_form" action="#">
+                        <div class="row">
+                            <div class="col-sm-12 mb-2">
+                                <div class="text-center">
+                                    <h1 class="text-dark">Iniciar sesión</h1>
+                                </div>
+                            </div>
+                            <div class="col-sm-12 mb-5 fv-row">
+                                    <div class="form-floating">
+                                        <input class="form-control form-control" type="text" name="email"
+                                               autocomplete="off" id="email"/>
+                                        <label class="form-label" for="email">Usuario</label>
+                                    </div>
+                            </div>
+                            <div class="col-sm-12 fv-row">
+                                <div class="form-floating">
+                                    <input type="password" class="form-control" name="password" id="password">
+                                    <label class="form-label" for="password">Password</label>
+                                </div>
+                            </div>
+                            <div class="col-sm-12">
+                                <div class="text-end">
+                                    <a href="/forgot-password"
+                                       class="link-primary fs-9 fw-bolder">Olvidé mi Password</a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!--end::Input group-->
+                        <!--begin::Actions-->
+                        <div class="text-center">
+                            <button type="submit" id="kt_sign_in_submit" class="btn btn-lg btn-success w-100 mb-5" disabled>
+                                <span class="indicator-label">Entrar</span>
+                                <span class="indicator-progress">Por favor espere...
+										<span class="spinner-border spinner-border-sm align-middle ms-2"></span>
+                                </span>
+                            </button>
+                        </div>
+                        <!--end::Actions-->
+                    </form>
+                    <!--end::Form-->
+                </div>
+                <!--end::Wrapper-->
+            </div>
+            <!--end::Content-->
+            <!--begin::Footer-->
+            <div class="d-flex flex-center flex-wrap fs-6 p-5 pb-0">
+                <!--begin::Links-->
+                <div class="d-flex flex-center fw-bold fs-6">
+
+                </div>
+                <!--end::Links-->
+            </div>
+            <!--end::Footer-->
+        </div>
+        <!--end::Body-->
+    </div>
+    <!--end::Authentication - Sign-in-->
+</div>
+<!--end::Main-->
+
+<script src="/assets/plugins/global/plugins.bundle.js"></script>
+<script src="assets/js/custom/authentication/sign-in/general.js"></script>
+<!--end::Page Custom Javascript-->
+<script>
+    document.addEventListener("DOMContentLoaded", function(){
+		KTSigninGeneral.init();
+    })
+
+</script>
+<!--end::Javascript-->
+</body>
+<!--end::Body-->
+</html>

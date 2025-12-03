@@ -1,0 +1,142 @@
+<%
+const spath = me.split('/')
+
+let module_name = '';
+let module_section = '';
+let module_item = '';
+
+if (spath.length > 2) {
+    module_name = spath[1];
+    module_section = spath[2];
+    module_item = spath[3];
+    // console.log('module_name', `'${module_name}'`, 'module_section', `'${module_section}'`, 'module_item',`'${module_item}'`)
+} else {
+    module_name = spath[1];
+    module_section = '';
+}
+%>
+<div id="kt_aside"
+     class="aside aside-dark aside-hoverable"
+     data-kt-drawer="true"
+     data-kt-drawer-name="aside"
+     data-kt-drawer-activate="{default: true, lg: false}"
+     data-kt-drawer-overlay="true"
+     data-kt-drawer-width="{default:'200px', '300px': '250px'}"
+     data-kt-drawer-direction="start"
+     data-kt-drawer-toggle="#kt_aside_mobile_toggle">
+    <div class="aside-logo flex-column-auto" id="kt_aside_logo">
+        <a href="#"><img alt="logo" src="assets/media/logos/logo-ra-lemon.png" class="h-50px logo"/></a>
+        <div id="kt_aside_toggle" class="btn btn-icon w-auto px-0 btn-active-color-primary aside-toggle"
+             data-kt-toggle="true"
+             data-kt-toggle-state="active"
+             data-kt-toggle-target="body"
+             data-kt-toggle-name="aside-minimize">
+            <span class="svg-icon svg-icon-1 rotate-180">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                     fill="none">
+                    <path d="M11.2657 11.4343L15.45 7.25C15.8642 6.83579 15.8642 6.16421 15.45 5.75C15.0358 5.33579 14.3642 5.33579 13.95 5.75L8.40712 11.2929C8.01659 11.6834 8.01659 12.3166 8.40712 12.7071L13.95 18.25C14.3642 18.6642 15.0358 18.6642 15.45 18.25C15.8642 17.8358 15.8642 17.1642 15.45 16.75L11.2657 12.5657C10.9533 12.2533 10.9533 11.7467 11.2657 11.4343Z"
+                          fill="black"/>
+                </svg>
+            </span>
+        </div>
+    </div>
+    <!-- begin: menu -->
+    <div class="aside-menu flex-column-fluid">
+        <div class="hover-scroll-overlay-y my-2 py-5 py-lg-8" id="kt_aside_menu_wrapper" data-kt-scroll="true"
+             data-kt-scroll-activate="{default: false, lg: true}" data-kt-scroll-height="auto"
+             data-kt-scroll-dependencies="#kt_aside_logo, #kt_aside_footer" data-kt-scroll-wrappers="#kt_aside_menu"
+             data-kt-scroll-offset="0">
+            <div class="menu menu-column menu-title-gray-800 menu-state-title-primary menu-state-icon-primary menu-state-bullet-primary menu-arrow-gray-500"
+                 id="#kt_aside_menu" data-kt-menu="true">
+                <div data-kt-menu-trigger="click"
+                     class="menu-item menu-accordion <%- 'mye' === module_name ? 'show here' : '' %>">
+                    <%- include("menu-accordion",{title:'MYE',icon:'bi-people'}) %>
+                    <div class="menu-sub menu-sub-accordion menu-active-bg">
+                        <%- include("menu-item", {me: `${me}`, href: "/mye/capacitaciones/organizaciones", icon: 'bullet', title:'Registro de Organizaciones'}) %>
+                        <%- include("menu-item", {me: `${me}`, href: "/mye/capacitaciones/personas", icon: 'bullet', title:'Registro de Personas'}) %>
+                        <%- include("menu-item", {me: `${me}`, href: "/mye/capacitaciones/registro", icon: 'bullet', title:'Registro de Eventos'}) %>
+                        <%- include("menu-item", {me: `${me}`, href: "/mye/ventas/registro", icon: 'bullet', title:'Registro de Ventas'}) %>
+                        <%- include("menu-item", {me: `${me}`, href: "/mye/empleos/registro", icon: 'bullet', title:'Registro de Empleos'}) %>
+                        <%- include("menu-item", {me: `${me}`, href: "/mye/hectareas/registro", icon: 'bullet', title:'Registro de Hectareas'}) %>
+                        <%- include("menu-item", {me: `${me}`, href: "/mye/deportados/registro", icon: 'bullet', title:'Perfil de Deportados'}) %>
+                        <%- include("menu-item", {me: `${me}`, href: "/mye/riesgo/registro", icon: 'bullet', title:'Perfil de Riesgo'}) %>
+                        <%- include("menu-item", {me: `${me}`, href: "/mye/trimestre/registro", icon: 'bullet', title:'Trimestre'}) %>
+                    </div>
+                </div>
+                <div data-kt-menu-trigger="click"
+                     class="menu-item menu-accordion <%- 'catalogo' === module_name ? 'show here' : '' %>">
+                    <%- include("menu-accordion",{title:'Catalogos',icon:'bi-book'}) %>
+                    <div class="menu-sub menu-sub-accordion menu-active-bg">
+                        <div data-kt-menu-trigger="click"
+                             class="menu-item menu-accordion <%- 'organizaciones' === module_section ? 'show here' : '' %>">
+                            <%- include('menu-subaccordion', {title: "Organizaciones"}) %>
+                            <div class="menu-sub menu-sub-accordion menu-active-bg">
+                                <%- include("menu-item", {me: `${me}`, href: "/catalogo/organizaciones/tipoorganizacion", icon: 'bullet', title:'Tipo Organización'}) %>
+                            </div>
+                        </div>
+                        <div data-kt-menu-trigger="click"
+                             class="menu-item menu-accordion <%- 'general' === module_section ? 'show here' : '' %>">
+                            <%- include('menu-subaccordion', {title: "General"}) %>
+                            <div class="menu-sub menu-sub-accordion menu-active-bg">
+                                <%- include("menu-item", {me: `${me}`, href: "/catalogo/general/tipoeventos", icon: 'bullet', title:'Tipo Eventos'}) %>
+                                <%- include("menu-item", {me: `${me}`, href: "/catalogo/general/tema", icon: 'bullet', title:'Temas'}) %>
+                                <%- include("menu-item", {me: `${me}`, href: "/catalogo/general/cadenavalor", icon: 'bullet', title:'Categorias Cadena de Valor'}) %>
+                                <%- include("menu-item", {me: `${me}`, href: "/catalogo/general/comunidadlinguistica", icon: 'bullet', title:'Comunidad Linguistica'}) %>
+                                <%- include("menu-item", {me: `${me}`, href: "/catalogo/general/unidadmedida", icon: 'bullet', title:'Unidad de Medida'}) %>
+                                <%- include("menu-item", {me: `${me}`, href: "/catalogo/general/usosuelo", icon: 'bullet', title:'Uso de suelo'}) %>
+                                <%- include("menu-item", {me: `${me}`, href: "/catalogo/general/certificacion", icon: 'bullet', title:'Certificación'}) %>
+                                <%- include("menu-item", {me: `${me}`, href: "/catalogo/general/donante", icon: 'bullet', title:'Donante'}) %>
+                                <%- include("menu-item", {me: `${me}`, href: "/catalogo/general/proyecto", icon: 'bullet', title:'Proyectos'}) %>
+                            </div>
+                        </div>
+                        <div data-kt-menu-trigger="click"
+                             class="menu-item menu-accordion <%- 'poa' === module_section ? 'show here' : '' %>">
+                            <%- include('menu-subaccordion', {title: "Poa"}) %>
+                            <div class="menu-sub menu-sub-accordion menu-active-bg">
+                                <%- include("menu-item", {me: `${me}`, href: "/catalogo/poa/poa", icon: 'bullet', title:'Actividades POA'}) %>
+                                <%- include("menu-item", {me: `${me}`, href: "/catalogo/poa/socio", icon: 'bullet', title:'Socios'}) %>
+                                <%- include("menu-item", {me: `${me}`, href: "/catalogo/poa/estrategias", icon: 'bullet', title:'Estrategias / Resultados / Indicadores'}) %>
+                            </div>
+                        </div>
+                        <div data-kt-menu-trigger="click"
+                             class="menu-item menu-accordion <%- 'deportados' === module_section ? 'show here' : '' %>">
+                            <%- include('menu-subaccordion', {title: "Ficha de Deportados"}) %>
+                            <div class="menu-sub menu-sub-accordion menu-active-bg">
+                                <%- include("menu-item", {me: `${me}`, href: "/catalogo/deportados/niveleducativo", icon: 'bullet', title:'Nivel educativo'}) %>
+                                <%- include("menu-item", {me: `${me}`, href: "/catalogo/deportados/rubroscapacitacion", icon: 'bullet', title:'Rubros Capacitación'}) %>
+                                <%- include("menu-item", {me: `${me}`, href: "/catalogo/deportados/vulnerabilidades", icon: 'bullet', title:'Vulnerabilidades'}) %>
+                                <%- include("menu-item", {me: `${me}`, href: "/catalogo/deportados/intereses", icon: 'bullet', title:'Intereses y Expectativas'}) %>
+                                <%- include("menu-item", {me: `${me}`, href: "/catalogo/deportados/evaluacionperfil", icon: 'bullet', title:'Evaluación del perfil'}) %>
+                                <%- include("menu-item", {me: `${me}`, href: "/catalogo/deportados/tipoapoyo", icon: 'bullet', title:'Tipo apoyo'}) %>
+                                <%- include("menu-item", {me: `${me}`, href: "/catalogo/deportados/oficiogt", icon: 'bullet', title:'Oficio en Guatemala'}) %>
+                                <%- include("menu-item", {me: `${me}`, href: "/catalogo/deportados/necesidademprender", icon: 'bullet', title:'¿Qué necesita para emprender?'}) %>
+                                <%- include("menu-item", {me: `${me}`, href: "/catalogo/deportados/rubroemprendimiento", icon: 'bullet', title:'¿Qué emprendimiento realizará?'}) %>
+                                <%- include("menu-item", {me: `${me}`, href: "/catalogo/deportados/actividadeconomicaextranjero", icon: 'bullet', title:'Actividad Economica Extranjero'}) %>
+
+                            </div>
+                        </div>
+                        <div data-kt-menu-trigger="click"
+                             class="menu-item menu-accordion <%- 'geografica' === module_section ? 'show here' : '' %>">
+                            <%- include('menu-subaccordion', {title: "Geografica"}) %>
+                            <div class="menu-sub menu-sub-accordion menu-active-bg">
+                                <%- include("menu-item", {me: `${me}`, href: "/catalogo/geografica/geografica", icon: 'bullet', title:'Geografica'}) %>
+                            </div>
+                        </div>
+                        <div data-kt-menu-trigger="click"
+                             class="menu-item menu-accordion <%- 'usuarios' === module_section ? 'show here' : '' %>">
+                            <%- include('menu-subaccordion', {title: "Usuarios"}) %>
+                            <div class="menu-sub menu-sub-accordion menu-active-bg">
+                                <%- include("menu-item", {me: `${me}`, href: "/catalogo/usuarios/usuarios", icon: 'bullet', title:'Usuarios'}) %>
+                                <%- include("menu-item", {me: `${me}`, href: "/catalogo/usuarios/roles", icon: 'bullet', title:'Roles'}) %>
+                                <%- include("menu-item", {me: `${me}`, href: "/catalogo/usuarios/permisos", icon: 'bullet', title:'Permisos'}) %>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!--   end : items menu -->
+            </div>
+        </div>
+    </div>
+    <!-- end: menu -->
+</div>

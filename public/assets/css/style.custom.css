@@ -1,0 +1,53 @@
+.ra-text-color {
+    color: rgb(23, 82, 89);
+}
+.btn .btn-success {
+    background-color: #175259FF;
+}
+
+@media (max-width: 991.98px){
+    .header-tablet-and-mobile-fixed .header {
+        background-color: #175259FF;
+    }
+}
+
+@media (min-width: 992px){
+    .header-fixed .header {
+        background-color: #175259FF;
+    }
+}
+
+.aside {
+    background-color: #175259FF;
+
+    .aside-logo {
+        background-color: #175259FF;
+    }
+}
+
+.aside-menu {
+    .menu-item .menu-link.active {
+        background-color: #F53D1CFF;
+    }
+    .menu-section {
+        color: #ffe030 !important;
+    }
+    .menu-active-bg {
+        background-color: #124046;
+    }
+
+}
+
+
+.btn.btn-primary {
+        background-color: #1a52c2 !important;
+        border-color: #1a52c2 !important;
+    }
+.btn.btn-success {
+    background-color: #175259FF !important;
+    border-color: #175259FF !important;
+}
+
+body{
+    background-color: #e9e9e8;
+}

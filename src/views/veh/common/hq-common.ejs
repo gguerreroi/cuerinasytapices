@@ -1,0 +1,11 @@
+<%
+    console.log('sub', fchventa)
+%>
+<div class="col-sm-12">
+    <label class="input-group-text" for="fchventa">Fecha</label>
+    <input type="date" name="fchventa" id="fchventa" class="form-control" value="<%- fchventa.length > 9 ? fchventa.substring(0,10) : '' %>" required>
+</div>
+<div class="col-sm-12">
+    <label class="input-group-text" for="codactividad">Seleccionar la actividad del POA</label>
+    <select name="codactividad" id="codactividad" class="form-control" multiple required></select>
+</div>

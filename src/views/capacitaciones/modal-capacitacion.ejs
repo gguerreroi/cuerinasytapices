@@ -1,0 +1,199 @@
+<div class="modal bg-body fade" tabindex="-1" id="kt_modal">
+    <div class="modal-dialog modal-fullscreen">
+        <div class="modal-content shadow-none">
+            <div class="modal-header">
+                <h5 class="modal-title">Eventos</h5>
+                <!--begin::Close-->
+                <div class="btn btn-icon btn-sm btn-active-light-primary ms-2" data-bs-dismiss="modal"
+                     aria-label="Close">
+                    <i class="bi bi-x fs-3x"></i>
+                </div>
+                <!--end::Close-->
+            </div>
+            <div class="modal-body">
+                <form method="post" class="row g-3"
+                      name="form_event" id="form_event">
+                    <div class="col-sm-12">
+                        <div class="form-floating">
+                            <input type="number"
+                                   id="codevento"
+                                   name="codevento"
+                                   class="form-control"
+                                   value="0" readonly>
+                            <label for="codevento">#</label>
+                        </div>
+                    </div>
+                    <div class="col-sm-12">
+                        <div class="form-floating">
+                            <textarea class="form-control"
+                                      placeholder="Titulo de la actividad"
+                                      id="strevento"
+                                      name="strevento"
+                                      style="height: 100px"></textarea>
+                            <label for="strevento"><span class="required">Título de la Actividad</span></label>
+                        </div>
+                    </div>
+                    <div class="col-sm-12 col-md-6">
+                        <label for="codproyecto" class="input-group-text">Proyecto</label>
+                        <select id="codproyecto"
+                                name="codproyecto"
+                                multiple
+                                required
+                                data-dropdown-parent="#kt_modal"
+                                class="form-control"></select>
+                    </div>
+                    <div class="col-sm-12 col-md-6">
+                        <label for="qfy" class="input-group-text">Trimestre</label>
+                        <select id="qfy"
+                                name="qfy"
+                                class="form-control"
+                                required
+                                data-dropdown-parent="#kt_modal">
+                        </select>
+                    </div>
+                    <div class=" col-sm-12">
+                        <label class="input-group-text" for="codtipoevento">
+                            <span class="required">Tipo de Evento</span>
+                        </label>
+                        <select class="form-control"
+                                id="codtipoevento"
+                                name="codtipoevento"
+                                required>
+                        </select>
+                    </div>
+                    <div class="col-sm-12 col-md-3">
+                        <div class="form-floating">
+                            <input type="date"
+                                   id="datfchinicio"
+                                   name="datfchinicio"
+                                   class="form-control">
+                            <label for="datfchinicio">Fecha Inicio</label>
+                        </div>
+                    </div>
+                    <div class="col-sm-12 col-md-3">
+                        <div class="form-floating">
+                            <input type="date"
+                                   id="datfchfin"
+                                   name="datfchfin"
+                                   class="form-control">
+                            <label for="datfchfin">Fecha Final</label>
+                        </div>
+                    </div>
+                    <div class="col-sm-12 col-md-3">
+                        <div class="form-floating">
+                            <input type="number"
+                                   id="numhoras"
+                                   step="0.01"
+                                   name="numhoras"
+                                   class="form-control"
+                                   value="0" required>
+                            <label for="numhoras">Duración del evento
+                                <span class="fw-light">(horas)</span>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="col-sm-12 col-md-3" id="div_numcosto">
+                        <div class="form-floating">
+                            <input type="number"
+                                   id="numcosto"
+                                   name="numcosto"
+                                   class="form-control"
+                                   step="0.01" value="0" required>
+                            <label for="numcosto"><span class="required">Costo</span></label>
+                        </div>
+                    </div>
+                    <div class="col-sm-12 col-md-4">
+                        <label class="input-group-text" for="codmunicipio">
+                            Seleccione el lugar donde se realizo el
+                            evento</label>
+                        <select class="form-select"
+                                id="codmunicipio"
+                                name="codmunicipio"
+                                required>
+                        </select>
+                    </div>
+                    <div class="col-sm-12 col-md-4">
+                        <label class="input-group-text" for="codtema">
+                            Categoria del tema</label>
+                        <select class="form-select"
+                                id="codtema"
+                                name="codtema"
+                                required>
+                        </select>
+                    </div>
+                    <div class="col-sm-12 col-md-4">
+                        <label class="input-group-text" for="codcategoria">
+                            Categoría de la cadena de
+                            valor</label>
+                        <select class="form-select"
+                                id="codcategoria"
+                                name="codcategoria"
+                                required>
+                        </select>
+                    </div>
+                    <div class="col-sm-12">
+                        <label class="input-group-text" for="codactividad">
+                            Actividad del POA</label>
+                        <select class="form-select"
+                                id="codactividad"
+                                name="codactividad"
+                                multiple
+                                required>
+                        </select>
+                    </div>
+                    <div class="col-sm-12 col-md-6">
+                        <div class="form-floating">
+                            <input type="url"
+                                   id="strlinkevidencia"
+                                   name="strlinkevidencia"
+                                   class="form-control">
+                            <label for="strlinkevidencia">Link de Evidencia</label>
+                        </div>
+                    </div>
+                    <div class="col-sm-12 col-md-6">
+                        <div class="form-floating">
+                            <input type="text"
+                            id="strresponsable"
+                            name="strresponsable"
+                            class="form-control">
+                            <label for="strresponsable">Responsable</label>
+                        </div>
+                    </div>
+                    <div class="col-sm-12">
+                        <label for="codparticipantes" class="input-group-text">Participantes</label>
+                        <select class="form-control form-control-lg form-select-lg"
+                                id="codparticipantes"
+                                name="codparticipantes"
+                                multiple></select>
+                    </div>
+                    <div class="col-sm-12">
+                        <table class="table" id="tbparticipantes">
+                            <thead class="text-uppercase fw-bold">
+                              <tr>
+                                  <th>#</th>
+                                  <th>Nombre</th>
+                                  <th>Organizacion</th>
+                                  <th></th>
+                              </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                    <div class="col-sm-12">
+                        <button type="submit" id="btnformsave"
+                                class="btn btn-primary col-sm-12 w-full">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                 class="bi bi-save" viewBox="0 0 16 16">
+                                <path d="M2 1a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H9.5a1 1 0 0 0-1 1v7.293l2.646-2.647a.5.5 0 0 1 .708.708l-3.5 3.5a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L7.5 9.293V2a2 2 0 0 1 2-2H14a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h2.5a.5.5 0 0 1 0 1z"/>
+                            </svg>
+                            Guardar
+                        </button>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-light" data-bs-dismiss="modal">Cancelar</button>
+            </div>
+        </div>
+    </div>
+</div>

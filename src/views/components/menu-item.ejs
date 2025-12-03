@@ -1,0 +1,26 @@
+<%
+let active = "";
+let uri = "";
+let mepath = me.split('/')
+let i =0;
+mepath.map(function(value, index, array){
+    i++;
+    if (i<= 4)
+        uri += `/${value}`
+})
+
+uri = uri.replaceAll('//', '/')
+
+if (uri === href)
+    active = "active"
+%>
+<div class="menu-item">
+    <a class="menu-link <%- active %>" href="<%- href %>">
+        <% if (icon === "bullet") { %>
+            <span class="menu-bullet"><span class="bullet bullet-dot"></span></span>
+        <% } else { %>
+            <span class="menu-icon"><i class="bi <%- icon %> fs-3"></i></span>
+        <% } %>
+        <span class="menu-title"><%- title %></span>
+    </a>
+</div>

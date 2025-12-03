@@ -1,0 +1,350 @@
+<%
+/**
+ * TODO:
+ - tipos de evento (select2)
+ - municipio (select2)
+ - tema (select2)
+ - categoria cadenavalor (select2)
+ - actividadPoa (select2)
+ **/
+%>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <%- include('../components/web-header') %>
+</head>
+<body id="kt_body"
+      class="header-fixed header-tablet-and-mobile-fixed toolbar-enabled toolbar-fixed toolbar-tablet-and-mobile-fixed aside-enabled aside-fixed"
+      style="--kt-toolbar-height:55px;--kt-toolbar-height-tablet-and-mobile:55px">
+<!--begin::Main-->
+<!--begin::Root-->
+<div class="d-flex flex-column flex-root">
+    <!--begin::Page-->
+    <div class="page d-flex flex-row flex-column-fluid">
+        <%- include('../components/left-aside.ejs') %>
+        <!--begin::Wrapper-->
+        <div class="wrapper d-flex flex-column flex-row-fluid" id="kt_wrapper">
+            <%- include('../components/kt-header.ejs') %>
+            <!--begin::Content-->
+            <div class="content d-flex flex-column flex-column-fluid" id="kt_content">
+                <div class="d-flex flex-column-fluid">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="card card-bordered shadow-sm  ">
+                                    <div class="card-header">
+                                        <div class="card-title"><h3 class="card-label">Persona</h3></div>
+                                        <div class="card-toolbar">
+                                            <button class="btn btn-primary"
+                                                    onclick="modalPersona('0')"
+                                                    type="button">
+                                                Nuevo
+                                            </button>
+                                            <button onclick="window.location.href='/excel/eventos.vw_rep_personas'"
+                                                    class="btn btn-success"
+                                                    type="button">
+                                                Excel
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="d-flex align-items-center position-relative mb-6">
+                                            <span class="svg-icon svg-icon-1 position-absolute ms-4">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                                     viewBox="0 0 24 24" fill="none">
+                                                    <rect opacity="0.5" x="17.0365" y="15.1223" width="8.15546"
+                                                          height="2" rx="1" transform="rotate(45 17.0365 15.1223)"
+                                                          fill="currentColor"></rect>
+                                                    <path d="M11 19C6.55556 19 3 15.4444 3 11C3 6.55556 6.55556 3 11 3C15.4444 3 19 6.55556 19 11C19 15.4444 15.4444 19 11 19ZM11 5C7.53333 5 5 7.53333 5 11C5 14.4667 7.53333 17 11 17C14.4667 17 17 14.4667 17 11C17 7.53333 14.4667 5 11 5Z"
+                                                          fill="currentColor"></path>
+                                                </svg>
+                                            </span>
+                                            <input type="text" data-kt-filter="search" name="search"
+                                                   class="form-control form-control-solid w-100 ps-14 text-uppercase"
+                                                   placeholder="Buscar..."/>
+                                        </div>
+                                        <table class="table table-row-dashed" id="tb-persona">
+                                            <thead class="fw-bolder text-uppercase">
+                                            <tr>
+                                                <th>#</th>
+                                                <th>Nombre</th>
+                                                <th>Año</th>
+                                                <th>Genero</th>
+                                                <th>Comunidad L.</th>
+                                                <th>Celular</th>
+                                                <th>Organizaciones</th>
+                                                <th></th>
+                                            </tr>
+                                            </thead>
+                                            <tbody></tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <!--end::Content-->
+            <%- include('../components/bottom-footer.ejs', {ip: ip}) %>
+        </div>
+        <!--end::Wrapper-->
+    </div>
+    <!--end::Page-->
+    <!-- begin::modals -->
+    <%- include('modal-persona.ejs') %>
+    <!-- end::modals -->
+</div>
+<!--end::Root-->
+
+
+<%- include('../components/kt-scrolltop.ejs') %>
+<!--end::Main-->
+<%- include('../components/web-footer.ejs') %>
+<!--begin::Page Custom Javascript(used by this page)-->
+<script src="assets/js/custom/widgets.js"></script>
+<script src="assets/js/custom/capacitaciones/capacitaciones-general.js"></script>
+<script>
+    const url = `${window.location.origin}/api`;
+	const codPais = '<%-  UserInfo.codpais %>'
+	const codSocio = '<%-  UserInfo.codsocio %>'
+	const codRole = '<%- UserInfo.codrole %>'
+
+    let table;
+    var sToast = null;
+    let codcomunidadlinguistica;
+    let data_codcomunidadlinguistica;
+    let data_codorganizaciones;
+	let data_proyectos;
+
+    let mdlPersona = $("#kt_modal")
+    sToast = Swal.mixin({
+        toast: true,
+        position: "top-end",
+        showConfirmButton: false,
+        timer: 3000,
+        timerProgressBar: true,
+        didOpen: (toast) => {
+            toast.onmouseenter = Swal.stopTimer;
+            toast.onmouseleave = Swal.resumeTimer;
+        }
+    });
+
+    $.ajax({
+        url: `${url}/catalogo/select2/geografica.comunidad_linguistica/codcomunidadl/strcomunidadl`,
+        type: 'get',
+        data: {
+			colname: 'codpais',
+            colvalue: `${codPais}`
+        }
+    }).done(function(result){
+        data_codcomunidadlinguistica = result.results;
+        $("#codcomunidadlinguistica").select2({
+            data: data_codcomunidadlinguistica
+        })
+    })
+    $.ajax({
+        url: `${url}/catalogo/select2/organizacion.core/codorganizacion/strnombre`,
+        type: 'get'
+    }).done(function(result){
+        data_codorganizaciones = result.results;
+        $("#codorganizaciones").select2({
+            data: data_codorganizaciones
+        })
+    })
+
+    $.ajax({
+        url: `${url}/catalogo/select2/proyecto.core/codproyecto/strproyecto`,
+        type: 'get'
+    }).done(function(result){
+		data_proyectos = result.results;
+		$("#codproyecto").select2({
+            data: data_proyectos
+        })
+    })
+
+    function fnToast(res) {
+        const {code, message} = res
+        if (code == undefined) {
+            console.error('error in fnToast', res)
+            throw 'Formato invalido'
+        }
+        sToast.fire({
+            icon: code == 'true' ? 'success' : 'error',
+            title: message
+        })
+    }
+
+    function delBase(message, path){
+        Swal.fire({
+            text: message,
+            showCancelButton: true,
+            icon: "warning",
+            buttonsStyling: false,
+            confirmButtonText: "Eliminar",
+            cancelButtonText: "Cancelar",
+            customClass: {
+                confirmButton: "order-2 btn btn-danger",
+                cancelButton: "order-1 btn btn-light"
+            }
+        }).then(function (button) {
+            if (button.isConfirmed) {
+                $.ajax({
+                    url: `${url}/catalogo/${path}`,
+                    type: 'delete'
+                }).done(function (request) {
+                    table.ajax.reload(null, false);
+                    sToast.fire({
+                        icon: "success",
+                        title: "Registro Eliminado"
+                    })
+                }).fail(function (reason) {
+                    console.log(reason)
+                    sToast.fire({
+                        icon: "error",
+                        title: "Se produjo un error"
+                    })
+                })
+            }
+        })
+    }
+
+    function delPersona(id){
+        delBase('¿Esta seguro que desea eliminar la Persona?',`eventos.persona/codpersona/${id}`)
+    }
+
+    function modalPersona(id){
+        if (id == '0'){
+            $("#form_persona").trigger("reset")
+            $("#codpersona").val("0")
+            $("#codgenero").val("")
+            $("#codcomunidadlinguistica").val("").trigger("change")
+            $("#codorganizaciones").val("").trigger("change")
+            $("#codproyecto").val("").trigger("change")
+            mdlPersona.modal("show");
+        } else {
+            let p = $.ajax({
+                url: `${url}/catalogo/view/eventos.vw_personas/codpersona/${id}`,
+                type: 'get'
+            })
+            let o = $.ajax({
+                url: `${url}/catalogo/view/eventos.rel_persona_organizacion/codpersona/${id}`,
+                type: 'get'
+            })
+
+            let a = $.ajax({
+				url: `${url}/catalogo/view/eventos.rel_persona_proyecto/codpersona/${id}`,
+                type: 'get'
+            })
+
+            Promise.all([p, o, a]).then(function(result){
+                let pers = result[0].data[0]
+                let org = result[1].data
+                let proy = result[2].data
+
+                let orgrc = org.map((value, index, arr) => value.codorganizacion)
+                let proyc = proy.map((value, index, arr) => value.codproyecto)
+
+                $("#codpersona").val(id)
+                $("#strnombres").val(pers.strnombres)
+                $("#strapellidos").val(pers.strapellidos)
+                $("#fanionac").val(pers.fanionac)
+                $("#codgenero").val(pers.codgenero)
+                $("#codcomunidadlinguistica").val(pers.codcomunidadlinguistica).trigger('change')
+                $("#codorganizaciones").val(orgrc).trigger('change')
+                $("#codproyecto").val(proyc).trigger('change')
+                $("#numcelular").val(pers.numcelular)
+                $("#email").val(pers.email)
+
+                mdlPersona.modal('show')
+            })
+
+        }
+
+    }
+
+
+    document.addEventListener("DOMContentLoaded", function () {
+        table = $('#tb-persona').DataTable({
+            search: true,
+            ajax: `${url}/catalogo/view/eventos.vw_personas`,
+            columns: [
+                {data: "codpersona"},
+                {data: "strnombres"},
+                {data: "fanionac"},
+                {data: "codgenero"},
+                {data: "strcomunidadl"},
+                {data: "numcelular"},
+                {data: "strorganizaciones"},
+                {data: null}
+            ],
+            columnDefs: [
+                {
+                    targets: [0],
+                    render: function(data, type, row){
+                        return `<button class="btn btn-icon btn-circle btn-light-primary btn-hover-rotate-start " onclick="modalPersona('${data}')">${data}</button>`
+                    }
+                }, {
+                    targets: [1],
+                    render: function(data, type, row){
+                        return `${data.toUpperCase()} ${row.strapellidos.toUpperCase()}`
+                    }
+                },{
+                    targets: [3],
+                    render: function(data,type, row){
+                        let strgenero = "Masculino"
+                        if (data == 'F')
+                            strgenero = "Femenino"
+                        return `${strgenero}`
+                    }
+                },
+                {
+                    targets: [7],
+                    render: function(data, type, row){
+						if (codRole == 1)
+							return `<button onclick="delPersona('${row.codpersona}')" class="btn btn-icon btn-circle btn-light-danger"><i class="bi bi-trash"></i></button>`
+                        return ``
+                    }
+                }
+                ],
+            order: [[0,'desc']]
+        })
+
+        let filterSearch = document.querySelector('[data-kt-filter="search"]');
+        filterSearch.addEventListener('keyup', function(event){
+            table.search(event.target.value).draw();
+        });
+
+        $("#form_persona").submit(function(e){
+            e.preventDefault();
+			submitButton = document.querySelector('#kt_submit_pearson');
+			submitButton.setAttribute('data-kt-indicator', 'on');
+			submitButton.disabled = true;
+			let cod = document.getElementById('codpersona').value
+
+            let tp = "post"
+            if (cod != "0")
+                tp = "put";
+
+            $.ajax({
+                url: `${url}/mye/capacitaciones/personas/${cod}`,
+                type: `${tp}`,
+                data: $("#form_persona").serializeArray()
+            }).done(function(result){
+                $("#kt_modal").modal('hide')
+                table.ajax.reload(null, false)
+                fnToast(result)
+            }).always(function(){
+				// Hide loading indication && Enable button
+				submitButton.removeAttribute('data-kt-indicator');
+				submitButton.disabled = false;
+            })
+        })
+
+    })
+</script>
+<!--end::Page Custom Javascript-->
+<!--end::Javascript-->
+</body>
+</html>

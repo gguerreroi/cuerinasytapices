@@ -1,0 +1,638 @@
+<%
+
+   %>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <%- include('../../components/web-header') %>
+</head>
+<body id="kt_body"
+      class="header-fixed header-tablet-and-mobile-fixed toolbar-enabled toolbar-fixed toolbar-tablet-and-mobile-fixed aside-enabled aside-fixed"
+      style="--kt-toolbar-height:55px;--kt-toolbar-height-tablet-and-mobile:55px">
+<!--begin::Main-->
+<!--begin::Root-->
+<div class="d-flex flex-column flex-root">
+    <!--begin::Page-->
+    <div class="page d-flex flex-row flex-column-fluid">
+        <%- include('../../components/left-aside.ejs') %>
+        <!--begin::Wrapper-->
+        <div class="wrapper d-flex flex-column flex-row-fluid" id="kt_wrapper">
+            <%- include('../../components/kt-header.ejs') %>
+            <!--begin::Content-->
+            <div class="content d-flex flex-column flex-column-fluid" id="kt_content">
+                <div class="d-flex flex-column-fluid">
+                    <div class="container">
+                        <div class="row g-6">
+                            <div class="col-12">
+                                <div class="card shadow-sm">
+                                    <div class="card-header">
+                                        <div class="card-title"><h3 class="card-label">Estrategias / Objetivos</h3></div>
+                                        <div class="card-toolbar">
+                                            <button class="btn btn-primary btn-icon btn-circle pulse btn-hover-scale"
+                                                    onclick="Estrategia('')"
+                                                    type="button">
+                                                <i class="bi bi-plus fs-2hx"></i>
+                                            </button>
+                                            <button onclick="window.location.href='/excel/proyecto.vw_rep_estrategias'"
+                                                    class="btn btn-success btn-icon btn-circle pulse btn-hover-scale"
+                                                    type="button">
+                                                <i class="bi bi-file-earmark-excel fs-2"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="d-flex align-items-center position-relative mb-6">
+                                            <span class="svg-icon svg-icon-1 position-absolute ms-4">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                                     viewBox="0 0 24 24" fill="none">
+                                                    <rect opacity="0.5" x="17.0365" y="15.1223" width="8.15546"
+                                                          height="2" rx="1" transform="rotate(45 17.0365 15.1223)"
+                                                          fill="currentColor"></rect>
+                                                    <path d="M11 19C6.55556 19 3 15.4444 3 11C3 6.55556 6.55556 3 11 3C15.4444 3 19 6.55556 19 11C19 15.4444 15.4444 19 11 19ZM11 5C7.53333 5 5 7.53333 5 11C5 14.4667 7.53333 17 11 17C14.4667 17 17 14.4667 17 11C17 7.53333 14.4667 5 11 5Z"
+                                                          fill="currentColor"></path>
+                                                </svg>
+                                            </span>
+                                            <input type="text" data-kt-filter="search-estrategias" name="searchestrategias"
+                                                   class="form-control form-control-solid w-100 ps-14 text-uppercase"
+                                                   placeholder="Buscar..."/>
+                                        </div>
+                                        <table class="table table-row-dashed" id="tb-estrategias">
+                                            <thead class="fw-bolder text-uppercase">
+                                            <tr>
+                                                <th>#</th>
+                                                <th>Estrategia / Objetivo</th>
+                                                <th>Abreviatura</th>
+                                                <th>Proyecto</th>
+                                                <th>Estado</th>
+                                                <th></th>
+                                            </tr>
+                                            </thead>
+                                            <tbody></tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <div class="card shadow-sm">
+                                    <div class="card-header">
+                                        <div class="card-title">
+                                            <h3 class="card-label">Resultados</h3>
+                                        </div>
+                                        <div class="card-toolbar">
+                                            <button class="btn btn-primary btn-icon btn-circle pulse btn-hover-scale"
+                                                    onclick="Resultados('')"
+                                                    type="button">
+                                                <i class="bi bi-plus fs-2hx"></i>
+                                            </button>
+                                            <button onclick="window.location.href='/excel/proyecto.vw_rep_resultados'"
+                                                    class="btn btn-success btn-icon btn-circle pulse btn-hover-scale"
+                                                    type="button">
+                                                <i class="bi bi-file-earmark-excel fs-2"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="d-flex align-items-center position-relative mb-6">
+                                            <span class="svg-icon svg-icon-1 position-absolute ms-4">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                                     viewBox="0 0 24 24" fill="none">
+                                                    <rect opacity="0.5" x="17.0365" y="15.1223" width="8.15546"
+                                                          height="2" rx="1" transform="rotate(45 17.0365 15.1223)"
+                                                          fill="currentColor"></rect>
+                                                    <path d="M11 19C6.55556 19 3 15.4444 3 11C3 6.55556 6.55556 3 11 3C15.4444 3 19 6.55556 19 11C19 15.4444 15.4444 19 11 19ZM11 5C7.53333 5 5 7.53333 5 11C5 14.4667 7.53333 17 11 17C14.4667 17 17 14.4667 17 11C17 7.53333 14.4667 5 11 5Z"
+                                                          fill="currentColor"></path>
+                                                </svg>
+                                            </span>
+                                            <input type="text" data-kt-filter="search-resultados" name="searchresultados"
+                                                   class="form-control form-control-solid w-100 ps-14 text-uppercase"
+                                                   placeholder="Buscar..."/>
+                                        </div>
+                                        <table class="table table-row-dashed" id="tb-resultados">
+                                            <thead class="fw-bolder text-uppercase">
+                                            <tr>
+                                                <th>#</th>
+                                                <th>Resultado</th>
+                                                <th>Abreviatura</th>
+                                                <th>Estrategia / Objetivo</th>
+                                                <th>Proyecto</th>
+                                                <th>Estado</th>
+                                                <th></th>
+                                            </tr>
+                                            </thead>
+                                            <tbody></tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <div class="card shadow-sm">
+                                    <div class="card-header">
+                                        <div class="card-title">
+                                            <h3 class="card-label">Indicadores</h3>
+                                        </div>
+                                        <div class="card-toolbar">
+                                            <button class="btn btn-primary btn-icon btn-circle pulse btn-hover-scale"
+                                                    onclick="Indicador('')"
+                                                    type="button">
+                                                <i class="bi bi-plus fs-2hx"></i>
+                                            </button>
+                                            <button onclick="window.location.href='/excel/proyecto.vw_rep_indicadores'"
+                                                    class="btn btn-success btn-icon btn-circle pulse btn-hover-scale"
+                                                    type="button">
+                                                <i class="bi bi-file-earmark-excel fs-2"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="d-flex align-items-center position-relative mb-6">
+                                            <span class="svg-icon svg-icon-1 position-absolute ms-4">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                                     viewBox="0 0 24 24" fill="none">
+                                                    <rect opacity="0.5" x="17.0365" y="15.1223" width="8.15546"
+                                                          height="2" rx="1" transform="rotate(45 17.0365 15.1223)"
+                                                          fill="currentColor"></rect>
+                                                    <path d="M11 19C6.55556 19 3 15.4444 3 11C3 6.55556 6.55556 3 11 3C15.4444 3 19 6.55556 19 11C19 15.4444 15.4444 19 11 19ZM11 5C7.53333 5 5 7.53333 5 11C5 14.4667 7.53333 17 11 17C14.4667 17 17 14.4667 17 11C17 7.53333 14.4667 5 11 5Z"
+                                                          fill="currentColor"></path>
+                                                </svg>
+                                            </span>
+                                            <input type="text" data-kt-filter="search-indicadores" name="searchindicadores"
+                                                   class="form-control form-control-solid w-100 ps-14 text-uppercase"
+                                                   placeholder="Buscar..."/>
+                                        </div>
+                                        <table class="table table-row-dashed" id="tb-indicadores">
+                                            <thead class="fw-bolder text-uppercase">
+                                            <tr>
+                                                <th>#</th>
+                                                <th>Indicador</th>
+                                                <th>Abreviatura</th>
+                                                <th>Resultado</th>
+                                                <th>Proyecto</th>
+                                                <th>Estado</th>
+                                                <th></th>
+                                            </tr>
+                                            </thead>
+                                            <tbody></tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--end::Content-->
+            <%- include('../../components/bottom-footer.ejs', {ip: ip}) %>
+        </div>
+        <!--end::Wrapper-->
+    </div>
+    <!--end::Page-->
+    <!-- begin::modals -->
+    <%- include('modal-estrategia.ejs') %>
+    <%- include('modal-resultados.ejs') %>
+    <%- include('modal-indicadores.ejs') %>
+    <!-- end::modals -->
+</div>
+<!--end::Root-->
+
+
+<%- include('../../components/kt-scrolltop.ejs') %>
+<!--end::Main-->
+<%- include('../../components/web-footer.ejs') %>
+
+<script>
+    const url = `${window.location.origin}/api`;
+    var mdlEstrategias = $("#kt_modal_estrategias")
+    var mdlResultado = $("#kt_modal_resultados")
+    var mdlIndicador = $("#kt_modal_indicadores")
+    var tbestrategias
+    var tbresultados
+    var tbindicadores
+    var selcodestrategia
+    var selcodresultado
+    var sToast = null;
+    const saveEstrategia = document.querySelector('#kt_nuevo_estrategias')
+    const saveResultados = document.querySelector('#kt_nuevo_resultados')
+    const saveIndicadores = document.querySelector('#kt_nuevo_indicadores')
+
+    sToast = Swal.mixin({
+        toast: true,
+        position: "top-end",
+        showConfirmButton: false,
+        timer: 3000,
+        timerProgressBar: true,
+        didOpen: (toast) => {
+            toast.onmouseenter = Swal.stopTimer;
+            toast.onmouseleave = Swal.resumeTimer;
+        }
+    });
+
+    function fnToast(res) {
+        const {code, message} = res
+
+        if (code == undefined) {
+            console.error('error in fnToast', res)
+            throw 'Formato invalido'
+        }
+
+        sToast.fire({
+            icon: code == 'true' ? 'success' : 'error',
+            title: message
+        })
+    }
+
+    $.ajax({
+        url: `${url}/catalogo/select2/proyecto.core/codproyecto/strproyecto`,
+        type: 'get'
+    }).done(function(result){
+        $("#codproyecto").select2({
+            data: result.results,
+            dropdownParent: $("#kt_modal_estrategias")
+        })
+    })
+
+    $.ajax({
+		url: `${url}/catalogo/select2/proyecto.vw_resultado_busqueda/codresultado/strresultado`,
+		type: 'get'
+    }).done(function(result){
+		$("#codresultado_indicador").select2({
+			data: result.results,
+            dropdownParent: $("#kt_modal_indicadores"),
+            placeholder: "Seleccione un resultado",
+            templateResult: function (data){
+				if (!data.id)
+                    return data.text
+                const [strtext, strproyecto] = data.text.split(' | ')
+                let template = `<div>`
+                template += `<p class="badge badge-dark">${strproyecto}</p>`
+                template += `<p class="mb-0 fw-bold">${strtext}</p>`
+                template += `</div>`
+                return $(template)
+            }
+		})
+	})
+
+    function delBase(message, path){
+        Swal.fire({
+            text: message,
+            showCancelButton: true,
+            icon: "warning",
+            buttonsStyling: false,
+            confirmButtonText: "Eliminar",
+            cancelButtonText: "Cancelar",
+            customClass: {
+                confirmButton: "order-2 btn btn-danger",
+                cancelButton: "order-1 btn btn-light"
+            }
+        }).then(function (button) {
+            if (button.isConfirmed) {
+                $.ajax({
+                    url: `${url}/catalogo/${path}`,
+                    type: 'delete'
+                }).done(function (request) {
+                    sToast.fire({
+                        icon: "success",
+                        title: "Registro Eliminado"
+                    })
+					tbestrategias.ajax.reload(null, false);
+					tbresultados.ajax.reload(null, false);
+					tbindicadores.ajax.reload(null,false);
+                }).fail(function (reason) {
+                    console.log(reason)
+                    sToast.fire({
+                        icon: "error",
+                        title: "Se produjo un error"
+                    })
+                })
+            }
+        })
+    }
+
+    function delestrategias(id) {
+        delBase('¿Esta seguro que desea eliminar la estrategia?',`proyecto.estrategias/codestrategia/${id}`)
+    }
+
+    function delresultados(id){
+        delBase('¿Esta seguro que desea eliminar el resultado?',`proyecto.resultados/codresultado/${id}`)
+    }
+
+    function delIndicador(id){
+        delBase('¿Esta seguro que desea eliminar el indicador?',`proyecto.indicadores/codindicador/${id}`)
+    }
+
+	function Estrategia(id){
+		if (id == ''){
+			$("#frm-estrategias").trigger('reset')
+            mdlEstrategias.modal('show');
+        } else {
+			$.ajax({
+                url: `${url}/catalogo/view/proyecto.estrategias/codestrategia/${id}`,
+                type: 'get'
+            }).done(function(result){
+                const {
+					codestrategia,
+                    strestrategia,
+                    strabreviatura,
+                    codproyecto,
+                    codestado
+				} = result.data[0];
+				$("#codestrategia_estrategia").val(codestrategia)
+                $("#strestrategia").val(strestrategia)
+                $("#strabreviatura").val(strabreviatura)
+                $("#codproyecto").val(codproyecto).trigger('change')
+                $("#codestado_estrategia").prop("checked", codestado)
+
+                mdlEstrategias.modal('show')
+            })
+        }
+    }
+
+	function Resultados(id){
+		if (id == ''){
+			$("#frm-resultados").trigger('reset')
+			mdlResultado.modal('show');
+		} else {
+			$.ajax({
+				url: `${url}/catalogo/view/proyecto.resultados/codresultado/${id}`,
+				type: 'get'
+			}).done(function(result){
+				const {
+					codresultado,
+					strresultado,
+					strabreviatura,
+					codestrategia,
+					codestado
+				} = result.data[0];
+				$("#codresultado_resultado").val(codresultado)
+				$("#strresultado").val(strresultado)
+				$("#strabreviatura_resultado").val(strabreviatura)
+				$("#codestrategia_resultado").val(codestrategia).trigger('change')
+				$("#codestado_resultado").prop("checked", codestado)
+
+				mdlResultado.modal('show')
+			})
+		}
+    }
+
+	function Indicador(id){
+		if (id == ''){
+			$("#frm-indicadores").trigger('reset')
+			mdlIndicador.modal('show');
+		} else {
+			$.ajax({
+				url: `${url}/catalogo/view/proyecto.indicadores/codindicador/${id}`,
+				type: 'get'
+			}).done(function(result){
+				const {
+					codindicador,
+					strindicador,
+					strabreviatura,
+					codresultado,
+					codestado
+				} = result.data[0];
+				$("#codindicador_indicador").val(codindicador)
+				$("#strindicador").val(strindicador)
+				$("#strabreviatura_indicador").val(strabreviatura)
+				$("#codresultado_indicador").val(codresultado).trigger('change')
+				$("#codestado_indicador").prop("checked", codestado)
+
+				mdlIndicador.modal('show')
+			})
+		}
+	}
+
+
+    document.addEventListener("DOMContentLoaded", function () {
+
+        let fsEstrategias = document.querySelector('[data-kt-filter="search-estrategias"]');
+		fsEstrategias.addEventListener('keyup', function(event) {
+			tbestrategias.search(event.target.value).draw();
+        });
+
+        tbestrategias = $('#tb-estrategias').DataTable({
+            search: true,
+            ajax: `${url}/catalogo/view/proyecto.vw_estrategias`,
+            columns: [
+                {data: "codestrategia"},
+                {data: "strestrategia"},
+                {data: "strabreviatura"},
+                {data: "strproyecto"},
+                {data: "codestado"},
+                {data: null}
+            ],
+            columnDefs: [{
+                targets: [0],
+                render: function (data, type, row) {
+					// `<a href="/catalogo/general/estrategias/${data}">${data}</a>`
+                    return `<button class="btn btn-light-primary" onclick="Estrategia('${data}')">${data}</button>`
+                }
+            }, {
+                targets: [4],
+                render: function (data, type, row) {
+                    let strestado = "OCULTO"
+                    let color = "badge-light-danger"
+
+                    if (data) {
+                        strestado = "VISIBLE"
+                        color = "badge-light-success"
+                    }
+                    return `<span class="badge badge-pill ${color}">${strestado}</span>`
+                }
+            }, {
+                targets: [5],
+                render: function (data, type, row) {
+                    return `<button onclick="delestrategias('${row.codestrategia}')" class="btn btn-icon btn-circle btn-light-danger"><i class="bi bi-trash"></i></button>`
+                }
+            }],
+            order: [[0, 'asc']]
+        });
+
+        let fsResultados= document.querySelector('[data-kt-filter="search-resultados"]');
+        fsResultados.addEventListener('keyup', function(event){
+			tbresultados.search(event.target.value).draw();
+        });
+
+        tbresultados = $("#tb-resultados").DataTable({
+            search: true,
+            ajax: `${url}/catalogo/view/proyecto.vw_resultados`,
+            columns: [
+                {data: "codresultado"},
+                {data: "strresultado"},
+                {data: "strabreviatura"},
+                {data: "strestrategia"},
+                {data: "strproyecto"},
+                {data: "codestado"},
+                {data: null}
+            ],
+            columnDefs: [{
+                targets: [0],
+                render: function (data, type, row){
+                    return `<button class="btn btn-light-primary" onclick="Resultados('${data}')">${data}</button>`
+                }
+            },{
+                targets: [5],
+                render: function(data, type, row){
+                    let strestado = "OCULTO"
+                    let color = "badge-light-danger"
+
+                    if (data) {
+                        strestado = "VISIBLE"
+                        color = "badge-light-success"
+                    }
+                    return `<span class="badge badge-pill ${color}">${strestado}</span>`
+                }
+            },{
+                targets: [6],
+                render: function(data, type, row){
+                    return `<button onclick="delresultados('${row.codresultado}')" class="btn btn-icon btn-circle btn-light-danger"><i class="bi bi-trash"></i></button>`
+                }
+            }], order: [[1, 'asc']]
+        });
+
+        let fsIndicadores = document.querySelector('[data-kt-filter="search-indicadores"]');
+        fsIndicadores.addEventListener('keyup', function(event){
+			tbindicadores.search(event.target.value).draw();
+        });
+
+        tbindicadores = $("#tb-indicadores").DataTable({
+           search: true,
+           ajax: `${url}/catalogo/view/proyecto.vw_indicadores`,
+            columns:[
+                {data: "codindicador"},
+                {data: "strindicador"},
+                {data: "strabreviatura"},
+                {data: "strresultado"},
+                {data: "strproyecto"},
+                {data: "codestado"},
+                {data: null}
+            ], columnDefs: [{
+               targets: [0],
+                render: function (data, type, row){
+                   return `<button class="btn btn-light-primary" onclick="Indicador('${data}')">${data}</button>`
+                }
+            },{
+               targets: [5],
+                render: function (data, type, row){
+                    let strestado = "OCULTO"
+                    let color = "badge-light-danger"
+
+                    if (data) {
+                        strestado = "VISIBLE"
+                        color = "badge-light-success"
+                    }
+                    return `<span class="badge badge-pill ${color}">${strestado}</span>`
+                }
+            },{
+               targets: [6],
+                render: function(data, type, row){
+                    return `<button onclick="delIndicador('${row.codindicador}')" class="btn btn-icon btn-circle btn-light-danger"><i class="bi bi-trash"></i></button>`
+                }
+            }]
+        });
+
+        $("#frm-estrategias").submit(function (e){
+            e.preventDefault()
+            saveEstrategia.setAttribute('data-kt-indicator', 'on')
+            saveEstrategia.disabled = true
+            let id = document.getElementById('codestrategia_estrategia').value == '' ? '0' : document.getElementById('codestrategia_estrategia').value
+            let metodo = id == '0' ? 'post' : 'put';
+
+            $.ajax({
+                url: `${url}/catalogo/general/estrategias/${id}`,
+                type: metodo,
+                data: $("#frm-estrategias").serializeArray()
+            }).done(function (result) {
+                fnToast(result)
+                tbestrategias.ajax.reload(null, false);
+                mdlEstrategias.modal('hide')
+                $("#frm-estrategias").trigger("reset")
+            }).fail(fnToast).always(function () {
+                saveEstrategia.removeAttribute('data-kt-indicator');
+                saveEstrategia.disabled = false;
+            })
+        })
+
+        $("#frm-resultados").submit(function(e){
+            e.preventDefault()
+            saveResultados.setAttribute('data-kt-indicator', 'on')
+            saveResultados.disabled = true
+
+            var id = document.getElementById('codresultado_resultado').value == '' ? '0' : document.getElementById('codresultado_resultado').value
+            var metodo = id == '0' ? 'post' : 'put'
+
+            $.ajax({
+                url: `${url}/catalogo/general/resultados/${id}`,
+                type: `${metodo}`,
+                data: $("#frm-resultados").serializeArray()
+            }).done(function(result){
+                fnToast(result)
+                tbresultados.ajax.reload(null, false)
+                $("#kt_modal_resultados").modal('hide')
+                $("#frm-resultados").trigger("reset")
+            }).fail(fnToast).always(function(){
+                saveResultados.removeAttribute('data-kt-indicator');
+                saveResultados.disabled = false;
+            })
+        })
+
+        $("#frm-indicadores").submit(function(e){
+            e.preventDefault();
+            saveIndicadores.setAttribute('data-kt-indicator', 'on')
+            saveIndicadores.disabled = true
+            let id = document.getElementById('codindicador_indicador').value == '' ? 0: document.getElementById('codindicador_indicador').value
+            let metodo = id == '0' ? 'post' : 'put'
+            $.ajax({
+                url: `${url}/catalogo/general/indicadores/${id}`,
+                type: `${metodo}`,
+                data: $("#frm-indicadores").serializeArray()
+            }).done(function(result){
+                fnToast(result)
+                tbindicadores.ajax.reload(null, false)
+                $("#kt_modal_indicadores").modal("hide")
+                $("#frm-indicadores").trigger("reset")
+            }).fail(fnToast).always(function(){
+                saveIndicadores.removeAttribute('data-kt-indicator')
+                saveIndicadores.disabled = false;
+            })
+        })
+
+        $.ajax({
+            url: `${url}/catalogo/select2/proyecto.vw_estrategia_busqueda/codestrategia/strestrategia`,
+            type: 'get'
+        }).done(function(result){
+			$("#codestrategia_resultado").select2({
+                data: result.results,
+                dropdownParent: $("#kt_modal_resultados"),
+                placeholder: "Seleccione una estrategia",
+                templateResult: function (data){
+					if (!data.id)
+                        return data.text
+                    const [strtext, strproyecto] = data.text.split(' | ')
+                    let template = `<div>`
+                    template += `<p class="badge badge-dark">${strproyecto}</p>`
+                    template += `<p class="mb-0 fw-bold">${strtext}</p>`
+                    template += `</div>`
+                    return $(template)
+                },
+				templateSelection: function (data){
+				    const [strtext, strproyecto] = data.text.split(' | ')
+                    let template = `<div>`
+                    template += `<p class="badge badge-dark">${strproyecto}</p>`
+                    template += `<p class="mb-0 fw-bold">${strtext}</p>`
+                    template += `</div>`
+                    return $(template)
+				}
+            })
+        })
+
+        selcodresultado = $("#codresultado").select2({
+            ajax: {
+                url: `${url}/catalogo/select2/proyecto.vw_resultados/codresultado/strresultado`
+            }
+        })
+
+    })
+</script>
+<!--end::Page Custom Javascript-->
+<!--end::Javascript-->
+</body>
+</html>

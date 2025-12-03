@@ -1,0 +1,492 @@
+<%
+
+   %>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <%- include('../../components/web-header') %>
+</head>
+<body id="kt_body"
+      class="header-fixed header-tablet-and-mobile-fixed toolbar-enabled toolbar-fixed toolbar-tablet-and-mobile-fixed aside-enabled aside-fixed"
+      style="--kt-toolbar-height:55px;--kt-toolbar-height-tablet-and-mobile:55px">
+<!--begin::Main-->
+<!--begin::Root-->
+<div class="d-flex flex-column flex-root">
+    <!--begin::Page-->
+    <div class="page d-flex flex-row flex-column-fluid">
+        <%- include('../../components/left-aside.ejs') %>
+        <!--begin::Wrapper-->
+        <div class="wrapper d-flex flex-column flex-row-fluid" id="kt_wrapper">
+            <%- include('../../components/kt-header.ejs') %>
+            <!--begin::Content-->
+            <div class="content d-flex flex-column flex-column-fluid" id="kt_content">
+                <div class="d-flex flex-column-fluid">
+                    <div class="container">
+                        <div class="row g-6">
+                            <div class="col-12">
+                                <div class="card shadow-sm">
+                                    <div class="card-header">
+                                        <div class="card-title"><h3 class="card-label">Categoria de la Cadena de Valor</h3></div>
+                                        <div class="card-toolbar">
+                                            <button class="btn btn-primary btn-icon btn-circle btn-pulse btn-hover-scale"
+                                                    data-bs-toggle="modal"
+                                                    data-bs-target="#kt_modal_categoriacdv"
+                                                    type="button">
+                                                <i class="bi bi-plus fs-2hx"></i>
+                                            </button>
+                                            <button onclick="window.location.href='/excel/cadenavalor.vw_rep_categoria'"
+                                                    class="btn btn-success btn-icon btn-circle pulse btn-hover-scale"
+                                                    type="button">
+                                                <i class="bi bi-file-earmark-excel fs-2"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="d-flex align-items-center position-relative mb-6">
+                                            <span class="svg-icon svg-icon-1 position-absolute ms-4">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                                     viewBox="0 0 24 24" fill="none">
+                                                    <rect opacity="0.5" x="17.0365" y="15.1223" width="8.15546"
+                                                          height="2" rx="1" transform="rotate(45 17.0365 15.1223)"
+                                                          fill="currentColor"></rect>
+                                                    <path d="M11 19C6.55556 19 3 15.4444 3 11C3 6.55556 6.55556 3 11 3C15.4444 3 19 6.55556 19 11C19 15.4444 15.4444 19 11 19ZM11 5C7.53333 5 5 7.53333 5 11C5 14.4667 7.53333 17 11 17C14.4667 17 17 14.4667 17 11C17 7.53333 14.4667 5 11 5Z"
+                                                          fill="currentColor"></path>
+                                                </svg>
+                                            </span>
+                                            <input type="text" data-kt-filter="search-categoriacdv" name="searchCategoriacdv"
+                                                   class="form-control form-control-solid w-100 ps-14 text-uppercase"
+                                                   placeholder="Buscar..."/>
+                                        </div>
+                                        <table class="table table-row-dashed" id="tb-categoriacdv">
+                                            <thead class="fw-bolder text-uppercase">
+                                            <tr>
+                                                <th>#</th>
+                                                <th>Categoria de la cadena de valor</th>
+                                                <th>Estado</th>
+                                                <th></th>
+                                            </tr>
+                                            </thead>
+                                            <tbody></tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <div class="card shadow-sm">
+                                    <div class="card-header">
+                                        <div class="card-title">
+                                            <h3 class="card-label">Cadena de Valor</h3>
+                                        </div>
+                                        <div class="card-toolbar">
+                                            <button class="btn btn-primary btn-icon btn-circle btn-pulse btn-hover-scale"
+                                                    data-bs-toggle="modal"
+                                                    data-bs-target="#kt_modal_cadenavalor"
+                                                    type="button">
+                                                <i class="bi bi-plus fs-2hx"></i>
+                                            </button>
+                                            <button onclick="window.location.href='/excel/cadenavalor.vw_rep_cadenavalor'"
+                                                    class="btn btn-success btn-icon btn-circle pulse btn-hover-scale"
+                                                    type="button">
+                                                <i class="bi bi-file-earmark-excel fs-2"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="d-flex align-items-center position-relative mb-6">
+                                            <span class="svg-icon svg-icon-1 position-absolute ms-4">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                                     viewBox="0 0 24 24" fill="none">
+                                                    <rect opacity="0.5" x="17.0365" y="15.1223" width="8.15546"
+                                                          height="2" rx="1" transform="rotate(45 17.0365 15.1223)"
+                                                          fill="currentColor"></rect>
+                                                    <path d="M11 19C6.55556 19 3 15.4444 3 11C3 6.55556 6.55556 3 11 3C15.4444 3 19 6.55556 19 11C19 15.4444 15.4444 19 11 19ZM11 5C7.53333 5 5 7.53333 5 11C5 14.4667 7.53333 17 11 17C14.4667 17 17 14.4667 17 11C17 7.53333 14.4667 5 11 5Z"
+                                                          fill="currentColor"></path>
+                                                </svg>
+                                            </span>
+                                            <input type="text" data-kt-filter="search-cadenavalor" name="searchcadenavalor"
+                                                   class="form-control form-control-solid w-100 ps-14 text-uppercase"
+                                                   placeholder="Buscar..."/>
+                                        </div>
+                                        <table class="table table-row-dashed" id="tb-cadenavalor">
+                                            <thead class="fw-bolder text-uppercase">
+                                            <tr>
+                                                <th>#</th>
+                                                <th>Categoria</th>
+                                                <th>Cadena de Valor</th>
+                                                <th>Codigo Commcare</th>
+                                                <th>Estado</th>
+                                                <th></th>
+                                            </tr>
+                                            </thead>
+                                            <tbody></tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <div class="card shadow-sm">
+                                    <div class="card-header">
+                                        <div class="card-title">
+                                            <h3 class="card-label">Productos</h3>
+                                        </div>
+                                        <div class="card-toolbar">
+                                            <button class="btn btn-primary btn-icon btn-circle btn-pulse btn-hover-scale"
+                                                    data-bs-toggle="modal"
+                                                    data-bs-target="#kt_modal_producto"
+                                                    type="button">
+                                                <i class="bi bi-plus fs-2hx"></i>
+                                            </button>
+                                            <button onclick="window.location.href='/excel/cadenavalor.vw_rep_producto'"
+                                                    class="btn btn-success btn-icon btn-circle pulse btn-hover-scale"
+                                                    type="button">
+                                                <i class="bi bi-file-earmark-excel fs-2"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="d-flex align-items-center position-relative mb-6">
+                                            <span class="svg-icon svg-icon-1 position-absolute ms-4">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                                     viewBox="0 0 24 24" fill="none">
+                                                    <rect opacity="0.5" x="17.0365" y="15.1223" width="8.15546"
+                                                          height="2" rx="1" transform="rotate(45 17.0365 15.1223)"
+                                                          fill="currentColor"></rect>
+                                                    <path d="M11 19C6.55556 19 3 15.4444 3 11C3 6.55556 6.55556 3 11 3C15.4444 3 19 6.55556 19 11C19 15.4444 15.4444 19 11 19ZM11 5C7.53333 5 5 7.53333 5 11C5 14.4667 7.53333 17 11 17C14.4667 17 17 14.4667 17 11C17 7.53333 14.4667 5 11 5Z"
+                                                          fill="currentColor"></path>
+                                                </svg>
+                                            </span>
+                                            <input type="text" data-kt-filter="search-producto" name="searchProducto"
+                                                   class="form-control form-control-solid w-100 ps-14 text-uppercase"
+                                                   placeholder="Buscar..."/>
+                                        </div>
+                                        <table class="table table-row-dashed" id="tb-producto">
+                                            <thead class="fw-bolder text-uppercase">
+                                            <tr>
+                                                <th>#</th>
+                                                <th>Cadena de Valor</th>
+                                                <th>Producto</th>
+                                                <th>Codigo Commcare</th>
+                                                <th>Estado</th>
+                                                <th></th>
+                                            </tr>
+                                            </thead>
+                                            <tbody></tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--end::Content-->
+            <%- include('../../components/bottom-footer.ejs', {ip: ip}) %>
+        </div>
+        <!--end::Wrapper-->
+    </div>
+    <!--end::Page-->
+    <!-- begin::modals -->
+    <%- include('modal-categoriacdv.ejs') %>
+    <%- include('modal-cadenavalor.ejs') %>
+    <%- include('modal-producto.ejs') %>
+    <!-- end::modals -->
+</div>
+<!--end::Root-->
+
+
+<%- include('../../components/kt-scrolltop.ejs') %>
+<!--end::Main-->
+<%- include('../../components/web-footer.ejs') %>
+
+<script>
+    const url = `${window.location.origin}/api`;
+    var tbcategoriacdv
+    var tbcadenavalor
+    var tbproducto
+    var selcodcategoriacv
+    var selcodcadenavalor
+    var sToast = null;
+    const nuevoBtnCdv = document.querySelector('#kt_nuevo_cdv')
+    const nuevoBtnCadenaValor = document.querySelector('#kt_nuevo_cv')
+    const nuevoBtnProducto = document.querySelector('#kt_nuevo_producto')
+
+    sToast = Swal.mixin({
+        toast: true,
+        position: "top-end",
+        showConfirmButton: false,
+        timer: 3000,
+        timerProgressBar: true,
+        didOpen: (toast) => {
+            toast.onmouseenter = Swal.stopTimer;
+            toast.onmouseleave = Swal.resumeTimer;
+        }
+    });
+
+    function fnToast(res) {
+        const {code, message} = res
+
+        if (code == undefined) {
+            console.error('error in fnToast', res)
+            throw 'Formato invalido'
+        }
+
+        sToast.fire({
+            icon: code == 'true' ? 'success' : 'error',
+            title: message
+        })
+    }
+
+    function delBase(message, path){
+        Swal.fire({
+            text: message,
+            showCancelButton: true,
+            icon: "warning",
+            buttonsStyling: false,
+            confirmButtonText: "Eliminar",
+            cancelButtonText: "Cancelar",
+            customClass: {
+                confirmButton: "order-2 btn btn-danger",
+                cancelButton: "order-1 btn btn-light"
+            }
+        }).then(function (button) {
+            if (button.isConfirmed) {
+                $.ajax({
+                    url: `${url}/catalogo/${path}`,
+                    type: 'delete'
+                }).done(function (request) {
+                    sToast.fire({
+                        icon: "success",
+                        title: "Registro Eliminado"
+                    })
+                }).fail(function (reason) {
+                    console.log(reason)
+                    sToast.fire({
+                        icon: "error",
+                        title: "Se produjo un error"
+                    })
+                })
+            }
+        })
+    }
+
+    function delCategoriaCDV(id) {
+        delBase('¿Esta seguro que desea eliminar la categoria de la cadena de valor?',`cadenavalor.categoria/codcategoria/${id}`)
+        tbcategoriacdv.ajax.reload(null, false);
+    }
+
+    function delCadenavalor(id){
+        delBase('¿Esta seguro que desea eliminar la Cadena de valor?',`cadenavalor.core/codcadenavalor/${id}`)
+        tbcadenavalor.ajax.reload(null, false);
+    }
+
+    function delProducto(id){
+        delBase('¿Esta seguro que desea eliminar el Producto?',`cadenavalor.producto/codproducto/${id}`)
+        tbproducto.ajax.reload(null, false);
+    }
+
+    document.addEventListener("DOMContentLoaded", function () {
+
+        function search_categoriacdv(event){
+            tbcategoriacdv.search(event.target.value).draw();
+        }
+
+        let filterSearch = document.querySelector('[data-kt-filter="search-categoriacdv"]');
+        filterSearch.addEventListener('keyup', search_categoriacdv);
+
+
+        tbcategoriacdv = $('#tb-categoriacdv').DataTable({
+            search: true,
+            ajax: `${url}/catalogo/view/cadenavalor.categoria`,
+            columns: [
+                {data: "codcategoria"},
+                {data: "strcategoria"},
+                {data: "codestado"},
+                {data: null}
+            ],
+            columnDefs: [{
+                targets: [0],
+                render: function (data, type, row) {
+                    return `<a href="/catalogo/general/categoriacdv/${data}">${data}</a>`
+                }
+            }, {
+                targets: [2],
+                render: function (data, type, row) {
+                    let strestado = "OCULTO"
+                    let color = "badge-light-danger"
+
+                    if (data) {
+                        strestado = "VISIBLE"
+                        color = "badge-light-success"
+                    }
+                    return `<span class="badge badge-pill ${color}">${strestado}</span>`
+                }
+            }, {
+                targets: [3],
+                render: function (data, type, row) {
+                    return `<button onclick="delCategoriaCDV('${row.codcategoria}')" class="btn btn-icon btn-circle btn-light-danger"><i class="bi bi-trash"></i></button>`
+                }
+            }],
+            order: [[0, 'asc']]
+        });
+
+        function search_cadenavalor(event){
+            tbcadenavalor.search(event.target.value).draw();
+        }
+
+        let filterSearchcadena = document.querySelector('[data-kt-filter="search-cadenavalor"]');
+        filterSearchcadena.addEventListener('keyup', search_cadenavalor);
+
+        tbcadenavalor = $("#tb-cadenavalor").DataTable({
+            search: true,
+            ajax: `${url}/catalogo/view/cadenavalor.vw_cadenavalor`,
+            columns: [
+                {data: "codcadenavalor"},
+                {data: "strcategoria"},
+                {data: "strcadenavalor"},
+                {data: "codcommcare"},
+                {data: "codestado"},
+                {data: null}
+            ],
+            columnDefs: [{
+                targets: [0],
+                render: function (data, type, row){
+                    return `<a href="/catalogo/general/cadenavalor/${data}">${data}</a>`
+                }
+            },{
+                targets: [4],
+                render: function(data, type, row){
+                    let strestado = "OCULTO"
+                    let color = "badge-light-danger"
+
+                    if (data) {
+                        strestado = "VISIBLE"
+                        color = "badge-light-success"
+                    }
+                    return `<span class="badge badge-pill ${color}">${strestado}</span>`
+                }
+            },{
+                targets: [5],
+                render: function(data, type, row){
+                    return `<button onclick="delCadenavalor('${row.codcadenavalor}')" class="btn btn-icon btn-circle btn-light-danger"><i class="bi bi-trash"></i></button>`
+                }
+            }], order: [[1, 'asc']]
+        });
+
+        function search_producto(event){
+            tbproducto.search(event.target.value).draw();
+        }
+
+        let filterSearchProducto = document.querySelector('[data-kt-filter="search-producto"]');
+        filterSearchProducto.addEventListener('keyup', search_producto);
+
+        tbproducto = $("#tb-producto").DataTable({
+           search: true,
+           ajax: `${url}/catalogo/view/cadenavalor.vw_producto`,
+            columns:[
+                {data: "codproducto"},
+                {data: "strcadenavalor"},
+                {data: "strproducto"},
+                {data: "codcommcare"},
+                {data: "codestado"},
+                {data: null}
+            ], columnDefs: [{
+               targets: [0],
+                render: function (data, type, row){
+                   return `<a href="/catalogo/general/producto/${data}">${data}</a>`
+                }
+            },{
+               targets: [4],
+                render: function (data, type, row){
+                    let strestado = "OCULTO"
+                    let color = "badge-light-danger"
+
+                    if (data) {
+                        strestado = "VISIBLE"
+                        color = "badge-light-success"
+                    }
+                    return `<span class="badge badge-pill ${color}">${strestado}</span>`
+                }
+            },{
+               targets: [5],
+                render: function(data, type, row){
+                    return `<button onclick="delProducto('${row.codproducto}')" class="btn btn-icon btn-circle btn-light-danger"><i class="bi bi-trash"></i></button>`
+                }
+            }]
+        });
+
+        $("#frm-categoriacdv").submit(function (e){
+            e.preventDefault()
+            nuevoBtnCdv.setAttribute('data-kt-indicator', 'on')
+            nuevoBtnCdv.disabled = true
+            $.ajax({
+                url: `${url}/catalogo/general/categoriacdv/0`,
+                type: 'post',
+                data: $("#frm-categoriacdv").serializeArray()
+            }).done(function (result) {
+                fnToast(result)
+                tbcategoriacdv.ajax.reload(null, false);
+                $("#kt_modal_categoriacdv").modal('hide')
+                $("#frm-categoriacdv").trigger("reset")
+            }).fail(fnToast).always(function () {
+                nuevoBtnCdv.removeAttribute('data-kt-indicator');
+                nuevoBtnCdv.disabled = false;
+            })
+        })
+
+        $("#frm-cadenavalor").submit(function(e){
+            e.preventDefault()
+            nuevoBtnCadenaValor.setAttribute('data-kt-indicator', 'on')
+            nuevoBtnCadenaValor.disabled = true
+            $.ajax({
+                url: `${url}/catalogo/general/cadenavalor/0`,
+                type: 'post',
+                data: $("#frm-cadenavalor").serializeArray()
+            }).done(function(result){
+                fnToast(result)
+                tbcadenavalor.ajax.reload(null, false)
+                $("#kt_modal_cadenavalor").modal('hide')
+                $("#frm-cadenavalor").trigger("reset")
+            }).fail(fnToast).always(function(){
+                nuevoBtnCadenaValor.removeAttribute('data-kt-indicator');
+                nuevoBtnCadenaValor.disabled = false;
+            })
+        })
+
+        $("#frm-producto").submit(function(e){
+            e.preventDefault();
+            nuevoBtnProducto.setAttribute('data-kt-indicator', 'on')
+            nuevoBtnProducto.disabled = true
+            $.ajax({
+                url: `${url}/catalogo/general/producto/0`,
+                type: 'post',
+                data: $("#frm-producto").serializeArray()
+            }).done(function(result){
+                fnToast(result)
+                tbproducto.ajax.reload(null, false)
+                $("#kt_modal_producto").modal("hide")
+                $("#frm-producto").trigger("reset")
+            }).fail(fnToast).always(function(){
+                nuevoBtnProducto.removeAttribute('data-kt-indicator')
+                nuevoBtnProducto.disabled = false;
+            })
+        })
+
+        selcodcategoriacv = $("#codcategoriacv").select2({
+            ajax: {
+                url: `${url}/catalogo/select2/cadenavalor.categoria/codcategoria/strcategoria`
+            },
+
+        })
+
+        selcodcadenavalor = $("#codcadenavalorp").select2({
+            ajax: {
+                url: `${url}/catalogo/select2/cadenavalor.vw_catycadenavalor/codcadenavalor/strcadenavalor`
+            }
+        })
+
+    })
+</script>
+<!--end::Page Custom Javascript-->
+<!--end::Javascript-->
+</body>
+</html>

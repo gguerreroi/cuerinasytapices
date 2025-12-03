@@ -1,0 +1,192 @@
+<div class="modal w-1/2 fade" tabindex="-1" id="kt_modal">
+    <div class="modal-dialog ">
+        <div class="modal-content w-md-800px">
+            <div class="modal-header">
+                <h5 class="modal-title">Organizaciones</h5>
+                <!--begin::Close-->
+                <div class="btn btn-icon btn-sm btn-active-light-primary ms-2" data-bs-dismiss="modal"
+                     aria-label="Close">
+                    <i class="bi bi-x fs-3x"></i>
+                </div>
+                <!--end::Close-->
+            </div>
+            <div class="modal-body">
+                <form action="" method="post" class="row g-3"
+                      name="form_organizacion" id="form_organizacion">
+                    <div class="col-sm-12">
+                        <div class="form-floating">
+                            <input type="text" readonly name="codorganizacion"
+                                   class="form-control" id="codorganizacion" value="0">
+                            <label for="codorganizacion" class="fw-bold">#</label>
+                        </div>
+                    </div>
+                    <div class="col-sm-12">
+                        <div class="form-floating">
+                            <input class="form-control text-uppercase"
+                                   id="strnombre"
+                                   name="strnombre">
+                            <label for="strnombre"><span class="required fw-bold">Nombre Organización</span></label>
+                        </div>
+                    </div>
+                    <div class="col-sm-12">
+                        <div class="form-floating">
+                            <input type="text" name="strsiglas"
+                                   id="strsiglas"
+                                   class="form-control">
+                            <label for="strsiglas" class="required fw-bold">Siglas</label>
+                        </div>
+                    </div>
+                    <div class="col-sm-12 col-md-6">
+                        <label class="input-group-text fw-bold" for="codsocio"><span class="required">Socio</span></label>
+                        <select class="form-control"
+                                name="codsocio"
+                                id="codsocio"
+                                data-placeholder="Socio"
+                                multiple
+                                required
+                                data-dropdown-parent="#kt_modal">
+                        </select>
+                    </div>
+                    <div class="col-sm-12 col-md-6">
+                        <label class="input-group-text fw-bold" for="codmunicipio"><span class="required">Municipio</span></label>
+                        <select class="form-select form-select-lg"
+                                name="codmunicipio"
+                                data-dropdown-parent="#kt_modal"
+                                data-placeholder="Municipio"
+                                required
+                                id="codmunicipio">
+                        </select>
+                    </div>
+                    <div class="col-sm-12">
+                        <label class="input-group-text fw-bold" for="codtipoorganizacion"><span class="required">Tipo de Organizacion</span></label>
+                        <select class="form-select form-select-lg"
+                                name="codtipoorganizacion"
+                                data-dropdown-parent="#kt_modal"
+                                data-placeholder="Tipo de Organizacion"
+                                required
+                                id="codtipoorganizacion">
+                        </select>
+                    </div>
+                    <div class="col-sm-12">
+                        <div class="form-floating">
+                            <input type="date" name="datfchingreso" id="datfchingreso"
+                            class="form-control">
+                            <label for="datfchingreso">Fecha de Ingreso</label>
+                        </div>
+                    </div>
+                    <div class="col-sm-12 col-md-12">
+                        <div class="form-check form-switch form-check-custom form-check-solid">
+                            <label for="flgregmiembrosocio" class="input-group-text">¿Registra miembros o socios?</label>
+                            <input type="checkbox" id="flgregmiembrosocio" name="flgregmiembrosocio"
+                                   class="form-check-input" value="1" onchange="toggleRegMiembroSocio(this)">
+                        </div>
+                    </div>
+                    <div class="col-sm-12 col-md-6" id="div_numsociom">
+                        <div class="form-floating">
+                            <input type="number" name="numsociom" id="numsociom"
+                            class="form-control" value="0">
+                            <label for="numsociom"># Socios Masculino</label>
+                        </div>
+                    </div>
+                    <div class="col-sm-12 col-md-6" id="div_numsociof">
+                        <div class="form-floating">
+                            <input type="number" name="numsociof" id="numsociof"
+                            class="form-control" value="0">
+                            <label for="numsociof"># Socios Femenino</label>
+                        </div>
+                    </div>
+                    <div class="col-sm-12">
+                        <div class="form-check form-switch form-check-custom form-check-solid">
+                            <label for="flgregempleados" class="input-group-text">¿Registra Empleados?</label>
+                            <input type="checkbox" id="flgregempleados" name="flgregempleados"
+                            class="form-check-input" value="1" onchange="toggleRegistraEmpleados(this)">
+                        </div>
+                    </div>
+                    <div class="col-sm-12 col-md-6" id="div_numempm">
+                        <div class="form-floating">
+                            <input type="number" name="numempm" id="numempm"
+                            class="form-control" value="0">
+                            <label for="numempm"># Empleados Masculino</label>
+                        </div>
+                    </div>
+                    <div class="col-sm-12 col-md-6" id="div_numempf">
+                        <div class="form-floating">
+                            <input type="number" name="numempf" id="numempf"
+                            class="form-control" value="0">
+                            <label for="numempf"># Empleados Femenino</label>
+                        </div>
+                    </div>
+                    <div class="col-sm-12">
+                        <div class="form-check form-switch form-check-custom form-check-solid">
+                            <label for="flgregareaimp" class="input-group-text" >¿Registra Area Impactada?</label>
+                            <input type="checkbox" id="flgregareaimp" name="flgregareaimp"
+                                   class="form-check-input" value="1" onchange="toggleRegistraAreaImpactada(this)" >
+                        </div>
+                    </div>
+                    <div class="col-sm-12 col-md-6" id="div_numareatotalhec">
+                        <div class="form-floating">
+                            <input type="number" name="numareatotalhec" id="numareatotalhec"
+                                   class="form-control" step="0.01" value="0">
+                            <label for="numareatotalhec">Area total (Hectareas)</label>
+                        </div>
+                    </div>
+                    <div class="col-sm-12 col-md-6" id="div_numareaimphec">
+                        <div class="form-floating">
+                            <input type="number" name="numareaimphec" id="numareaimphec"
+                                   class="form-control" step="0.01" value="0">
+                            <label for="numareaimphec">Area Impactada (Hectareas)</label>
+                        </div>
+                    </div>
+                    <div class="col-sm-12">
+                        <div class="form-check form-switch form-check-custom form-check-solid">
+                            <label for="flgnormara" class="input-group-text">¿Esta Certificada? (Norma RA)</label>
+                            <input type="checkbox" id="flgnormara" name="flgnormara"
+                                   class="form-check-input" value="1" onchange="toggleCertificadaRa(this)">
+                        </div>
+                    </div>
+                    <div class="col-sm-12 col-md-4" id="div_numareacerthec">
+                        <div class="form-floating">
+                            <input type="number" name="numareacerthec" id="numareacerthec"
+                                   class="form-control" step="0.01" value="0">
+                            <label for="numareacerthec">Area Certificada (Hectareas)</label>
+                        </div>
+                    </div>
+                    <div class="col-sm-12 col-md-4" id="div_numareaprodhec">
+                        <div class="form-floating">
+                            <input type="number" name="numareaprodhec" id="numareaprodhec"
+                                   class="form-control" step="0.01" value="0">
+                            <label for="numareaprodhec">Area Producción (Hectareas)</label>
+                        </div>
+                    </div>
+                    <div class="col-sm-12 col-md-4" id="div_numareaprothec">
+                        <div class="form-floating">
+                            <input type="number" name="numareaprothec" id="numareaprothec"
+                                   class="form-control" step="0.01" value="0">
+                            <label for="numareaprothec">Area Protegida (Hectareas)</label>
+                        </div>
+                    </div>
+                    <div class="col-sm-12 col-md-12">
+                        <div class="form-check form-switch form-check-custom form-check-solid">
+                            <label class="input-group-text" for="codestado">Estado</label>
+                            <input type="checkbox" id="codestado" name="codestado"
+                                   class="form-check-input" value="1" checked="checked">
+                        </div>
+                    </div>
+                    <div class="col-sm-12">
+                        <button type="submit"
+                                class="btn btn-primary col-sm-12 w-full">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                 class="bi bi-save" viewBox="0 0 16 16">
+                                <path d="M2 1a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H9.5a1 1 0 0 0-1 1v7.293l2.646-2.647a.5.5 0 0 1 .708.708l-3.5 3.5a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L7.5 9.293V2a2 2 0 0 1 2-2H14a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h2.5a.5.5 0 0 1 0 1z"/>
+                            </svg>
+                            Guardar Organizacion
+                        </button>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-light" data-bs-dismiss="modal">Cancelar</button>
+            </div>
+        </div>
+    </div>
+</div>

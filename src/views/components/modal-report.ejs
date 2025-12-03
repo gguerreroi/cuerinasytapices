@@ -1,0 +1,203 @@
+<div class="modal fade" tabindex="-1" id="kt_modal_report">
+    <div class="modal-dialog">
+        <div class="modal-content shadow-none">
+            <div class="modal-header">
+                <h5 class="modal-title">Descarga de Datos</h5>
+                <!--begin::Close-->
+                <div class="btn btn-icon btn-sm btn-active-light-primary ms-2" data-bs-dismiss="modal"
+                     aria-label="Close">
+                    <i class="bi bi-x fs-3x"></i>
+                </div>
+                <!--end::Close-->
+            </div>
+            <div class="modal-body">
+                <form action="<%- %>" method="post" class="row g-3"
+                      name="frm_modal_report" id="frm_modal_report">
+                    <% if (UserInfo.codrole == 1 || UserInfo.codrole == 1004) { %>
+                        <div class="col-sm-12">
+                            <label for="rep_codsocio" class="input-group-text">Socio</label>
+                            <select class="form-control form-control-lg form-select-lg form-select "
+                                    data-dropdown-parent="#kt_modal_report" multiple
+                                    name="codsocio" id="rep_codsocio">
+                            </select>
+                        </div>
+                        <script>
+							document.addEventListener("DOMContentLoaded", function() {
+
+								$('#rep_codsocio').select2({
+									placeholder: "Seleccione un socio",
+									allowClear: true,
+									ajax: {
+										url: '/api/catalogo/select2/poa.socio/codsocio/strsocio',
+										type: 'get',
+										dataType: 'json',
+										data: function (params) {
+											return {
+												term: params.term,
+												page: params.page || 10
+											};
+										},
+									},
+									templateResult: formatRepo,
+									templateSelection: formatRepoSelection
+								});
+
+								function formatRepo(repo) {
+									if (repo.loading)
+										return repo.text;
+
+									return $(
+										"<div class='select2-result-repository clearfix'>" +
+										"<div class='select2-result-repository__meta'>" +
+										`<div class='select2-result-repository__title'>${repo.text}</div>` +
+										"</div>" +
+										"</div>"
+									);
+								}
+
+								function formatRepoSelection(repo) {
+									return repo.text;
+								}
+							});
+                        </script>
+                    <% } %>
+
+                    <div class="col-sm-12">
+                        <label for="rep_trimestre" class="input-group-text"><span class="required">Trimestre / Año</span></label>
+                        <select class="form-control form-select" multiple
+                                id="rep_trimestre"
+                                name="Trimestre_year_usaid">
+                        </select>
+                    </div>
+                    <div class="col-sm-12">
+                        <label for="rep_proyecto" class="input-group-text"><span class="required">Proyecto</span></label>
+                        <select class="form-control" multiple
+                                id="rep_proyecto"
+                                name="Proyecto">
+                        </select>
+                    </div>
+
+                    <div class="col-sm-12">
+                        <button type="submit"
+                                class="btn btn-primary col-sm-12 w-full" id="kt_nuevo_cv">
+                            <span class="indicator-label">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-down-circle" viewBox="0 0 16 16">
+                                  <path fill-rule="evenodd" d="M1 8a7 7 0 1 0 14 0A7 7 0 0 0 1 8m15 0A8 8 0 1 1 0 8a8 8 0 0 1 16 0M8.5 4.5a.5.5 0 0 0-1 0v5.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293z"/>
+                                </svg>
+                            </span>
+                            <span class="indicator-progress">
+                                Por favor espere...
+                                <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
+                            </span>
+                        </button>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-light" data-bs-dismiss="modal">Cancelar</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+	function bindSelectStatic(
+		table_name,
+		column_id,
+		column_value,
+		object_id,
+		parent_id,
+		split = false
+	){
+
+		$.ajax({
+			url: `${url}/catalogo/select2/${table_name}/${column_id}/${column_value}`,
+			type: 'get'
+		}).done(function(result){
+			$(`#${object_id}`).select2({
+				data: result.results,
+				dropdownParent: parent_id,
+				placeholder: "Seleccione una opción",
+				templateResult: function(state){
+					if (!state.id)
+						return state.text
+
+					if (split){
+						const [a, b] = state.text.split('|')
+						let template = '<div>'
+						template += `<p class="badge badge-dark">${b}</p>`
+						template += `<p class="fs-6 fw-bold">${a}</p>`
+						template += '</div>'
+						return $(template)
+					}
+
+					return state.text
+				}
+			})
+		})
+	}
+
+	function OpenModalReport(url){
+		$("#frm_modal_report").trigger('reset')
+		$("#rep_codsocio").val(null).trigger('change')
+		$("#rep_trimestre").val(null).trigger('change')
+		$("#rep_proyecto").val(null).trigger('change')
+		$("#frm_modal_report").attr('action', url)
+		$("#kt_modal_report").modal('show')
+	}
+
+	document.addEventListener("DOMContentLoaded", function() {
+
+		$("#frm_modal_report").submit(function(e){
+			e.preventDefault()
+			console.log('serial',$(this).serialize())
+			window.location.href= $(this).attr('action') + '&' + $(this).serialize()
+		})
+
+		$("#rep_trimestre").select2({
+			placeholder: "Seleccione un trimestre",
+			allowClear: true,
+			ajax: {
+				url: '/api/catalogo/select2/proyecto.vw_trimestre/quarter_usaid/quarter_usaid',
+				type: 'get',
+				dataType: 'json',
+				data: function (params) {
+					return {
+						term: params.term,
+						page: params.page || 10
+					};
+				},
+			},
+			templateResult: function(state){
+				if (!state.id)
+					return state.text
+
+				const [a, b] = state.text.split(' ')
+				let template = '<div>'
+				template += `<p class="fs-6 fw-bold">${a}</p>`
+				template += '</div>'
+				return $(template)
+
+			},
+			templateSelection: function(state){
+				if (!state.id)
+					return state.text
+
+				const [a, b] = state.text.split(' ')
+				let template = '<div>'
+				template += `<p class="fs-6 fw-bold">${a}</p>`
+				template += '</div>'
+				return $(template)
+			}
+		})
+
+		bindSelectStatic(
+			'proyecto.vw_proyectos',
+			'strproyecto',
+			'strproyecto',
+			'rep_proyecto',
+			'#kt_modal_report',
+			false
+		)
+
+	})
+</script>

@@ -1,0 +1,442 @@
+<%
+
+ %>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <%- include('../components/web-header') %>
+    <style>
+        tr{
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body id="kt_body"
+      class="header-fixed header-tablet-and-mobile-fixed toolbar-enabled toolbar-fixed toolbar-tablet-and-mobile-fixed aside-enabled aside-fixed"
+      style="--kt-toolbar-height:55px;--kt-toolbar-height-tablet-and-mobile:55px">
+<!--begin::Main-->
+<!--begin::Root-->
+<div class="d-flex flex-column flex-root">
+    <!--begin::Page-->
+    <div class="page d-flex flex-row flex-column-fluid">
+        <%- include('../components/left-aside.ejs') %>
+        <!--begin::Wrapper-->
+        <div class="wrapper d-flex flex-column flex-row-fluid" id="kt_wrapper">
+            <%- include('../components/kt-header.ejs') %>
+            <!--begin::Content-->
+            <div class="content d-flex flex-column flex-column-fluid" id="kt_content">
+                <div class="d-flex flex-column-fluid">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="card card-bordered shadow-sm  ">
+                                    <div class="card-header">
+                                        <div class="card-title"><h3 class="card-label">Organizaciones</h3></div>
+                                        <div class="card-toolbar">
+                                            <button class="col-sm-1 btn btn-primary btn-icon btn-circle btn-pulse btn-hover-scale"
+                                                  onclick="modalOrganizacion('0')"
+                                                    type="button">
+                                                <i class="bi bi-plus fs-2hx"></i>
+                                            </button>
+                                            <%
+                                                let filtrep = UserInfo.codrole == 1 ? '' : `?codsocio=${UserInfo.codsocio}`
+                                            %>
+                                            <div class="btn-group">
+                                                <button type="button" class="btn btn-success dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                                                    <i class="bi bi-file-earmark-excel fs-2"></i>
+                                                    Export
+                                                </button>
+                                                <ul class="dropdown-menu">
+                                                    <li><button type="button" class="dropdown-item" onclick="window.location.href='/excel/organizacion.vw_rep_organizacionescore<%- filtrep %>'">Encabezado</button></li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="d-flex align-items-center position-relative mb-2">
+                                            <span class="svg-icon svg-icon-1 position-absolute ms-4">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                                     viewBox="0 0 24 24" fill="none">
+                                                    <rect opacity="0.5" x="17.0365" y="15.1223" width="8.15546"
+                                                          height="2" rx="1" transform="rotate(45 17.0365 15.1223)"
+                                                          fill="currentColor"></rect>
+                                                    <path d="M11 19C6.55556 19 3 15.4444 3 11C3 6.55556 6.55556 3 11 3C15.4444 3 19 6.55556 19 11C19 15.4444 15.4444 19 11 19ZM11 5C7.53333 5 5 7.53333 5 11C5 14.4667 7.53333 17 11 17C14.4667 17 17 14.4667 17 11C17 7.53333 14.4667 5 11 5Z"
+                                                          fill="currentColor"></path>
+                                                </svg>
+                                            </span>
+                                            <input type="text" data-kt-filter="search" name="search"
+                                                   class="form-control form-control-solid w-100 ps-14 text-uppercase"
+                                                   placeholder="Buscar..."/>
+                                        </div>
+                                        <table class="table table-row-bordered table-borderless table-hover" id="tb-table">
+                                            <thead class="fw-bolder fs-6 text-uppercase">
+                                            <tr class="bg-gray-200">
+                                                <th>#</th>
+                                                <th>Organización</th>
+                                                <th>Socio</th>
+                                                <th>Municipio</th>
+                                                <th>Personas</th>
+                                                <th>Estado</th>
+                                                <th data-orderable="false"></th>
+                                            </tr>
+                                            </thead>
+                                            <tbody></tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <!--end::Content-->
+            <%- include('../components/bottom-footer.ejs', {ip: ip}) %>
+        </div>
+        <!--end::Wrapper-->
+    </div>
+    <!--end::Page-->
+    <!-- begin::modals -->
+    <%- include('modal-organizaciones.ejs') %>
+    <!-- end::modals -->
+</div>
+<!--end::Root-->
+
+
+<%- include('../components/kt-scrolltop.ejs') %>
+<!--end::Main-->
+<%- include('../components/web-footer.ejs') %>
+<!--begin::Page Custom Javascript(used by this page)-->
+<script src="assets/js/custom/widgets.js"></script>
+<script>
+    const url = `${window.location.origin}/api`;
+	const codSocio = '<%-  UserInfo.codsocio %>'
+	const codRole = '<%- UserInfo.codrole %>'
+	const codPais = '<%-  UserInfo.codpais %>'
+
+    let table;
+    let codcomunidadlinguistica;
+    let data_codmunicipio;
+    let data_tipoorganizacion;
+    let data_codsocios;
+
+    let mdlOrganizacion = $("#kt_modal")
+    let numsociom = $("#div_numsociom")
+    let numsociof = $("#div_numsociof")
+    let numempm = $("#div_numempm")
+    let numempf = $("#div_numempf")
+    let numareatotalhec = $("#div_numareatotalhec")
+    let numareaimphec = $("#div_numareaimphec")
+    let numareacerthec = $("#div_numareacerthec")
+    let numareaprodhec = $("#div_numareaprodhec")
+    let numareaprothec = $("#div_numareaprothec")
+
+    sToast = Swal.mixin({
+        toast: true,
+        position: "top-end",
+        showConfirmButton: false,
+        timer: 3000,
+        timerProgressBar: true,
+        didOpen: (toast) => {
+            toast.onmouseenter = Swal.stopTimer;
+            toast.onmouseleave = Swal.resumeTimer;
+        }
+    })
+    function fnToast(res) {
+        const {code, message} = res
+
+        if (code == undefined) {
+            console.error(res)
+            throw 'Formato invalido'
+        }
+        sToast.fire({
+            icon: code == 'true' ? 'success' : 'error',
+            title: message
+        })
+    }
+
+    function onStart(){
+        numsociom.hide()
+        numsociof.hide()
+        numempm.hide()
+        numempf.hide()
+        numareatotalhec.hide()
+        numareaimphec.hide()
+        numareacerthec.hide()
+        numareaprodhec.hide()
+        numareaprothec.hide()
+    }
+
+    function toggleRegMiembroSocio(obj){
+        if (obj.checked){
+            numsociom.show()
+            numsociof.show()
+        }else{
+            numsociom.hide()
+            numsociof.hide()
+        }
+    }
+
+    function toggleRegistraEmpleados(obj){
+        if (obj.checked){
+            numempm.show();
+            numempf.show();
+        }else{
+            numempm.hide();
+            numempf.hide();
+        }
+    }
+
+    function toggleRegistraAreaImpactada(obj){
+        if (obj.checked){
+            numareatotalhec.show();
+            numareaimphec.show();
+        }else{
+            numareatotalhec.hide();
+            numareaimphec.hide();
+        }
+    }
+
+    function toggleCertificadaRa(obj){
+        if (obj.checked){
+            numareacerthec.show()
+            numareaprodhec.show()
+            numareaprothec.show()
+        } else {
+            numareacerthec.hide()
+            numareaprodhec.hide()
+            numareaprothec.hide()
+        }
+    }
+
+    $.ajax({
+        url: `${url}/catalogo/select2/geografica.vw_deptmun/codmunicipio/strmunicipio`,
+        type: 'get'
+    }).done(function(result){
+        data_codmunicipio = result.results;
+        $("#codmunicipio").select2({
+            data: data_codmunicipio
+        })
+    })
+    $.ajax({
+        url: `${url}/catalogo/select2/organizacion.tipo/codtipoorganizacion/strtipoorganizacion`,
+        type: 'get'
+    }).done(function(result){
+        data_tipoorganizacion = result.results;
+        $("#codtipoorganizacion").select2({
+            data: data_tipoorganizacion
+        })
+    })
+    $.ajax({
+        url: `${url}/catalogo/select2/poa.socio/codsocio/strsocio`,
+        type: 'get'
+    }).done(function(result){
+        data_codsocios = result.results;
+        $("#codsocio").select2({
+            data: data_codsocios
+        })
+    })
+
+    $("#form_organizacion").submit(function(e){
+        e.preventDefault();
+        let metodo = "post"
+        let id = document.getElementById('codorganizacion').value
+
+        if (id != 0)
+            metodo = "put"
+
+        $.ajax({
+            url: `${url}/mye/capacitaciones/organizaciones/${id}`,
+            type: `${metodo}`,
+            data: $("#form_organizacion").serializeArray()
+        }).done(function(result){
+            $("#kt_modal").modal('hide')
+            table.ajax.reload(null, false)
+            fnToast(result)
+        })
+    })
+
+    function delBase(message, path){
+        Swal.fire({
+            text: message,
+            showCancelButton: true,
+            icon: "warning",
+            buttonsStyling: false,
+            confirmButtonText: "Eliminar",
+            cancelButtonText: "Cancelar",
+            customClass: {
+                confirmButton: "order-2 btn btn-danger",
+                cancelButton: "order-1 btn btn-light"
+            }
+        }).then(function (action) {
+            if (action.isConfirmed) {
+                $.ajax({
+                    url: `${url}/catalogo/${path}`,
+                    type: 'delete'
+                }).done(function (request) {
+                    sToast.fire({
+                        icon: "success",
+                        title: "Registro Eliminado"
+                    })
+                    table.ajax.reload(null, false);
+                }).fail(function (reason) {
+                    console.log(reason)
+                    sToast.fire({
+                        icon: "error",
+                        title: "Se produjo un error"
+                    })
+                })
+            }
+        })
+    }
+
+    function delOrganizacion(id) {
+        delBase('¿Esta seguro que desea eliminar la organización?',`organizacion.core/codorganizacion/${id}`)
+    }
+
+    function modalOrganizacion(id){
+        if (id == '0'){
+            $("#form_organizacion").trigger("reset")
+            $("#codorganizacion").val("0")
+            $("#codsocio").val("").trigger("change")
+            $("#codmunicipio").val("").trigger("change")
+            $("#codtipoorganizacion").val("").trigger("change")
+
+            mdlOrganizacion.modal('show');
+        } else {
+            $("#codorganizacion").val(id)
+
+            const org = $.ajax({
+                url: `${url}/catalogo/view/organizacion.core/codorganizacion/${id}`,
+                type: 'get'
+            })
+            const soc = $.ajax({
+                url: `${url}/catalogo/view/organizacion.rel_organizacion_socio/codorganizacion/${id}`,
+                type: 'get'
+            })
+
+            Promise.all([org, soc]).then(function(result){
+                let organizacion = result[0].data[0];
+                let socio = result[1].data;
+                let codsociorc = socio.map(function(value, index, arr){
+                    return value.codsocio
+                })
+                $("#codsocio").val(codsociorc).trigger("change");
+                $("#codorganizacion")
+                $("#codestado").prop("checked", organizacion.codestado)
+                $("#codmunicipio").val(organizacion.codmunicipio).trigger('change')
+                $("#codtipoorganizacion").val(organizacion.codtipoorganizacion).trigger('change')
+                $("#datfchingreso").val(organizacion.datfchingreso)
+                $("#flgnormara").prop("checked", organizacion.flgnormara).trigger('change')
+                $("#flgregareaimp").prop("checked", organizacion.flgregareaimp).trigger('change')
+                $("#flgregempleados").prop("checked", organizacion.flgregempleados).trigger('change')
+                $("#flgregmiembrosocio").prop("checked", organizacion.flgregmiembrosocio).trigger('change')
+                $("#numareacerthec").val(organizacion.numareacerthec)
+                $("#numareaimphec").val(organizacion.numareaimphec)
+                $("#numareaprodhec").val(organizacion.numareaprodhec)
+                $("#numareaprothec").val(organizacion.numareaprothec)
+                $("#numareatotalhec").val(organizacion.numareatotalhec)
+                $("#numempf").val(organizacion.numempf)
+                $("#numempm").val(organizacion.numempm)
+                $("#numsociof").val(organizacion.numsociof)
+                $("#numsociom").val(organizacion.numsociom)
+                $("#strnombre").val(organizacion.strnombre)
+                $("#strsiglas").val(organizacion.strsiglas)
+
+                mdlOrganizacion.modal('show')
+            })
+
+        }
+    }
+
+    document.addEventListener("DOMContentLoaded", function () {
+
+        onStart()
+
+        table = $('#tb-table').DataTable({
+            search: true,
+            ajax: `${url}/catalogo/view/organizacion.vw_core`,
+            columns: [
+                {data: "codorganizacion"},
+                {data: "strnombre"},
+                {data: "strsocio"},
+                {data: "strmunicipio"},
+                {data: "nummasculino"},
+                {data: "codestado"},
+                {data: null}
+            ],
+            columnDefs: [
+                {
+                    targets: [0],
+                    render: function(data, type, row){
+						return `<p class="text-center">${data}</p>`
+                    }
+
+                    /*render: function(data,type, row){
+                        return `<button class="btn btn-icon btn-circle btn-light-primary btn-hover-rotate-start " onclick="modalOrganizacion('${row.codorganizacion}')">${data}</button>`
+                    }*/
+                }, {
+				    targets: [4],
+                    render: function(data, type, row){
+						let por_mas = ( (row.nummasculino / row.miemtotal) * 100 ) / 1
+                        let por_fem = ( (row.numfemenino / row.miemtotal) * 100 ) / 1
+                        console.log('por_mas', por_mas, 'por_fem', por_fem)
+
+						return ` <div class="progress w-100" style="height: 30px;">
+                    <!-- Hombres -->
+                    <div class="progress-bar bg-primary d-flex align-items-center justify-content-center" role="progressbar" style="width: ${por_mas}%;" aria-valuenow="${por_mas}" aria-valuemin="0" aria-valuemax="100">
+                        <i class="bi bi-gender-male me-1 text-active-inverse-primary"></i> ${row.nummasculino}
+                    </div>
+                    <!-- Mujeres -->
+                    <div class="progress-bar bg-danger d-flex align-items-center justify-content-center" role="progressbar" style="width: ${por_fem}%;" aria-valuenow="${por_fem}" aria-valuemin="0" aria-valuemax="100">
+                        <i class="bi bi-gender-female me-1"></i> ${row.numfemenino}
+                    </div>
+                </div>
+                <!-- Total Miembros -->
+                <div class="mt-1 text-end text-muted">
+                    Total: <strong>${row.miemtotal}</strong>
+                </div> `
+                    }
+                }, {
+                    targets: [5],
+                    render: function(data,type,row){
+                        let strestado = "OCULTO"
+                        let color= "danger";
+                        if (data){
+                            strestado = "VISIBLE";
+                            color ="success";
+                        }
+
+                        return `<span class="badge badge-${color}">${strestado}</span>`
+                    }
+                }, {
+                    targets: [6],
+                    render: function(data, type, row){
+						if (codRole == 1)
+                            return `<button class="btn btn-icon btn-circle btn-light-danger btn-hover-rotate-start " onclick="delOrganizacion('${row.codorganizacion}')"><i class="bi bi-trash"></i></button>`
+                        return ''
+                    }
+                }
+            ],
+            order: [
+				[0, 'desc']
+            ]
+        })
+
+		let filterSearch = document.querySelector('[data-kt-filter="search"]')
+		filterSearch.addEventListener('keyup', function(event){
+			table.search(event.target.value).draw();
+		});
+        $("#tb-table tbody").on('click', 'tr', function() {
+            var data = table.row( this ).data();
+			modalOrganizacion(`${data.codorganizacion}`)
+        })
+        $("#tb-table tbody").on('click', 'button', function(event){
+			event.stopPropagation()
+        })
+    })
+</script>
+<!--end::Page Custom Javascript-->
+<!--end::Javascript-->
+</body>
+</html>

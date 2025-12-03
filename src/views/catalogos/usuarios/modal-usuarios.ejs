@@ -1,0 +1,89 @@
+<!-- Modal para agregar usuario -->
+<div class="modal fade" id="kt_modal_usuario" tabindex="-1" aria-labelledby="modalAgregarUsuarioLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalAgregarUsuarioLabel">Agregar Usuario</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="formAgregarUsuario">
+                        <input type="hidden" name="codusuario" id="codusuario" value="0">
+                    <div class="mb-3">
+                        <label for="strnombre" class="form-label">Nombre</label>
+                        <input type="text" class="form-control" id="strnombre" name="strnombre" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="strapellido" class="form-label">Apellido</label>
+                        <input type="text" class="form-control" id="strapellido" name="strapellido" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="strusuario" class="form-label">Usuario</label>
+                        <input type="text" class="form-control" id="strusuario" name="strusuario" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="flgpassword" class="form-label">Cambiar Contraseña</label>
+                        <input type="checkbox" class="form-check-input" id="flgpassword" name="flgpassword">
+                    </div>
+                    <div class="mb-3">
+                        <label for="strpassword" class="form-label">Contraseña</label>
+                        <input type="password" class="form-control" id="strpassword" name="strpassword" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="codrole" class="form-label">Rol</label>
+                        <select class="form-select" id="codrole" name="codrole" required></select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="codsocio" class="form-label">Socio</label>
+                        <select class="form-select" id="codsocio" name="codsocio"></select>
+                    </div>
+                    <button type="submit" class="btn btn-primary" id="kt_save">Guardar</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+	function bindSelectStatic(
+		table_name,
+		column_id,
+		column_value,
+		object_id,
+		parent_id,
+		split = false
+	){
+
+		$.ajax({
+			url: `${url}/catalogo/select2/${table_name}/${column_id}/${column_value}`,
+			type: 'get'
+		}).done(function(result){
+			$(`#${object_id}`).select2({
+				data: result.results,
+				dropdownParent: parent_id,
+				placeholder: "Seleccione una opción",
+				templateResult: function(state){
+					if (!state.id)
+						return state.text
+
+					if (split){
+						const [a, b] = state.text.split('|')
+						let template = '<div>'
+						template += `<p class="badge badge-dark">${b}</p>`
+						template += `<p class="fs-6 fw-bold">${a}</p>`
+						template += '</div>'
+						return $(template)
+					}
+
+					return state.text
+				}
+			})
+		})
+	}
+
+	document.addEventListener("DOMContentLoaded", function() {
+		bindSelectStatic("usuarios.roles", "codrole", "strrole","codrole", "#kt_modal_usuario")
+		bindSelectStatic("poa.vw_socio_enable", "codsocio", "strsocio","codsocio", "#kt_modal_usuario")
+    })
+
+
+</script>

@@ -1,0 +1,517 @@
+<%
+
+  %>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <%- include('../components/web-header') %>
+    <style>
+        tr{
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body id="kt_body"
+      class="header-fixed header-tablet-and-mobile-fixed toolbar-enabled toolbar-fixed toolbar-tablet-and-mobile-fixed aside-enabled aside-fixed"
+      style="--kt-toolbar-height:55px;--kt-toolbar-height-tablet-and-mobile:55px">
+<!--begin::Main-->
+<!--begin::Root-->
+<div class="d-flex flex-column flex-root">
+    <!--begin::Page-->
+    <div class="page d-flex flex-row flex-column-fluid">
+        <%- include('../components/left-aside.ejs') %>
+        <!--begin::Wrapper-->
+        <div class="wrapper d-flex flex-column flex-row-fluid" id="kt_wrapper">
+            <%- include('../components/kt-header.ejs') %>
+            <!--begin::Content-->
+            <div class="content d-flex flex-column flex-column-fluid" id="kt_content">
+                <div class="d-flex flex-column-fluid">
+                    <div class="container">
+                        <div class="row g-4">
+                            <div class="col-12">
+                                <div class="card gutter-b">
+                                    <div class="card-header">
+                                        <div class="card-title"><h3 class="card-label">Tipos de Cambio</h3></div>
+                                        <div class="card-toolbar">
+                                            <button class="col-sm-1 btn btn-primary btn-icon btn-circle btn-pulse btn-hover-scale"
+                                                    onclick="modalTipoCambio(0)"
+                                                    type="button">
+                                                <i class="bi bi-plus fs-2hx"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="d-flex align-items-center position-relative mb-6">
+                                            <span class="svg-icon svg-icon-1 position-absolute ms-4">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                                     viewBox="0 0 24 24" fill="none">
+                                                    <rect opacity="0.5" x="17.0365" y="15.1223" width="8.15546"
+                                                          height="2" rx="1" transform="rotate(45 17.0365 15.1223)"
+                                                          fill="currentColor"></rect>
+                                                    <path d="M11 19C6.55556 19 3 15.4444 3 11C3 6.55556 6.55556 3 11 3C15.4444 3 19 6.55556 19 11C19 15.4444 15.4444 19 11 19ZM11 5C7.53333 5 5 7.53333 5 11C5 14.4667 7.53333 17 11 17C14.4667 17 17 14.4667 17 11C17 7.53333 14.4667 5 11 5Z"
+                                                          fill="currentColor"></path>
+                                                </svg>
+                                            </span>
+                                            <input type="text" data-kt-filter="search-tipocambio" name="search-tipocambio"
+                                                   class="form-control form-control-solid w-100 ps-14 text-uppercase"
+                                                   placeholder="Buscar..."/>
+                                        </div>
+                                        <div class="table-responsive">
+                                            <table class="table table-row-dashed table-hover" id="tb-tipocambio">
+                                                <thead class="fw-bolder text-uppercase">
+                                                <tr>
+                                                    <th>id</th>
+                                                    <th>Fecha</th>
+                                                    <th>Proyecto</th>
+                                                    <th>Trimestre</th>
+                                                    <th>Moneda<br>Origen</th>
+                                                    <th>Moneda<br>Destino</th>
+                                                    <th>Tasa</th>
+                                                    <th></th>
+                                                </tr>
+                                                </thead>
+                                                <tbody></tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <div class="card gutter-b">
+                                    <div class="card-header">
+                                        <div class="card-title"><h3 class="card-label">Trimestres</h3></div>
+                                        <div class="card-toolbar">
+                                            <button class="col-sm-1 btn btn-primary btn-icon btn-circle btn-pulse btn-hover-scale"
+                                                    onclick="modalTrimestre('0')"
+                                                    type="button">
+                                                <i class="bi bi-plus fs-2hx"></i>
+                                            </button>
+                                            <button onclick="window.location.href='/excel/proyecto.vw_trimestre'"
+                                                    class="btn btn-success"
+                                                    type="button">
+                                                Export
+                                            </button>
+
+                                        </div>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="d-flex align-items-center position-relative mb-6">
+                                            <span class="svg-icon svg-icon-1 position-absolute ms-4">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                                     viewBox="0 0 24 24" fill="none">
+                                                    <rect opacity="0.5" x="17.0365" y="15.1223" width="8.15546"
+                                                          height="2" rx="1" transform="rotate(45 17.0365 15.1223)"
+                                                          fill="currentColor"></rect>
+                                                    <path d="M11 19C6.55556 19 3 15.4444 3 11C3 6.55556 6.55556 3 11 3C15.4444 3 19 6.55556 19 11C19 15.4444 15.4444 19 11 19ZM11 5C7.53333 5 5 7.53333 5 11C5 14.4667 7.53333 17 11 17C14.4667 17 17 14.4667 17 11C17 7.53333 14.4667 5 11 5Z"
+                                                          fill="currentColor"></path>
+                                                </svg>
+                                            </span>
+                                            <input type="text" data-kt-filter="search-trimestre" name="search-trimestre"
+                                                   class="form-control form-control-solid w-100 ps-14 text-uppercase"
+                                                   placeholder="Buscar..."/>
+                                        </div>
+                                        <table class="table table-row-dashed table-hover" id="tb-trimestre">
+                                            <thead class="fw-bolder text-uppercase">
+                                            <tr>
+                                                <th>#</th>
+                                                <th>Proyecto</th>
+                                                <th>Socio</th>
+                                                <th>Trimestre</th>
+                                                <th>Estado</th>
+                                                <th width="180px"> </th>
+                                            </tr>
+                                            </thead>
+                                            <tbody></tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <!--end::Content-->
+            <%- include('../components/bottom-footer.ejs', {ip: ip}) %>
+        </div>
+        <!--end::Wrapper-->
+    </div>
+    <!--end::Page-->
+    <!-- begin::modals -->
+    <%- include('modal-tipocambio.ejs') %>
+    <%- include('modal-trimestre.ejs') %>
+    <!-- end::modals -->
+</div>
+<!--end::Root-->
+
+
+<%- include('../components/kt-scrolltop.ejs') %>
+<!--end::Main-->
+<%- include('../components/web-footer.ejs') %>
+<!--begin::Page Custom Javascript(used by this page)-->
+<script src="assets/js/custom/widgets.js"></script>
+<script>
+	const url = `${window.location.origin}/api`;
+	const codSocio = '<%-  UserInfo.codsocio %>'
+	const codRole = '<%- UserInfo.codrole %>'
+	const codPais = '<%- UserInfo.codpais %>'
+
+	/* :::BEGIN::: */
+	let sToast = Swal.mixin({
+		toast: true,
+		position: "top-end",
+		showConfirmButton: false,
+		timer: 3000,
+		timerProgressBar: true,
+		didOpen: (toast) => {
+			toast.onmouseenter = Swal.stopTimer;
+			toast.onmouseleave = Swal.resumeTimer;
+		}
+	})
+
+	function fnToast(res) {
+		const {code, message} = res
+
+		if (code == undefined) {
+			console.error(res)
+			throw 'Formato invalido'
+		}
+		sToast.fire({
+			icon: code == 'true'|| code == true ? 'success' : 'error',
+			title: message
+		})
+	}
+
+	function delBase(message, path) {
+		Swal.fire({
+			text: message,
+			showCancelButton: true,
+			icon: "warning",
+			buttonsStyling: false,
+			confirmButtonText: "Eliminar",
+			cancelButtonText: "Cancelar",
+			customClass: {
+				confirmButton: "order-2 btn btn-danger",
+				cancelButton: "order-1 btn btn-light"
+			}
+		}).then(function (action) {
+			if (action.isConfirmed) {
+				$.ajax({
+					url: `${url}/catalogo/${path}`,
+					type: 'delete'
+				}).done(function (request) {
+					sToast.fire({
+						icon: "success",
+						title: "Registro Eliminado"
+					})
+					table.ajax.reload(null, false);
+				}).fail(function (reason) {
+					console.log(reason)
+					sToast.fire({
+						icon: "error",
+						title: "Se produjo un error"
+					})
+				})
+			}
+		})
+	}
+
+	function upBase(message, icon, path, data) {
+		Swal.fire({
+			text: message,
+			showCancelButton: true,
+			icon: icon,
+			buttonsStyling: false,
+			confirmButtonText: "Procesar"
+		})
+	}
+	/* :::END::: */
+    var mdl_tipocambio = $("#kt_mdl_tipocambio")
+    var mdl_trimestre = $("#kt_mdl_trimestre")
+    var codmoneda_local = $("#codmoneda_local")
+    var codmoneda_destino = $("#codmoneda_destino")
+    var codproyecto = $("#codproyecto")
+    var codproyectot = $("#codproyectot")
+    var codsocio = $("#codsocio")
+	var form_tipocambio = $("#form_tipocambio")
+	var form_trimestre = $("#form_trimestre")
+
+    function delTipoCambio(id){
+		delBase('¿Esta seguro que desea eliminar el tipo de cambio?', `proyecto.tipo_cambio/codtipocambio/${id}`)
+    }
+
+	function delTrimestre(id) {
+		delBase('¿Está seguro que desea eliminar este trimestre?', `proyecto.trimestre/codtrimestre/${id}`);
+	}
+
+	$.ajax({
+        url: `${url}/catalogo/select2/proyecto.core/codproyecto/strproyecto`,
+        type: 'get'
+    }).done(function(result){
+        let data_proyecto = result.results
+        codproyecto.select2({
+            data: data_proyecto
+        })
+        codproyectot.select2({
+            data: data_proyecto
+        })
+    })
+
+	$.ajax({
+		url: `${url}/catalogo/select2/poa.socio/codsocio/strsocio`,
+		type: 'get'
+	}).done(function(result){
+		let data_socio = result.results
+		codsocio.select2({
+			data: data_socio
+		})
+	})
+
+    $.ajax({
+        url: `${url}/catalogo/select2/geografica.moneda/codmoneda/strmoneda`,
+        type: 'get'
+    }).done(function(result){
+		let data_moneda = result.results;
+		codmoneda_local.select2({
+            placeholder: 'Seleccione una moneda',
+            data: data_moneda
+        })
+		codmoneda_destino.select2({
+			placeholder: 'Seleccione una moneda',
+			data: data_moneda
+		})
+    })
+
+    function modalTipoCambio(id){
+		if (id == 0) {
+			$("#form_tipocambio").trigger('reset')
+			$("#codtipocambio").val(0)
+			$("#datfecha").val('')
+			codproyecto.val(null).trigger('change')
+			codmoneda_local.val(null).trigger('change')
+			codmoneda_destino.val(null).trigger('change')
+			$("#dbtipocambio").val('0.00')
+            mdl_tipocambio.modal('show')
+        }else {
+			$.ajax({
+                url: `${url}/catalogo/view/proyecto.vw_tipo_cambio/codtipocambio/${id}`,
+                type: 'get'
+            }).done(function(result){
+				const {data} = result;
+				$("#codtipocambio").val(data[0].codtipocambio)
+                $("#datfecha").val(data[0].datfecha.substring(0,10))
+                codproyecto.val(data[0].codproyecto).trigger('change')
+                codmoneda_local.val(data[0].codmoneda_local).trigger('change')
+                codmoneda_destino.val(data[0].codmoneda_destino).trigger('change')
+                $("#dbtipocambio").val(data[0].dbltipocambio)
+
+                mdl_tipocambio.modal('show')
+            })
+        }
+    }
+
+	function modalTrimestre(id) {
+		if (id == 0) {
+			// Si el ID es 0, significa que es un nuevo registro, así que reseteamos el formulario
+			$("#form_trimestre").trigger('reset');  // Resetea el formulario
+			$("#codtrimestre").val(0);               // Establecemos el ID del trimestre en 0
+			$("#datfechat").val('');                  // Limpiamos la fecha
+			$("#codproyectot").val(null).trigger('change');  // Reseteamos el campo de proyecto
+			$("#codsocio").val(null).trigger('change');     // Reseteamos el campo de socio
+			$("#codestado").prop('checked', true);      // Establecemos el estado en 'activo' por defecto
+			mdl_trimestre.modal('show');             // Mostramos el modal para crear un nuevo trimestre
+		} else {
+			// Si el ID no es 0, significa que estamos editando un trimestre existente
+			$.ajax({
+				url: `${url}/catalogo/view/proyecto.vw_trimestre/codtrimestre/${id}`,  // Endpoint para obtener los datos del trimestre
+				type: 'GET',
+				success: function(result) {
+					const { data } = result;
+					if (data.length > 0) {
+						// Cargamos los datos del trimestre en el formulario
+						$("#codtrimestre").val(data[0].codtrimestre);  // Establecemos el ID del trimestre
+						$("#datfechat").val(data[0].datfecha.substring(0,10));          // Establecemos la fecha del trimestre
+						$("#codproyectot").val(data[0].codproyecto).trigger('change');  // Proyecto
+						$("#codsocio").val(data[0].codsocio).trigger('change');        // Socio
+						$("#codestado").prop('checked', data[0].codestado == 1); // Estado activo/inactivo
+
+						mdl_trimestre.modal('show');  // Mostramos el modal para editar el trimestre
+					}
+				},
+				error: function(err) {
+					alert('Error al cargar los datos del trimestre');
+				}
+			});
+		}
+	}
+
+
+	form_tipocambio.submit(function(e){
+		e.preventDefault()
+        let id = document.getElementById('codtipocambio').value
+		let tpe = id == '0' ? 'post' : 'put'
+		$.ajax({
+			url: `${url}/mye/trimestre/tipocambio`,
+			type: tpe,
+			data: form_tipocambio.serializeArray()
+		}).done(function (result) {
+			console.log('', result)
+			mdl_tipocambio.modal('hide')
+			tbtipocambio.ajax.reload(null, false)
+			fnToast(result)
+		}).fail(function (reason) {
+			console.log(reason)
+            const {code} = reason.responseJSON
+            if (code != undefined)
+				return fnToast(reason.responseJSON)
+			return fnToast({
+				code: '500',
+				message: 'Se produjo un error al guardar'
+			})
+		})
+    })
+
+	form_trimestre.submit(function(e){
+		e.preventDefault();  // Prevenir el comportamiento por defecto del formulario (que es refrescar la página)
+
+		// Obtener el valor del ID del trimestre
+		let id = document.getElementById('codtrimestre').value;
+
+		// Determinar si es un 'POST' (nuevo) o 'PUT' (actualización)
+		let tpe = id == '0' ? 'post' : 'put';
+
+		// Realizar la petición AJAX
+		$.ajax({
+			url: `${url}/mye/trimestre/trimestre`, // URL de la API para crear o actualizar el trimestre
+			type: tpe,  // Metodo HTTP: 'POST' o 'PUT'
+			data: form_trimestre.serializeArray()  // Enviar los datos del formulario como un array de pares clave-valor
+		}).done(function(result) {
+			// Cuando la solicitud es exitosa
+			console.log('Resultado:', result);
+
+			// Cerrar el modal después de guardar
+			mdl_trimestre.modal('hide');
+
+			// Recargar la tabla de trimestres
+			tbTrimestre.ajax.reload(null, false);
+
+			// Mostrar mensaje de éxito (usando una función de notificación como fnToast)
+			fnToast(result);
+		}).fail(function(reason) {
+			// Cuando la solicitud falla
+			console.log(reason);
+
+			// Manejar el error y mostrar un mensaje adecuado
+			const { code } = reason.responseJSON;
+
+			if (code !== undefined) {
+				return fnToast(reason.responseJSON);
+			}
+
+			return fnToast({
+				code: '500',
+				message: 'Se produjo un error al guardar el trimestre'
+			});
+		});
+	});
+
+
+	var tbtipocambio = $("#tb-tipocambio").DataTable({
+        search: true,
+        ajax: `${url}/catalogo/view/proyecto.vw_tipo_cambio`,
+        columns: [
+			{data: "codtipocambio"},
+			{data: "datfecha"},
+			{data: "strproyecto"},
+			{data: "quarter_usaid"},
+			{data: "strmoneda_local"},
+			{data: "strmoneda_destino"},
+			{data: "dbltipocambio"},
+			{data: null}
+        ],
+        columnDefs: [
+			{
+				targets: [0],
+                visible: false
+            }, {
+			    targets: [1],
+                render: function(data, type, row){
+					return `<span class="font-monospace text-center m-2">${data.substring(0,10)}</span>`
+                }
+            }, {
+			    targets: [7],
+                render: function(data, type, row) {
+					let s3 = `<button class="btn btn-icon btn-circle btn-danger btn-hover-scale " onclick="delTipoCambio('${row.codevento}')"><i class="bi bi-trash fs-2 me-1"></i></button>`
+					return `${s3}`
+                }
+            }
+        ]
+    })
+	let fsTipocambio = document.querySelector('[data-kt-filter="search-tipocambio"]');
+	fsTipocambio.addEventListener('keyup', function() {
+		tbtipocambio.search(this.value).draw();
+	});
+
+	$("#tb-tipocambio tbody").on('click', 'tr',function(){
+		var data = tbtipocambio.row( this ).data();
+		modalTipoCambio(`${data.codtipocambio}`)
+	})
+
+	$("#tb-tipocambio tbody").on('click', 'button', function(event){
+		event.stopPropagation();
+	})
+
+	var tbTrimestre = $("#tb-trimestre").DataTable({
+		search: true,
+		ajax: `${url}/catalogo/view/proyecto.vw_trimestre`,  // Asegúrate de cambiar esto al endpoint adecuado
+		columns: [
+			{ data: "codtrimestre" },           // # (ID del trimestre)
+			{ data: "strproyecto" },            // Nombre del Proyecto
+			{ data: "strsocio" },               // Nombre del Socio
+			{ data: "quarter_usaid" },              // El trimestre
+			{ data: "codestado" },                 // Estado (activo/inactivo)
+			{ data: null }                      // Columna para las acciones (editar/eliminar)
+		],
+		columnDefs: [
+			{
+				targets: [0],                  // Ocultar la columna de ID
+				visible: false
+			},
+			{
+				targets: [4],                  // Formato de la columna de estado
+				render: function(data, type, row) {
+					return data ? '<span class="badge bg-success">Abierto</span>' : '<span class="badge bg-danger">Cerrado</span>';
+				}
+			},
+			{
+				targets: [5],                  // Acción (editar/eliminar)
+				render: function(data, type, row) {
+
+					let deleteButton = `<button class="btn btn-icon btn-circle btn-danger btn-hover-scale" onclick="deleteTrimestre('${row.codtrimestre}')"><i class="bi bi-trash fs-2 me-1"></i></button>`;
+					return `${deleteButton}`;
+				}
+			}
+		]
+	});
+
+	let fsTrimestre = document.querySelector('[data-kt-filter="search-trimestre"]');
+	fsTrimestre.addEventListener('keyup', function() {
+        tbTrimestre.search(this.value).draw();
+    });
+
+	// Clic en una fila para ver más detalles o editar
+	$("#tb-trimestre tbody").on('click', 'tr', function() {
+		var data = tbTrimestre.row(this).data();
+		modalTrimestre(`${data.codtrimestre}`);
+	});
+
+	// Prevenir propagación del evento de clic en los botones (evitar que se active el clic en la fila)
+	$("#tb-trimestre tbody").on('click', 'button', function(event) {
+		event.stopPropagation();
+	});
+
+</script>
+<!--end::Page Custom Javascript-->
+<!--end::Javascript-->
+</body>
+</html>

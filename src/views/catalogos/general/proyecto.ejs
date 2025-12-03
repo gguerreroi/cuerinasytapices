@@ -1,0 +1,338 @@
+<%
+
+   %>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <%- include('../../components/web-header') %>
+</head>
+<body id="kt_body"
+      class="header-fixed header-tablet-and-mobile-fixed toolbar-enabled toolbar-fixed toolbar-tablet-and-mobile-fixed aside-enabled aside-fixed"
+      style="--kt-toolbar-height:55px;--kt-toolbar-height-tablet-and-mobile:55px">
+<!--begin::Main-->
+<!--begin::Root-->
+<div class="d-flex flex-column flex-root">
+    <!--begin::Page-->
+    <div class="page d-flex flex-row flex-column-fluid">
+        <%- include('../../components/left-aside.ejs') %>
+        <!--begin::Wrapper-->
+        <div class="wrapper d-flex flex-column flex-row-fluid" id="kt_wrapper">
+            <%- include('../../components/kt-header.ejs') %>
+            <!--begin::Content-->
+            <div class="content d-flex flex-column flex-column-fluid" id="kt_content">
+                <div class="d-flex flex-column-fluid">
+                    <div class="container">
+                        <div class="row g-6">
+                            <div class="col-12">
+                                <div class="card shadow-sm">
+                                    <div class="card-header">
+                                        <div class="card-title"><h3 class="card-label">Proyectos</h3></div>
+                                        <div class="card-toolbar">
+                                            <button class="btn btn-primary btn-icon btn-circle btn-pulse btn-hover-scale" onclick="openModal('0')">
+                                                <i class="bi bi-plus fs-2hx"></i></button>
+                                            <button onclick="window.location.href='/excel/proyecto.vw_rep_core'"
+                                                    class="btn btn-success btn-icon btn-circle pulse btn-hover-scale"
+                                                    type="button">
+                                                <i class="bi bi-file-earmark-excel fs-2"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="d-flex align-items-center position-relative mb-6">
+                                            <span class="svg-icon svg-icon-1 position-absolute ms-4">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                                     viewBox="0 0 24 24" fill="none">
+                                                    <rect opacity="0.5" x="17.0365" y="15.1223" width="8.15546"
+                                                          height="2" rx="1" transform="rotate(45 17.0365 15.1223)"
+                                                          fill="currentColor"></rect>
+                                                    <path d="M11 19C6.55556 19 3 15.4444 3 11C3 6.55556 6.55556 3 11 3C15.4444 3 19 6.55556 19 11C19 15.4444 15.4444 19 11 19ZM11 5C7.53333 5 5 7.53333 5 11C5 14.4667 7.53333 17 11 17C14.4667 17 17 14.4667 17 11C17 7.53333 14.4667 5 11 5Z"
+                                                          fill="currentColor"></path>
+                                                </svg>
+                                            </span>
+                                            <input type="text" data-kt-filter="search-proyectos" name="search-proyectos"
+                                                   class="form-control form-control-solid w-100 ps-14 text-uppercase"
+                                                   placeholder="Buscar..."/>
+                                        </div>
+                                        <table id="tb-proyectos" class="table ">
+                                            <thead class="fw-bolder text-uppercase">
+                                            <tr>
+                                                <th>#</th>
+                                                <th>Codigo Proyecto</th>
+                                                <th>Proyecto</th>
+                                                <th>Siglas</th>
+                                                <th>F. Inicio</th>
+                                                <th>F. Fin</th>
+                                                <th>No. Convenio</th>
+                                                <th>Estado</th>
+                                                <th></th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--end::Content-->
+            <%- include('../../components/bottom-footer.ejs', {ip: ip}) %>
+        </div>
+        <!--end::Wrapper-->
+    </div>
+    <!--end::Page-->
+    <!-- begin::modals -->
+    <%- include('modal-proyecto.ejs') %>
+
+    <!-- end::modals -->
+</div>
+<!--end::Root-->
+
+
+<%- include('../../components/kt-scrolltop.ejs') %>
+<!--end::Main-->
+<%- include('../../components/web-footer.ejs') %>
+
+<script>
+	var tbproyectos
+
+	var btnSave;
+	/* NO BORRAR ESTO ::: INICIO ::: */
+	const url = `${window.location.origin}/api`;
+	var sToast = null;
+	sToast = Swal.mixin({
+		toast: true,
+		position: "top-end",
+		showConfirmButton: false,
+		timer: 3000,
+		timerProgressBar: true,
+		didOpen: (toast) => {
+			toast.onmouseenter = Swal.stopTimer;
+			toast.onmouseleave = Swal.resumeTimer;
+		}
+	});
+	function fnToast(res) {
+		const {code, message} = res
+
+		if (code == undefined) {
+			console.error('error in fnToast', res)
+			throw 'Formato invalido'
+		}
+
+		sToast.fire({
+			icon: code == 'true' ? 'success' : 'error',
+			title: message
+		})
+	}
+
+    function delBase(message, path){
+		Swal.fire({
+			text: message,
+			showCancelButton: true,
+			icon: "warning",
+			buttonsStyling: false,
+			confirmButtonText: "Eliminar",
+			cancelButtonText: "Cancelar",
+			customClass: {
+				confirmButton: "order-2 btn btn-danger",
+				cancelButton: "order-1 btn btn-light"
+			}
+		}).then(function (button) {
+			if (button.isConfirmed) {
+				$.ajax({
+					url: `${url}/catalogo/${path}`,
+					type: 'delete'
+				}).done(function (request) {
+					tbproyectos.ajax.reload(null, false);
+					sToast.fire({
+						icon: "success",
+						title: "Registro Eliminado"
+					})
+				}).fail(function (reason) {
+
+					sToast.fire({
+						icon: "error",
+						title: "Se produjo un error"
+					})
+				})
+			}
+		})
+	}
+	/* NO BORRAR ESTO ::: FIN ::: */
+
+	function openModal(id){
+
+		if (id == 0){
+			$("#frmproyecto").trigger('reset')
+			$("#codproyecto").val('0');
+			$("#coddonante").val("").trigger("change");
+			$("#codsocio").val("").trigger("change");
+			$("#kt_modal_proyecto").modal('show');
+        } else {
+			const p = $.ajax({
+				url: `${url}/catalogo/view/proyecto.core/codproyecto/${id}`
+			})
+            const d = $.ajax({
+				url: `${url}/catalogo/view/proyecto.rel_donante/codproyecto/${id}`
+			})
+			const s = $.ajax({
+				url: `${url}/catalogo/view/proyecto.rel_socio/codproyecto/${id}`
+			})
+
+            Promise.all([p, d, s]).then(function(result){
+				const {
+					codproyecto,
+					strproyecto,
+					strsiglas,
+					fchinicio,
+					fchfin,
+					strnoconvenio,
+					strcodproyecto,
+					codestado
+				} = result[0].data[0]
+
+                let donantes = result[1].data.map((value, index, arr) => value.coddonante)
+                let socios = result[2].data.map((value, index, arr) => value.codsocio)
+
+				$("#codproyecto").val(codproyecto)
+				$("#strcodproyecto").val(strcodproyecto)
+				$("#strproyecto").val(strproyecto)
+				$("#strsiglas").val(strsiglas)
+				$("#fchinicio").val(fchinicio != null ? fchinicio.substring(0,10) : '')
+				$("#fchfin").val(fchfin != null ? fchfin.substring(0,10) : '')
+				$("#strnoconvenio").val(strnoconvenio)
+                $("#coddonante").val(donantes).trigger('change')
+                $("#codsocio").val(socios).trigger('change')
+				$("#codestado").prop("checked", codestado)
+				$("#kt_modal_proyecto").modal('show');
+			})
+        }
+
+	}
+
+    function delProyecto(id) {
+        delBase('¿Esta seguro que desea eliminar el proyecto?',`proyecto.core/codproyecto/${id}`)
+	}
+
+	$.ajax({
+		url: `${url}/catalogo/select2/proyecto.donante/coddonante/strdonante`,
+		type: 'get'
+	}).done(function(result){
+		$("#coddonante").select2({
+			data: result.results
+		})
+	})
+
+    $.ajax({
+        url: `${url}/catalogo/select2/poa.socio/codsocio/strsocio`,
+        type: 'get'
+    }).done(function(result){
+		$("#codsocio").select2({
+			data: result.results
+		})
+    })
+
+	document.addEventListener("DOMContentLoaded", function () {
+		btnSave = document.getElementById('kt_guardar');
+
+		tbproyectos =$("#tb-proyectos").DataTable({
+			search: true,
+			ajax: `${url}/catalogo/view/proyecto.core`,
+			columns: [
+				{data: "codproyecto"},
+				{data: "strcodproyecto"},
+				{data: "strproyecto"},
+				{data: "strsiglas"},
+				{data: "fchinicio"},
+				{data: "fchfin"},
+				{data: "strnoconvenio"},
+				{data: "codestado"},
+				{data: null}
+			],
+			columnDefs: [{
+				targets: [0],
+				render: function(data, type, row){
+					return `<button class="btn btn-icon btn-light-primary" onclick="openModal('${data}')">${data}</button>`
+				}
+			}, {
+				targets: [4],
+				render: function(data,type, row){
+					let strdate = "SIN FECHA"
+                    let strcolor = "danger"
+                    if (data != null){
+						strdate = data.substring(0,10)
+                        strcolor = "dark"
+                    }
+					return `<span class="badge badge-light-${strcolor}">${strdate}</span>`
+				}
+			}, {
+				targets: [5],
+				render: function(data,type,row){
+					let strdate = "SIN FECHA"
+					let strcolor = "danger"
+					if (data != null){
+						strdate = data.substring(0,10)
+						strcolor = "dark"
+					}
+					return `<span class="badge badge-light-${strcolor}">${strdate}</span>`
+				}
+			}, {
+				targets: [7],
+				render: function(data, type, row){
+					let strcolor = 'danger'
+					let strestado = 'INACTIVO'
+					if (data){
+						strcolor = "primary"
+						strestado = "ACTIVO"
+					}
+					return `<span class="badge badge-${strcolor}">${strestado}</span>`
+				}
+			}, {
+				targets: [8],
+				render: function(data, type, row){
+					return `<button class="btn btn-icon btn-circle btn-light-danger" onclick="delProyecto('${row.codproyecto}')"><i class="bi bi-trash"></i></button>`
+				}
+			}]
+		})
+
+		let fSProyectos = document.querySelector('[data-kt-filter="search-proyectos"]')
+		fSProyectos.addEventListener('keyup', function(event) {
+			tbproyectos.search(event.target.value).draw();
+		})
+
+
+
+		$("#frmproyecto").submit(function (e){
+			e.preventDefault()
+			let id = document.getElementById('codproyecto').value
+			let metodo = id == 0 ? "post" : "put"
+
+			btnSave.setAttribute('data-kt-indicator', 'on')
+			btnSave.disabled = true
+
+			$.ajax({
+				url: `${url}/catalogo/general/proyecto/${id}`,
+				type: metodo,
+				data: $("#frmproyecto").serializeArray()
+			}).done(function (result) {
+				fnToast(result)
+				tbproyectos.ajax.reload(null, false);
+				$("#kt_modal_proyecto").modal('hide')
+				$("#frmproyecto").trigger("reset")
+			}).fail(function(fail){
+				console.log('fail', fail)
+			}).always(function () {
+				btnSave.removeAttribute('data-kt-indicator');
+				btnSave.disabled = false;
+			})
+		})
+
+	})
+</script>
+<!--end::Page Custom Javascript-->
+<!--end::Javascript-->
+</body>
+</html>

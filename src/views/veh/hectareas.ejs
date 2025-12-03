@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <%- include('../components/web-header') %>
+    <style>
+        tr {
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body id="kt_body"
+      class="header-fixed header-tablet-and-mobile-fixed toolbar-enabled toolbar-fixed toolbar-tablet-and-mobile-fixed aside-enabled aside-fixed"
+      style="--kt-toolbar-height:55px;--kt-toolbar-height-tablet-and-mobile:55px">
+<!--begin::Main-->
+<div class="d-flex flex-column flex-root">
+    <!--begin::Page-->
+    <div class="page d-flex flex-row flex-column-fluid">
+        <%- include('../components/left-aside.ejs') %>
+        <!--begin::Wrapper-->
+        <div class="wrapper d-flex flex-column flex-row-fluid" id="kt_wrapper">
+            <%- include('../components/kt-header.ejs') %>
+            <!--begin::Content-->
+            <div class="content d-flex flex-column flex-column-fluid" id="kt_content">
+                <div class="d-flex flex-column-fluid">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="card gutter-b">
+                                    <div class="card-header">
+                                        <div class="card-title"><h3 class="card-label">Hectáreas</h3></div>
+                                        <div class="card-toolbar">
+                                            <button class="col-sm-1 btn btn-primary btn-icon btn-circle btn-pulse btn-hover-scale"
+                                                    onclick="openHectarea(0)"
+                                                    type="button">
+                                                <i class="bi bi-plus fs-2hx"></i>
+                                            </button>
+                                            <%
+                                            let filtrep = UserInfo.codrole == 1 ? '?' : `?codsocio=${UserInfo.codsocio}`
+                                            %>
+                                            <div class="btn-group">
+                                                <button type="button" class="btn btn-success dropdown-toggle"
+                                                        data-bs-toggle="dropdown" aria-expanded="false">
+                                                    <i class="bi bi-file-earmark-excel fs-2"></i>
+                                                    Export
+                                                </button>
+                                                <ul class="dropdown-menu">
+                                                    <li><button type="button" class="dropdown-item"
+                                                                onclick="OpenModalReport('/excel/hectareas.vw_rep_encabezado<%- filtrep %>')">Encabezado</button></li>
+                                                    <li><button type="button" class="dropdown-item"
+                                                                onclick="OpenModalReport('/excel/hectareas.vw_rep_detalle<%- filtrep %>')">Detalle</button></li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="d-flex align-items-center position-relative mb-6">
+                                            <span class="svg-icon svg-icon-1 position-absolute ms-4">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                                     viewBox="0 0 24 24" fill="none">
+                                                    <rect opacity="0.5" x="17.0365" y="15.1223" width="8.15546"
+                                                          height="2" rx="1" transform="rotate(45 17.0365 15.1223)"
+                                                          fill="currentColor"></rect>
+                                                    <path d="M11 19C6.55556 19 3 15.4444 3 11C3 6.55556 6.55556 3 11 3C15.4444 3 19 6.55556 19 11C19 15.4444 15.4444 19 11 19ZM11 5C7.53333 5 5 7.53333 5 11C5 14.4667 7.53333 17 11 17C14.4667 17 17 14.4667 17 11C17 7.53333 14.4667 5 11 5Z"
+                                                          fill="currentColor"></path>
+                                                </svg>
+                                            </span>
+                                            <input type="text" data-kt-filter="search" name="search"
+                                                   class="form-control form-control-solid w-100 ps-14 text-uppercase"
+                                                   placeholder="Buscar..."/>
+                                        </div>
+                                        <table class="table table-row-dashed table-hover" id="tb-hectareas">
+                                            <thead class="fw-bolder text-uppercase">
+                                            <tr>
+                                                <th width="110px">Fecha<br>Registro</th>
+                                                <th>Id</th>
+                                                <th>Organizaciones</th>
+                                                <th>Proyecto</th>
+                                                <th>Area Impactada</th>
+                                                <th>Socio</th>
+                                                <th>Periodo</th>
+                                                <th width="180px"> </th>
+                                            </tr>
+                                            </thead>
+                                            <tbody></tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <!--end::Content-->
+            <%- include('../components/bottom-footer.ejs', {ip: ip}) %>
+        </div>
+    </div>
+    <%- include('../components/modal-report', {}) %>
+</div>
+
+<%- include('../components/kt-scrolltop.ejs') %>
+<%- include('../components/web-footer.ejs') %>
+<script src="assets/js/custom/widgets.js"></script>
+<script>
+	const url = `${window.location.origin}/api`;
+	const codSocio = '<%-  UserInfo.codsocio %>'
+	const codRole = '<%- UserInfo.codrole %>'
+	const filtSocioUrl = codRole == 1 ? '' : `/codsocio/${codSocio}`;
+	let table;
+
+	/* :::BEGIN::: */
+	let sToast = Swal.mixin({
+		toast: true,
+		position: "top-end",
+		showConfirmButton: false,
+		timer: 3000,
+		timerProgressBar: true,
+		didOpen: (toast) => {
+			toast.onmouseenter = Swal.stopTimer;
+			toast.onmouseleave = Swal.resumeTimer;
+		}
+	})
+
+	function fnToast(res) {
+		const {code, message} = res
+
+		if (code == undefined) {
+			console.error(res)
+			throw 'Formato invalido'
+		}
+		sToast.fire({
+			icon: code == 'true' ? 'success' : 'error',
+			title: message
+		})
+	}
+
+	function delBase(message, path) {
+		Swal.fire({
+			text: message,
+			showCancelButton: true,
+			icon: "warning",
+			buttonsStyling: false,
+			confirmButtonText: "Eliminar",
+			cancelButtonText: "Cancelar",
+			customClass: {
+				confirmButton: "order-2 btn btn-danger",
+				cancelButton: "order-1 btn btn-light"
+			}
+		}).then(function (action) {
+			if (action.isConfirmed) {
+				$.ajax({
+					url: `${url}/catalogo/${path}`,
+					type: 'delete'
+				}).done(function (request) {
+					sToast.fire({
+						icon: "success",
+						title: "Registro Eliminado"
+					})
+					table.ajax.reload(null, false);
+				}).fail(function (reason) {
+					console.log(reason)
+					sToast.fire({
+						icon: "error",
+						title: "Se produjo un error"
+					})
+				})
+			}
+		})
+	}
+
+	function upBase(message, icon, path, data) {
+		Swal.fire({
+			text: message,
+			showCancelButton: true,
+			icon: icon,
+			buttonsStyling: false,
+			confirmButtonText: "Procesar"
+		})
+	}
+	/* :::END::: */
+
+	function delHectarea(id) {
+		delBase('¿Está seguro que desea eliminar el registro?', `hectareas.core/codhectarea/${id}`);
+	}
+
+	function openHectarea(id) {
+		window.location.href = `/mye/hectareas/registro/${id}`;
+	}
+
+	function showReporte(url) {
+		window.open(url, '_blank');
+	}
+
+	table = $("#tb-hectareas").DataTable({
+		search: true,
+		ajax: `${url}/catalogo/view/hectareas.vw_hectareas${filtSocioUrl}`,
+		columns: [
+			{data: "datfchregistro"},
+			{data: "codhectarea"},
+			{data: "strorganizaciones"},
+			{data: "strproyectos"},
+			{data: "sum_areaimpactada"},
+			{data: "strsocio"},
+			{data: "strtrimestre_usaid"},
+			{data: null}
+		],
+		columnDefs: [
+			{
+				targets: [0],
+				render: function (data) {
+					let df = data.substring(0, 10);
+					return `<span class="font-monospace text-center m-2">${df}</span>`;
+				}
+			},{
+			    targets: [4],
+                render: function (data, type, row){
+					console.log(data, isNaN(data))
+                    if (isNaN(data))
+						return data.toLocaleString('en-US')
+                    return data
+                }
+            },
+			{
+				targets: [7],
+				render: function (data, type, row) {
+					let s0 = `<button class="btn btn-icon btn-circle btn-light-info btn-hover-scale" onclick="showReporte('/mye/hectareas/reporte/${row.codhectarea}')"><i class="bi bi-eye fs-2 me-1"></i></button>`;
+					let s3 = `<button class="btn btn-icon btn-circle btn-danger btn-hover-scale " onclick="delHectarea('${row.codhectarea}')"><i class="bi bi-trash fs-2 me-1"></i></button>`;
+					return `${s0} ${s3}`;
+				}
+			}
+		],
+		order: [[0, 'desc']]
+	});
+
+	let filterSearch = document.querySelector('[data-kt-filter="search"]');
+	filterSearch.addEventListener('keyup', function (event) {
+		table.search(event.target.value).draw();
+	});
+
+	$("#tb-hectareas tbody").on('click', 'tr', function () {
+		const data = table.row(this).data();
+		openHectarea(`${data.codhectarea}`);
+	});
+
+	$("#tb-hectareas tbody").on('click', 'button', function (event) {
+		event.stopPropagation();
+	});
+</script>
+</body>
+</html>

@@ -1,0 +1,915 @@
+<%
+
+  %>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <%- include('../components/web-header') %>
+    <style>
+        tr{
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body id="kt_body"
+      class="header-fixed header-tablet-and-mobile-fixed toolbar-enabled toolbar-fixed toolbar-tablet-and-mobile-fixed aside-enabled aside-fixed"
+      style="--kt-toolbar-height:55px;--kt-toolbar-height-tablet-and-mobile:55px">
+<!--begin::Main-->
+<!--begin::Root-->
+<div class="d-flex flex-column flex-root">
+    <!--begin::Page-->
+    <div class="page d-flex flex-row flex-column-fluid">
+        <%- include('../components/left-aside.ejs') %>
+        <!--begin::Wrapper-->
+        <div class="wrapper d-flex flex-column flex-row-fluid" id="kt_wrapper">
+            <%- include('../components/kt-header.ejs') %>
+            <!--begin::Content-->
+            <div class="content d-flex flex-column flex-column-fluid" id="kt_content">
+                <div class="d-flex flex-column-fluid">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="card gutter-b"><!-- fixit-->
+                                    <div class="card-header">
+                                        <div class="card-title"><h3 class="card-label">Capacitaciones</h3></div>
+                                        <div class="card-toolbar g-1">
+                                            <button class="col-sm-1 btn btn-primary btn-icon btn-circle btn-pulse btn-hover-scale"
+                                                    onclick="modalEvento(0)"
+                                                    type="button">
+                                                <i class="bi bi-plus fs-2hx"></i>
+                                            </button>
+                                            <%
+                                                let filtrep = UserInfo.codrole == 1 ? '?' : `?codsocio=${UserInfo.codsocio}`
+                                            %>
+
+                                            <div class="btn-group">
+                                                <button type="button" class="btn btn-success dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                                                    <i class="bi bi-file-earmark-excel fs-2"></i>
+                                                    Export
+                                                </button>
+                                                <ul class="dropdown-menu">
+                                                    <li><button type="button" class="dropdown-item" onclick="OpenModalReport('/excel/eventos.vw_rep_encabezado<%- filtrep %>')">Encabezado</button></li>
+                                                    <li><button type="button" class="dropdown-item" onclick="OpenModalReport('/excel/eventos.vw_rep_detalle<%- filtrep %>')">Detalle</button></li>
+                                                </ul>
+                                            </div>
+                                            <!--
+                                            <button onclick="window.location.href='/excel/eventos.vw_rep_encabezado<%- filtrep %>'"
+                                                    class=" btn btn-success "
+                                                    type="button">
+                                                <i class="bi bi-file-earmark-excel fs-2  "></i>
+                                                Encabezado
+                                            </button>
+                                            <button onclick="window.location.href='/excel/eventos.vw_rep_detalle<%- filtrep %>'"
+                                                    class="btn btn-success"
+                                                    type="button">
+                                                <i class="bi bi-file-earmark-excel fs-2"></i>
+                                                Detalle
+                                            </button>
+                                            -->
+                                        </div>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="d-flex align-items-center position-relative mb-6">
+                                            <span class="svg-icon svg-icon-1 position-absolute ms-4">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                                     viewBox="0 0 24 24" fill="none">
+                                                    <rect opacity="0.5" x="17.0365" y="15.1223" width="8.15546"
+                                                          height="2" rx="1" transform="rotate(45 17.0365 15.1223)"
+                                                          fill="currentColor"></rect>
+                                                    <path d="M11 19C6.55556 19 3 15.4444 3 11C3 6.55556 6.55556 3 11 3C15.4444 3 19 6.55556 19 11C19 15.4444 15.4444 19 11 19ZM11 5C7.53333 5 5 7.53333 5 11C5 14.4667 7.53333 17 11 17C14.4667 17 17 14.4667 17 11C17 7.53333 14.4667 5 11 5Z"
+                                                          fill="currentColor"></path>
+                                                </svg>
+                                            </span>
+                                            <input type="text" data-kt-filter="search" name="search"
+                                                   class="form-control form-control-solid w-100 ps-14 text-uppercase"
+                                                   placeholder="Buscar..."/>
+                                        </div>
+                                        <table class="table table-row-dashed table-hover" id="tb-events">
+                                            <thead class="fw-bolder text-uppercase">
+                                            <tr>
+                                                <th></th>
+                                                <th></th>
+                                                <th></th>
+                                                <th>
+                                                    <div class="filter-container">
+                                                        <label for="filter-proyecto"></label>
+                                                        <select id="filter-proyecto" multiple class="form-select form-select-sm">
+                                                        </select>
+                                                    </div>
+                                                </th>
+                                                <th>
+                                                    <div class="filter-container">
+                                                        <label for="filter-trimestre"></label>
+                                                        <select id="filter-trimestre" multiple class="form-select form-select-sm">
+                                                        </select>
+                                                    </div>
+                                                </th>
+                                                <th></th>
+                                                <th>
+                                                    <div class="filter-container">
+                                                        <label for="filter-socio"></label>
+                                                        <select id="filter-socio" multiple class="form-select form-select-sm">
+                                                        </select>
+                                                    </div>
+                                                </th>
+                                                <th></th>
+                                                <th>
+                                                    <div class="filter-container">
+                                                        <label for="filter-status"></label>
+                                                        <select id="filter-status" multiple class="form-select form-select-sm">
+                                                        </select>
+                                                    </div>
+                                                </th>
+                                                <th></th>
+                                                <th></th>
+                                            </tr>
+                                            <tr>
+                                                <th style="min-width: 110px" class=" text-center">Fechas</th>
+                                                <th>Titulo</th>
+                                                <th>#</th>
+                                                <th>Proyectos</th>
+                                                <th>Trimestre</th>
+                                                <th width="105px" >Asistencia</th>
+                                                <th>Socio</th>
+                                                <th>codestado</th>
+                                                <th>Estado</th>
+                                                <th>Comentario</th>
+                                                <th width="180px"  data-orderable="false"> </th>
+                                            </tr>
+                                            </thead>
+                                            <tbody></tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <!--end::Content-->
+            <%- include('../components/bottom-footer.ejs', {ip: ip}) %>
+        </div>
+        <!--end::Wrapper-->
+    </div>
+    <!--end::Page-->
+    <!-- begin::modals -->
+    <%- include('modal-capacitacion.ejs') %>
+    <%- include('../components/modal-report', {}) %>
+    <!-- end::modals -->
+</div>
+<!--end::Root-->
+
+
+<%- include('../components/kt-scrolltop.ejs') %>
+<!--end::Main-->
+<%- include('../components/web-footer.ejs') %>
+<!--begin::Page Custom Javascript(used by this page)-->
+<script src="assets/js/custom/widgets.js"></script>
+<script>
+	const url = `${window.location.origin}/api`;
+	const codSocio = '<%-  UserInfo.codsocio %>'
+    const codRole = '<%- UserInfo.codrole %>'
+    const codPais = '<%- UserInfo.codpais %>'
+    const filtSocioUrl = codRole == 1 ? '': `/codsocio/${codSocio}`;
+	var dataCodProyecto;
+	var dataCodActividades;
+	let table;
+	let mdlEvento = $("#kt_modal")
+	let codproyecto = $("#codproyecto")
+	let codtipoevento = $("#codtipoevento")
+	let qfy = $("#qfy")
+	let codmunicipio = $("#codmunicipio")
+	let codtema = $("#codtema")
+	let codcategoria = $("#codcategoria")
+	let codactividad = $("#codactividad")
+	let codparticipantes = $("#codparticipantes")
+
+    const filterTrimestre = $("#filter-trimestre")
+    const filterProyecto = $("#filter-proyecto")
+	const filterSocio = $("#filter-socio")
+	const filterStatus = $("#filter-status")
+
+	let form_event = $("#form_event")
+	const div_numcosto = $("#div_numcosto");
+	const numhoras = $("#numhoras");
+
+	div_numcosto.hide();
+	/* :::BEGIN::: */
+	let sToast = Swal.mixin({
+		toast: true,
+		position: "top-end",
+		showConfirmButton: false,
+		timer: 3000,
+		timerProgressBar: true,
+		didOpen: (toast) => {
+			toast.onmouseenter = Swal.stopTimer;
+			toast.onmouseleave = Swal.resumeTimer;
+		}
+	})
+
+	function fnToast(res) {
+		const {code, message} = res
+
+		if (code == undefined) {
+			console.error(res)
+			throw 'Formato invalido'
+		}
+		sToast.fire({
+			icon: code == 'true' ? 'success' : 'error',
+			title: message
+		})
+	}
+
+	function delBase(message, path) {
+		Swal.fire({
+			text: message,
+			showCancelButton: true,
+			icon: "warning",
+			buttonsStyling: false,
+			confirmButtonText: "Eliminar",
+			cancelButtonText: "Cancelar",
+			customClass: {
+				confirmButton: "order-2 btn btn-danger",
+				cancelButton: "order-1 btn btn-light"
+			}
+		}).then(function (action) {
+			if (action.isConfirmed) {
+				$.ajax({
+					url: `${url}/catalogo/${path}`,
+					type: 'delete',
+                    data: [],
+				}).done(function (request) {
+					sToast.fire({
+						icon: "success",
+						title: "Registro Eliminado"
+					})
+					table.ajax.reload(null, false);
+				}).fail(function (reason) {
+					console.log(reason)
+					sToast.fire({
+						icon: "error",
+						title: "Se produjo un error"
+					})
+				})
+			}
+		})
+	}
+
+	function upBase(message, icon, path, data) {
+		Swal.fire({
+			text: message,
+			showCancelButton: true,
+			icon: icon,
+			buttonsStyling: false,
+			confirmButtonText: "Procesar"
+		})
+	}
+
+	/* :::END:::  */
+
+	$.ajax({
+		url: `${url}/catalogo/select2/proyecto.vw_proyecto_busqueda/codproyecto/strproyecto`,
+		type: 'get',
+        data: {
+			colname: 'codsocio',
+            colvalue: codSocio
+        }
+	}).done(function (result) {
+
+        dataCodProyecto = result.results
+		codproyecto.select2({
+			data: dataCodProyecto
+		})
+
+		let nuevoProyecto = dataCodProyecto.map(function(item){
+			return {id: item.text.split(' ')[1], text: item.text}
+		})
+
+		filterProyecto.select2({
+			data: nuevoProyecto
+		})
+	})
+
+    $.ajax({
+        url: `${url}/catalogo/select2/eventos.estado/codestado/strestado`,
+        type: 'get'
+    }).done(function (result) {
+        let data_estado = result.results
+        filterStatus.select2({
+            data: data_estado
+        })
+    })
+
+    $.ajax({
+        url: `${url}/catalogo/select2/poa.vw_socio/codsocio/strsocio`,
+        type: 'get'
+    }).done(function (result) {
+        let data_socio = result.results
+        filterSocio.select2({
+            data: data_socio.map(function(item){
+                return {id: item.text.split(' ')[1], text: item.text}
+            })
+        })
+    })
+
+    $.ajax({
+        url: `${url}/catalogo/select2/proyecto.vw_trimestre/quarter_usaid/quarter_usaid`,
+        type: 'get'
+    }).done(function (result) {
+        let data_trimestre = result.results
+        filterTrimestre.select2({
+            data: data_trimestre,
+            templateResult: function(data){
+                if (!data.id)
+                    return data.text;
+                return $(`<div>${data.text.split(' ')[0]}</div>`);
+            },
+            templateSelection: function(data){
+                return data.text.split(' ')[0];
+            }
+        })
+    })
+
+	$.ajax({
+		url: `${url}/catalogo/view/poa.vw_actividad_busqueda${filtSocioUrl}`,
+		type: 'get',
+		dataType: 'json',
+		data: {
+			colname: 'codsocio',
+			colvalue: `${codSocio}`
+		}
+	}).done(function (result) {
+		dataCodActividades = result.data
+	})
+
+	codactividad.select2({
+		dropdownParent: mdlEvento
+	})
+	codactividad.empty().append('<option value="" disabled selected>Selecciona una actividad</option>');
+	codactividad.trigger("change")
+
+    function filterActivities(selectedProjects){
+		const filteredActivities = dataCodActividades.filter(activity => selectedProjects.includes(String(activity.codproyecto)))
+
+		filteredActivities.forEach(activity => {
+			codactividad.append(new Option(activity.stractividad, activity.codactividad));
+		});
+
+		codactividad.trigger("change");
+    }
+
+	codproyecto.on('change', function () {
+		console.log('codproyecto change')
+		if (codactividad.hasClass('select2-hidden-accessible')) {
+			codactividad.val('')
+			codactividad.empty()
+            codactividad.trigger('change')
+        }
+		if (codproyecto.val() != '') {
+			filterActivities(codproyecto.val())
+        }
+	})
+
+	codparticipantes.select2({
+		dropdownParent: mdlEvento,
+		minimumInputLength: 4,
+		minimumResultsForSearch: 6,
+		ajax: {
+			url: `${url}/catalogo/select2/eventos.vw_busqueda_personas/codpersona/strnombres`,
+			type: 'get',
+			data: function (params) {
+				return {
+					term: params.term,
+					_type: 'public',
+					page: 10
+				}
+			}
+		},
+		templateResult: function (state) {
+			if (!state.id)
+				return state.text;
+			const [strtext, strorg] = state.text.split('|')
+			let template = '<div>'
+			template += `<p class="fw-bold small mb-1 text-gray-500">${strorg}</p>`
+			template += `<p class="mb-0 fw-bold">${strtext}<p>`
+			template += `</div>`
+			return $(`${template}`);
+		},
+		templateSelection: function (result) {
+			const [strtext, strorg] = result.text.split('|')
+			return strtext;
+		}
+	})
+
+	function modalEvento(id) {
+		console.log('modalEvento', id, typeof(id))
+		if (id == 0) {
+
+            $("#btnformsave").attr("disabled", false)
+			$("#tbparticipantes > tbody").empty();
+			$("#form_event").trigger('reset')
+			codproyecto.val('').trigger('change')
+			codtipoevento.val(null).trigger('change')
+			codmunicipio.val('').trigger('change')
+			codtema.val('').trigger('change')
+			codcategoria.val('').trigger('change')
+			codactividad.val('').trigger('change')
+			codparticipantes.val('').trigger('change')
+			mdlEvento.modal('show')
+		} else {
+			codparticipantes.val('').trigger('change')
+			const evento = $.ajax({
+				url: `${url}/catalogo/view/eventos.core/codevento/${id}`,
+				type: 'get'
+			})
+            const proyecto = $.ajax({
+				url: `${url}/catalogo/view/eventos.rel_proyecto/codevento/${id}`,
+				type: 'get'
+            })
+
+            const poa = $.ajax({
+				url: `${url}/catalogo/view/eventos.rel_core_poa/codevento/${id}`,
+				type: 'get'
+            })
+
+            Promise.all([evento, proyecto, poa]).then(function(result){
+				let rw = result[0].data[0]
+                let proy = result[1].data
+                let proyc = proy.map((value, index, arr) => value.codproyecto)
+                let poa = result[2].data
+                let poac = poa.map((value, index, arr) => value.codactividad)
+
+
+				$("#codevento").val(`${rw.codevento}`)
+				$("#codproyecto").val(proyc).trigger('change')
+				$("#strevento").val(rw.strevento)
+				$("#strlinkevidencia").val(rw.strlinkevidencia)
+				$("#qfy").val(rw.qfy)
+				$("#strresponsable").val(rw.strresponsable)
+				$("#datfchinicio").val(rw.datfchinicio.substring(0, 10))
+				$("#datfchfin").val(rw.datfchfin.substring(0, 10))
+				$("#numcosto").val(rw.numcosto)
+				$("#numhoras").val(rw.numhoras)
+				$("#codcategoria").val(rw.codcategoria).trigger('change')
+				$("#codtema").val(rw.codtema).trigger('change')
+				$("#codtipoevento").val(rw.codtipoevento).trigger('change')
+				$("#codmunicipio").val(rw.codmunicipio).trigger('change')
+                $("#codactividad").val(poac).trigger('change');
+				listParticipants(id, rw.codestado)
+                if (rw.codestado == 3){
+					$("#btnformsave").attr('disabled', true)
+				}else {
+					$("#btnformsave").attr('disabled', false)
+                }
+
+				mdlEvento.modal('show')
+
+            })
+		}
+	}
+
+	function listParticipants(id, codestado=1) {
+		$.ajax({
+			url: `${url}/catalogo/view/eventos.vw_rel_core_persona/codevento/${id}`,
+			type: 'get'
+		}).done(function (result) {
+			let par = result.data;
+			$("#tbparticipantes > tbody").empty();
+			let tbody = "";
+			par.map(function (value, index, array) {
+				tbody += `<tr>`
+				tbody += `<td>${index}</td>`
+				tbody += `<td>${value.strpersona}</td>`
+				tbody += `<td>${value.strorganizacion}</td>`
+				tbody += `<td>`
+                if (codestado != 3)
+					tbody += `<button class="btn btn-icon btn-circle btn-light-danger btn-hover-rotate-start " type="button" onclick="delParticipante('${value.codpersona}','${value.codevento}')"><i class="bi bi-trash"></i></button>`
+                tbody += `</td>`
+				tbody += `</tr>`
+			})
+			$("#tbparticipantes > tbody").append(tbody)
+		})
+	}
+
+	$.ajax({
+		url: `${url}/catalogo/select2/eventos.tipo/codtipo/strtipo`,
+		type: 'get'
+	}).done(function (result) {
+		let data_tipoevento = result.results;
+		codtipoevento.select2({
+            placeholder: 'Seleccione un tipo de evento',
+			data: data_tipoevento,
+			dropdownParent: mdlEvento
+		})
+	})
+	$.ajax({
+		url: `${url}/catalogo/select2/geografica.vw_deptmun/codmunicipio/strmunicipio`,
+		type: 'get'
+	}).done(function (result) {
+		let data_municipio = result.results
+		codmunicipio.select2({
+            placeholder: 'Seleccione un municipio',
+			data: data_municipio,
+			dropdownParent: mdlEvento
+		})
+	})
+	$.ajax({
+		url: `${url}/catalogo/select2/eventos.categoria_temas/codtema/strtema`,
+		type: 'get'
+	}).done(function (result) {
+		let data_tema = result.results
+		codtema.select2({
+            placeholder: 'Seleccione una categoria del tema',
+			data: data_tema,
+			dropdownParent: mdlEvento
+		})
+	})
+	$.ajax({
+		url: `${url}/catalogo/select2/cadenavalor.vw_catycadenavalor/codcadenavalor/strcadenavalor`,
+		type: 'get'
+	}).done(function (result) {
+		let data_categoria = result.results
+		codcategoria.select2({
+            placeholder: 'Seleccione una categoria de la cadena de valor',
+			data: data_categoria,
+			dropdownParent: mdlEvento
+		})
+	})
+    $.ajax({
+        url: `${url}/catalogo/select2/proyecto.vw_trimestre_enable/quarter_usaid/quarter_usaid`,
+        type: 'get'
+    }).done(function(result){
+		let data_trimestre = result.results
+        qfy.select2({
+            placeholder: 'Seleccione un trimestre',
+            data: data_trimestre,
+            dropdownParent: mdlEvento,
+            templateResult: function(data){
+                if (!data.id)
+                    return data.text;
+                return $(`<div>${data.text.split(' ')[0]}</div>`);
+            },
+            templateSelection: function(data){
+                return data.text.split(' ')[0];
+            }
+        })
+    })
+
+
+	form_event.submit(function (e) {
+		e.preventDefault()
+		let id = document.getElementById('codevento').value
+		let tpe = id == '0' ? 'post' : 'put'
+
+		$.ajax({
+			url: `${url}/mye/capacitaciones/eventos`,
+			type: tpe,
+			data: form_event.serializeArray()
+		}).done(function (result) {
+			console.log('', result)
+			mdlEvento.modal('hide')
+			table.ajax.reload(null, false)
+			fnToast(result)
+		}).fail(function (reason) {
+			console.log(reason)
+			fnToast({
+				code: '500',
+				message: 'Se produjo un error al guardar'
+			})
+		})
+
+	})
+
+	function upAprobar(id) {
+		Swal.fire({
+			text: 'Esta acción aprobara la evidencia, esta segura?',
+			showCancelButton: true,
+			icon: "warning",
+			buttonsStyling: false,
+			confirmButtonText: "Aprobar",
+			cancelButtonText: "Cancelar",
+			customClass: {
+				confirmButton: "order-2 btn btn-warning",
+				cancelButton: "order-1 btn btn-light"
+			}
+		}).then(function (action) {
+			if (action.isConfirmed) {
+				$.ajax({
+					url: `${url}/catalogo/eventos.core/codevento/${id}`,
+					type: 'patch',
+					data: {
+						colname: 'codestado',
+						colvalue: '3'
+					}
+				}).done(function (request) {
+					sToast.fire({
+						icon: "success",
+						title: "Evidencia aceptada para el evento "
+					})
+					table.ajax.reload(null, false);
+				}).fail(function (reason) {
+					console.log(reason)
+					sToast.fire({
+						icon: "error",
+						title: "Se produjo un error"
+					})
+				})
+			}
+		})
+
+	}
+
+	function upRechazar(id) {
+		Swal.fire({
+			title: 'Rechazar Evento',
+			text: 'Esta acción rechazara la evidencia, agregue un comentario y luego click en rechazar',
+			showCancelButton: true,
+			icon: "warning",
+			buttonsStyling: false,
+			input: "text",
+			confirmButtonText: "Rechazar",
+			cancelButtonText: "Cancelar",
+			customClass: {
+				confirmButton: "order-2 btn btn-danger",
+				cancelButton: "order-1 btn btn-light"
+			},
+			preConfirm: (reason) => {
+				if (!reason) {
+					Swal.showValidationMessage('Debes escribir una razón para rechazar el evento');
+				}
+				return reason;
+			}
+		}).then(function (action) {
+			if (action.isConfirmed) {
+				$.ajax({
+					url: `${url}/catalogo/eventos.core/codevento/${id}`,
+					type: 'patch',
+					data: {
+						colname: 'codestado,strrechazo',
+						colvalue: `2,${action.value}`
+					}
+				}).done(function (request) {
+					sToast.fire({
+						icon: "success",
+						title: "No se acepto la evidencia para el evento "
+					})
+					table.ajax.reload(null, false);
+				}).fail(function (reason) {
+					console.log(reason)
+					sToast.fire({
+						icon: "error",
+						title: "Se produjo un error"
+					})
+				})
+			}
+		})
+	}
+
+	function upCorrecion(id){
+		Swal.fire({
+			title: 'Correcion Realizada',
+			text: 'Esta acción indicara que ya se raelizo la correcion indicada, agregue un comentario y luego click en Enviar a revision',
+			showCancelButton: true,
+			icon: "warning",
+			buttonsStyling: false,
+			input: "text",
+			confirmButtonText: "Enviar a Revision",
+			cancelButtonText: "Cancelar",
+			customClass: {
+				confirmButton: "order-2 btn btn-warning",
+				cancelButton: "order-1 btn btn-light"
+			},
+			preConfirm: (reason) => {
+				if (!reason) {
+					Swal.showValidationMessage('Debe escribir un comentario');
+				}
+				return reason;
+			}
+		}).then(function (action) {
+			if (action.isConfirmed) {
+				$.ajax({
+					url: `${url}/catalogo/eventos.core/codevento/${id}`,
+					type: 'patch',
+					data: {
+						colname: 'codestado,strrechazo',
+						colvalue: `4,${action.value}`
+					}
+				}).done(function (request) {
+					sToast.fire({
+						icon: "success",
+						title: "Correcion realizada, pendiente de revision "
+					})
+					table.ajax.reload(null, false);
+				}).fail(function (reason) {
+					console.log(reason)
+					sToast.fire({
+						icon: "error",
+						title: "Se produjo un error"
+					})
+				})
+			}
+		})
+    }
+
+	function delEvento(id) {
+		delBase('¿Esta seguro que desea eliminar el evento?', `eventos.core/codevento/${id}`)
+	}
+
+	function showEvidencia(url) {
+		window.open(url, '_blank')
+	}
+
+	function delParticipante(codpersona, codevento) {
+		Swal.fire({
+			text: 'Esta seguro que desea eliminar al participantes?',
+			showCancelButton: true,
+			icon: "warning",
+			buttonsStyling: false,
+			confirmButtonText: "Eliminar",
+			cancelButtonText: "Cancelar",
+			customClass: {
+				confirmButton: "order-2 btn btn-danger",
+				cancelButton: "order-1 btn btn-light"
+			}
+		}).then(function (action) {
+			if (action.isConfirmed) {
+				$.ajax({
+					url: `${url}/catalogo/eventos.rel_core_persona/codevento/${codevento}`,
+					type: 'delete',
+					data: {
+						colname: 'codpersona',
+						colvalue: `${codpersona}`
+					}
+				}).done(function (request) {
+					sToast.fire({
+						icon: "success",
+						title: "Registro Eliminado"
+					})
+					listParticipants(codevento)
+				}).fail(function (reason) {
+					console.log(reason)
+					sToast.fire({
+						icon: "error",
+						title: "Se produjo un error"
+					})
+				})
+			}
+		})
+	}
+
+
+	table = $("#tb-events").DataTable({
+		search: true,
+		ajax: `${url}/catalogo/view/eventos.vw_eventos${filtSocioUrl}`,
+		columns: [
+			{data: "datfchinicio"},
+			{data: "strevento"},
+			{data: "codevento"},
+			{data: "strproyectos"},
+			{data: "strtrimestre_usaid"},
+			{data: "total_m"},
+			{data: "strsocio"},
+			{data: "codestado"},
+			{data: "strestado"},
+			{data: "strrechazo"},
+			{data: null}
+		],
+		columnDefs: [
+			/*{
+				targets: [1],
+				render: function (data, type, row) {
+					return `<button class="btn btn-icon btn-circle btn-light-primary btn-hover-rotate-start " onclick="modalEvento('${data}')">${data}</button>`
+				}
+			},*/ {
+				targets: [0],
+				render: function (data, type, row) {
+					let dati = data.substring(0, 10)
+					let datf = row.datfchfin.substring(0, 10)
+					let output = `${dati}`;
+					if (dati != datf)
+						output = `${data.substring(0, 10)} - ${row.datfchfin.substring(0, 10)}`
+					return `<span class="font-monospace text-center m-2">${output}</span>`
+				}
+			}, {
+				targets: [5],
+				render: function (data, type, row) {
+					return `<span class="badge badge-light-primary">Hombres: ${data}</span>\n<span class="badge badge-light-danger" >Mujeres: ${row.total_f}</span>\n<span class="badge badge-light-dark">Total: ${row.total_p}</span>\n<span class="badge badge-light-info">Organizaciones: ${row.total_o}</span>`
+				}
+			}, {
+				targets: [6],
+                visible: codRole == 1 ? true : false
+			}, {
+				targets: [7],
+                visible: false
+            }, {
+				targets: [8],
+				render: function (data, type, row) {
+					let color = "warning";
+					if (row.codestado == 3) color = "success"
+					if (row.codestado == 2) color = "danger"
+                    if (row.codestado == 4) color = "primary"
+                    if (row.codestado == 5) color = "secondary"
+					return `<span class="badge badge-${color}">${row.strestado}</span>`
+				}
+			}, {
+				targets: [10],
+				render: function (data, type, row) {
+					let s0 = `<button class="btn btn-icon btn-circle btn-light-info btn-hover-scale" onclick="showEvidencia('${row.strlinkevidencia}')"><i class="bi bi-eye fs-2 me-1"></i></button>`
+					if (row.codestado == 3)
+						return `${s0}`;
+
+					let s1 = `<button class="btn btn-icon btn-circle btn-success btn-hover-scale " onclick="upAprobar('${row.codevento}')"><i class="bi bi-check-circle fs-2 me-1"></i></button>`
+					let s2 = `<button class="btn btn-icon btn-circle btn-warning btn-hover-scale " onclick="upRechazar('${row.codevento}')"><i class="bi bi-arrow-counterclockwise fs-2 me-1"></i></button>`
+					let s3 = `<button class="btn btn-icon btn-circle btn-danger btn-hover-scale " onclick="delEvento('${row.codevento}')"><i class="bi bi-trash fs-2 me-1"></i></button>`
+                    let s4 = `<button class="btn btn-icon btn-circle btn-primary btn-hover-scale " onclick="upCorrecion('${row.codevento}')"><i class="bi bi-arrow-clockwise fs-2 me-1"></i></button>`
+                    if (codRole == 2 ){
+						s1 = ''
+						s2 = ''
+                    }
+
+					if (codRole == 1 )
+						s4 = ''
+
+                    if (row.codestado != 2)
+						s4 = ''
+
+                    let test = `
+                    <div class="d-flex">
+  <div class="dropdown me-1">
+    <button type="button" class="btn btn-secondary dropdown-toggle" id="dropdownMenuOffset" data-bs-toggle="dropdown" aria-expanded="false" data-bs-offset="10,20">
+      Opción
+    </button>
+    <ul class="dropdown-menu p-3" aria-labelledby="dropdownMenuOffset">
+        <li>${s0}</li>
+      <li>${s1}${s2}</li>
+      <li>${s3}</li>
+      <li>${s4}</li>
+    </ul>
+  </div>
+                    `
+                    return test;
+					//return `${s0}${s1}${s2}${s4}${s3}`;
+				}
+			}
+		],
+        order: [[0, 'desc'] ]
+
+	})
+
+	let filterSearch = document.querySelector('[data-kt-filter="search"]')
+	filterSearch.addEventListener('keyup', function (event) {
+		table.search(event.target.value).draw();
+	});
+
+	$("#tb-events tbody").on('click', 'tr',function(){
+		var data = table.row( this ).data();
+		//console.log('Mi data', data)
+		modalEvento(`${data.codevento}`)
+    })
+
+    $("#tb-events tbody").on('click', 'button', function(event){
+		event.stopPropagation();
+    })
+
+    filterStatus.on('change', function(){
+        let selected = $(this).val()
+        table.columns(7).search(selected.join('|'), true, false).draw()
+    })
+
+    filterProyecto.on('change', function(){
+        let selected = $(this).val()
+        table.columns(3).search(selected.join('|'), true, false).draw()
+    })
+
+    filterTrimestre.on('change', function(){
+        let selected = $(this).val()
+        table.columns(4).search(selected.join('|'), true, false).draw()
+    })
+
+    filterSocio.on('change', function(){
+        let selected = $(this).val()
+        table.columns(6).search(selected.join('|'), true, false).draw()
+    })
+
+
+	$("#datfchinicio").on("change", function (e) {
+		$("#datfchfin").val($("#datfchinicio").val())
+	})
+
+	function numCostoToggle() {
+		if (codtipoevento.val() == 4)
+			if (numhoras.val() >= 16)
+				return div_numcosto.show()
+
+		return div_numcosto.hide()
+	}
+
+	codtipoevento.on('change', numCostoToggle)
+	numhoras.on('change', numCostoToggle)
+
+</script>
+<!--end::Page Custom Javascript-->
+<!--end::Javascript-->
+</body>
+</html>

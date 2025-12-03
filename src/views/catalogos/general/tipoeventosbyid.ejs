@@ -1,0 +1,187 @@
+<%
+
+   %>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <%- include('../../components/web-header') %>
+</head>
+<body id="kt_body"
+      class=" header-fixed header-tablet-and-mobile-fixed toolbar-enabled toolbar-fixed toolbar-tablet-and-mobile-fixed aside-enabled aside-fixed"
+
+      style="--kt-toolbar-height:55px;--kt-toolbar-height-tablet-and-mobile:55px">
+
+<!--begin::Main-->
+<!--begin::Root-->
+<div class="d-flex flex-column flex-root">
+    <!--begin::Page-->
+    <div class="page d-flex flex-row flex-column-fluid">
+        <%- include('../../components/left-aside.ejs') %>
+        <!--begin::Wrapper-->
+        <div class="wrapper d-flex flex-column flex-row-fluid" id="kt_wrapper">
+            <%- include('../../components/kt-header.ejs') %>
+            <!--begin::Content-->
+            <div class="content d-flex flex-column flex-column-fluid" id="kt_content">
+                <div class="d-flex flex-column-fluid">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="card card-bordered shadow-sm">
+                                    <div class="card-header">
+                                        <div class="card-title"><h3 class="card-label">Tipos de Eventos</h3></div>
+                                    </div>
+                                    <div class="card-body">
+                                        <!--begin::Page loading(append to body)-->
+                                        <div class="loader" id="loader">
+
+		                                    <span class="spinner-border text-primary text-center" role="status">
+			                                    <span class="visually-hidden">Cargando...</span>
+		                                    </span>
+                                        </div>
+                                        <!--end::Page loading-->
+                                        <form class="row g-3" id="frm-update" style="display: none">
+                                            <div class="col-sm-12">
+                                                <label class="input-group-text" for="codtipo">Codigo</label>
+                                                <input type="text" name="codtipo" id="codtipo" class="form-control"
+                                                       readonly>
+                                            </div>
+                                            <div class="col-sm-12">
+                                                <label class="input-group-text" for="strtipo">Tipo de Evento</label>
+                                                <input type="text" class="form-control" name="strtipo" id="strtipo">
+                                            </div>
+                                            <div class="col-sm-12">
+                                                <label for="codcommcare" class="input-group-text">
+                                                    <span class="required">Codigo de Commcare</span>
+                                                </label>
+                                                <input class="form-control"
+                                                       id="codcommcare"
+                                                       name="codcommcare">
+                                            </div>
+                                            <div class="col-sm-12">
+                                                <div class="form-check form-switch form-check-custom form-check-solid me-10">
+                                                    <label class="form-check-label fw-bold"
+                                                           for="codestado">Estado </label>
+                                                    <input type="checkbox" class="form-check-input h-30px w-50px"
+                                                           name="codestado" id="codestado" value="1">
+                                                </div>
+                                            </div>
+                                            <div class="text-center">
+                                                <button class="btn btn-outline btn-outline-primary w-100 mb-5 btn-lg"
+                                                        id="kt_submit">
+                                                    <span class="indicator-label">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                                             fill="currentColor" class="bi bi-floppy"
+                                                             viewBox="0 0 16 16">
+                                                            <path d="M11 2H9v3h2z"/>
+                                                            <path d="M1.5 0h11.586a1.5 1.5 0 0 1 1.06.44l1.415 1.414A1.5 1.5 0 0 1 16 2.914V14.5a1.5 1.5 0 0 1-1.5 1.5h-13A1.5 1.5 0 0 1 0 14.5v-13A1.5 1.5 0 0 1 1.5 0M1 1.5v13a.5.5 0 0 0 .5.5H2v-4.5A1.5 1.5 0 0 1 3.5 9h9a1.5 1.5 0 0 1 1.5 1.5V15h.5a.5.5 0 0 0 .5-.5V2.914a.5.5 0 0 0-.146-.353l-1.415-1.415A.5.5 0 0 0 13.086 1H13v4.5A1.5 1.5 0 0 1 11.5 7h-7A1.5 1.5 0 0 1 3 5.5V1H1.5a.5.5 0 0 0-.5.5m3 4a.5.5 0 0 0 .5.5h7a.5.5 0 0 0 .5-.5V1H4zM3 15h10v-4.5a.5.5 0 0 0-.5-.5h-9a.5.5 0 0 0-.5.5z"/>
+                                                        </svg>
+                                                    </span>
+                                                    <span class="indicator-progress">Por favor espere...
+                                                        <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
+                                                    </span>
+                                                </button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <!--end::Content-->
+            <%- include('../../components/bottom-footer.ejs', {ip: ip}) %>
+        </div>
+        <!--end::Wrapper-->
+    </div>
+    <!--end::Page-->
+    <!-- begin::modals -->
+
+    <!-- end::modals -->
+</div>
+<!--end::Root-->
+
+
+<%- include('../../components/kt-scrolltop.ejs') %>
+<!--end::Main-->
+<%- include('../../components/web-footer.ejs') %>
+
+<script>
+    KTApp.init();
+    const url = `${window.location.origin}/api`;
+    const id = '<%- data.id %>';
+    const submitButton = document.querySelector('#kt_submit')
+    var inputCodigo = $("#codtipo")
+    var inputTipo = $("#strtipo")
+    var inputEstado = $("#codestado")
+    var inputCommcare = $("#codcommcare")
+    var sToast = null;
+    sToast = Swal.mixin({
+        toast: true,
+        position: "top-end",
+        showConfirmButton: false,
+        timer: 3000,
+        timerProgressBar: true,
+        didOpen: (toast) => {
+            toast.onmouseenter = Swal.stopTimer;
+            toast.onmouseleave = Swal.resumeTimer;
+        }
+    });
+
+    function load(Codigo, Tipo, Commacare, Estado) {
+        inputCodigo.val(Codigo)
+        inputTipo.val(Tipo)
+        inputCommcare.val(Commacare)
+        inputEstado.prop("checked", Estado)
+    }
+
+    function fnToast(res){
+        const {code, message} = res
+
+        if (code == undefined){
+            console.error(res)
+            throw 'Formato invalido'
+        }
+        sToast.fire({
+            icon: code ? 'success':'error',
+            title: message
+        })
+    }
+
+    KTUtil.onDOMContentLoaded(function(){
+        $.ajax({
+            url: `${url}/catalogo/view/eventos.tipo/codtipo/${id}`,
+            type: 'get'
+        }).done(function (result) {
+            const {codestado, codtipo, strtipo, codcommcare} = result.data[0];
+            load(codtipo, strtipo, codcommcare, codestado)
+            $("#loader").hide();
+            $("#frm-update").show();
+        }).fail(function (reason) {
+            console.log('reason', reason)
+        })
+
+
+        $("#frm-update").submit(function (e) {
+            e.preventDefault();
+            submitButton.setAttribute('data-kt-indicator', 'on');
+            submitButton.disabled = true;
+
+            $.ajax({
+                url: `${url}/catalogo/general/tipoeventos/${id}`,
+                type: 'put',
+                data: $("#frm-update").serializeArray()
+            }).done(fnToast).fail(fnToast).always(function () {
+                submitButton.removeAttribute('data-kt-indicator');
+                submitButton.disabled = false;
+            })
+        })
+
+
+    })
+</script>
+<!--end::Page Custom Javascript-->
+<!--end::Javascript-->
+</body>
+</html>

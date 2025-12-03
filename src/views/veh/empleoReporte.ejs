@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reporte Trimestral de Empleos</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @media print {
+            body {
+                background: white; /* Fondo blanco */
+                -webkit-print-color-adjust: exact; /* Ajustar colores de impresión */
+                margin: 0; /* Quitar márgenes de la página */
+                padding: 0; /* Quitar padding */
+                display: flex;
+                flex-direction: column;
+                min-height: 100vh;
+            }
+
+            .bg-gray-100 {
+                background: white !important; /* Fondo blanco para el contenedor */
+            }
+
+            .shadow-md {
+                box-shadow: none !important; /* Quitar sombras */
+            }
+
+            .p-6, .p-8 {
+                padding: 0 !important; /* Quitar paddings del contenedor */
+            }
+
+            .max-w-4xl {
+                max-width: 100% !important; /* Usar todo el ancho disponible */
+            }
+
+            table {
+                width: 100% !important; /* Asegurar que las tablas ocupen todo el ancho */
+            }
+
+            /* Encabezado de tabla con color */
+            table thead th {
+                background-color: #f3f4f6 !important; /* Color gris claro */
+                color: black !important; /* Asegura que el texto sea visible */
+                -webkit-print-color-adjust: exact; /* Permite que los colores se impriman */
+            }
+
+            @page {
+                size: A4; /* Tamaño del papel */
+                margin: 2cm; /* Márgenes de la página */
+            }
+
+            footer {
+                text-align: center;
+                padding: 20px;
+                border-top: 1px solid #ddd;
+            }
+        }
+
+        footer {
+
+            text-align: center;
+            padding: 20px;
+            border-top: 1px solid #ddd;
+        }
+    </style>
+</head>
+<body class="">
+<div class=" p-8 max-w-5xl mx-auto">
+    <!-- Encabezado -->
+    <div class="flex items-center justify-between mb-8">
+        <img src="/assets/media/logos/logo-ra.png" alt="Logo" class="mx-auto mb-4 w-32">
+        <div class="text-center flex-grow">
+            <h1 class="text-2xl font-bold text-center mb-4">Registro Trimestral de Empleos FTE por Pyme</h1>
+            <p class="text-sm text-center text-gray-500">Nombre del Proyecto: <%= encabezado.strproyectos %></p>
+        </div>
+    </div>
+
+    <button onclick="window.open(`/mye/empleos/pdf/<%= encabezado.codempleo %>`, '_blank')"
+            class="flex items-center px-4 py-2 bg-red-500 text-white font-bold rounded hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-400 focus:ring-offset-2">
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8l-6-6zM14 3.5V9h5.5M9 14h6m-6 4h6m-6-8h6" />
+        </svg>
+        Exportar PDF
+    </button>
+
+    <!-- Información General -->
+    <div class="grid grid-cols-2 gap-4 mt-6">
+        <div>
+            <p><span class="font-bold">ID Plataforma:</span> <%= encabezado.codempleo %></p>
+            <p><span class="font-bold">Socio que reporta:</span> <%= encabezado.strsocio %></p>
+            <p><span class="font-bold">Fecha:</span> <%= encabezado.datfchregistro.split('T')[0] %></p>
+        </div>
+        <div>
+            <p><span class="font-bold">Estrategia:</span> <%= encabezado.strtrimestre_usaid %></p>
+            <p><span class="font-bold">No. Actividad del POA:</span> <%= poa[0].strcodigoactividad %></p>
+            <p><span class="font-bold">Año Fiscal:</span> <%= encabezado.strtrimestre_usaid.split('-')[1] %></p>
+            <p><span class="font-bold">Trimestre:</span> <%= encabezado.strtrimestre_usaid.split('-')[0] %></p>
+        </div>
+
+    </div>
+
+    <!-- Total FTE -->
+    <div class="mt-6">
+        <p class="font-bold text-lg">Total FTE:
+            <%= detalle.reduce((sum, item) => sum + item.fte_total, 0) %>
+        </p>
+    </div>
+
+    <!-- Tabla de Detalle -->
+    <div class="mt-8">
+        <h2 class="text-xl font-bold mb-4">Detalle de Empleos</h2>
+        <table class="table-auto w-full border-collapse border border-gray-300 text-sm">
+            <thead>
+            <tr class="bg-gray-100">
+                <th class="border border-gray-300 p-2">Organización</th>
+                <th class="border border-gray-300 p-2">Categoría</th>
+                <th class="border border-gray-300 p-2">Cadena de Valor</th>
+                <th class="border border-gray-300 p-2">Producto</th>
+                <th class="border border-gray-300 p-2">Comunidad Lingüística</th>
+                <th class="border border-gray-300 p-2" >HJ</th>
+                <th class="border border-gray-300 p-2">MJ</th>
+                <th class="border border-gray-300 p-2">HT</th>
+                <th class="border border-gray-300 p-2">MT</th>
+                <th class="border border-gray-300 p-2">HP</th>
+                <th class="border border-gray-300 p-2">MP</th>
+                <th class="border border-gray-300 p-2">Total H</th>
+                <th class="border border-gray-300 p-2">Total M</th>
+                <th class="border border-gray-300 p-2">FTE H</th>
+                <th class="border border-gray-300 p-2">FTE M</th>
+                <th class="border border-gray-300 p-2">Total FTE</th>
+            </tr>
+            </thead>
+            <tbody>
+            <% detalle.forEach((item) => { %>
+                <tr>
+                    <td class="border border-gray-300 p-2"><%= item.strorganizacion %></td>
+                    <td class="border border-gray-300 p-2"><%= item.strcategoria %></td>
+                    <td class="border border-gray-300 p-2"><%= item.strcadenavalor %></td>
+                    <td class="border border-gray-300 p-2"><%= item.strproducto %></td>
+                    <td class="border border-gray-300 p-2"><%= item.strcomunidadlinguistica %></td>
+                    <td class="border border-gray-300 p-2"><%= item.sum_hom_jorn %></td>
+                    <td class="border border-gray-300 p-2"><%= item.sum_muj_jorn %></td>
+                    <td class="border border-gray-300 p-2"><%= item.sum_hom_temp %></td>
+                    <td class="border border-gray-300 p-2"><%= item.sum_muj_temp %></td>
+                    <td class="border border-gray-300 p-2"><%= item.sum_hom_perm %></td>
+                    <td class="border border-gray-300 p-2"><%= item.sum_muj_perm %></td>
+                    <td class="border border-gray-300 p-2"><%= item.sum_hom %></td>
+                    <td class="border border-gray-300 p-2"><%= item.sum_muj %></td>
+                    <td class="border border-gray-300 p-2"><%= item.fte_hom %></td>
+                    <td class="border border-gray-300 p-2"><%= item.fte_muj %></td>
+                    <td class="border border-gray-300 p-2"><%= item.fte_total %></td>
+                </tr>
+            <% }); %>
+            </tbody>
+        </table>
+    </div>
+
+    <footer>
+        <!-- Firmas -->
+        <div class="mt-8 grid grid-cols-2 gap-8">
+            <div>
+                <p class="border-t-2 border-gray-800 mx-auto mt-4"></p>
+                <p class="font-bold ">Nombre, puesto</p>
+                <p>Firma y sello de autoridad de PYME que garantiza la veracidad de la información.</p>
+            </div>
+            <div>
+                <p class="border-t-2 border-gray-800 mx-auto mt-4"></p>
+                <p class="font-bold ">Nombre, puesto</p>
+                <p>Firma y sello de personal de proyecto que garantiza la veracidad de la información.</p>
+            </div>
+        </div>
+    </footer>
+
+</div>
+</body>
+</html>

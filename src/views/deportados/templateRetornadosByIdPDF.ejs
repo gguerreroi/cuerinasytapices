@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Ficha de Perfil –<%= codretornado %>–</title>
+
+    <style>
+        @media print {
+            .pagebreak { page-break-before: always; }
+        }
+    </style>
+</head>
+<body class="">
+
+<!-- Sección I -->
+<section class="mt-2">
+    <p class="border-bottom pb-1 text-uppercase fw-bolder">I. Datos Personales</p>
+    <div class="row g-1">
+        <div class="col-sm-8">
+            <div class="input-group mb-2">
+                <div class="input-group-prepend">
+                    <label class="input-group-text fw-bold">Nombre</label>
+                </div>
+                <span class="form-control form-control-sm"><%= strnombres %> <%= strapellidos %></span>
+            </div>
+        </div>
+        <div class="col-sm-4">
+            <div class="input-group mb-2">
+                <div class="input-group-prepend">
+                    <label class="input-group-text fw-bold">CUI</label>
+                </div>
+                <span class="form-control form-control-sm"> <%= numcui %></span>
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <div class="input-group mb-2">
+                <div class="input-group-prepend">
+                    <label class="input-group-text fw-bold">Fecha de Nacimiento</label>
+                </div>
+                <span class="form-control form-control-sm"><%= (() => { const [a,m,d] = dp_fchnacimiento.toISOString().slice(0,10).split('-'); return `${d}/${m}/${a}` })() %></span>
+            </div>
+        </div>
+        <div class="col-sm-3">
+            <div class="input-group mb-2">
+                <div class="input-group-prepend">
+                    <label class="input-group-text fw-bold">Edad</label>
+                </div>
+                <span class="form-control form-control-sm"><%= ((f) => { const h=new Date(),n=new Date(f); let e=h.getFullYear()-n.getFullYear(); return ((h.getMonth()<n.getMonth())||(h.getMonth()===n.getMonth()&&h.getDate()<n.getDate())) ? (--e+' años') : (e+' años'); })(dp_fchnacimiento) %></span>
+            </div>
+        </div>
+        <div class="col-sm-3">
+            <div class="input-group mb-2">
+                <div class="input-group-prepend">
+                    <label class="input-group-text fw-bold">Sexo</label>
+                </div>
+                <span class="form-control form-control-sm"><%= codgenero %></span>
+            </div>
+        </div>
+        <div class="col-sm-3">
+            <div class="input-group mb-2">
+                <div class="input-group-prepend">
+                    <label class="input-group-text fw-bold">Estado Civil</label>
+                </div>
+                <span class="form-control form-control-sm"><%= dp_codestadocivil %></span>
+            </div>
+        </div>
+        <div class="col-sm-5">
+            <div class="input-group mb-2">
+                <div class="input-group-prepend">
+                    <label class="input-group-text fw-bold">¿Es jefe/a de hogar?</label>
+                </div>
+                <span class="form-control form-control-sm"><%= dp_flgjefehogar ? 'Sí' : 'No' %></span>
+            </div>
+        </div>
+        <div class="col-sm-4">
+            <div class="input-group mb-2">
+                <div class="input-group-prepend">
+                    <label class="input-group-text fw-bold">Número de Hijos</label>
+                </div>
+                <span class="form-control form-control-sm"><%= dp_numhijos %></span>
+            </div>
+        </div>
+        <div class="col-sm-4">
+            <div class="input-group mb-2">
+                <div class="input-group-prepend">
+                    <label class="input-group-text fw-bold">Teléfono</label>
+                </div>
+                <span class="form-control form-control-sm"><%= numcelular %></span>
+            </div>
+        </div>
+        <div class="col-sm-8">
+            <div class="input-group mb-2">
+                <div class="input-group-prepend">
+                    <label class="input-group-text fw-bold">Email</label>
+                </div>
+                <span class="form-control form-control-sm"><%= email.toLowerCase() %></span>
+            </div>
+        </div>
+        <div class="col-sm-12">
+            <div class="input-group">
+                <div class="input-group-prepend">
+                    <label class="input-group-text fw-bold">Lugar de Residencia</label>
+                </div>
+                <span class="form-control form-control-sm"><%= dp_codmunicipioresidencia %> - <%= dp_strmunicipioresidencia %></span>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Sección II -->
+<section class="mt-2">
+    <p class="border-bottom pb-1 text-uppercase fw-bolder">II. Datos sobre Migración</p>
+    <div class="row g-1">
+        <div class="col-sm-8">
+            <label class="input-group-text fw-bold">Estado del cual fue deportado</label>
+            <span class="form-control form-control-sm"><%= dm_codpaisdeportado %> - <%= dm_strpaisdeportado %></span>
+        </div>
+        <div class="col-sm-4 mb-2">
+            <label class="input-group-text fw-bold">Fecha de deportación</label>
+            <span class="form-control form-control-sm"><%= (() => { const [a,m,d] = dm_fchdeportacion.toISOString().slice(0,10).split('-'); return `${d}/${m}/${a}` })() %></span>
+        </div>
+        <div class="col-sm-12 mb-2">
+            <label class="input-group-text fw-bold">Actividad económica realizada</label>
+            <span class="form-control form-control-sm"><%= dm_stractividadeconomicaextranjero %></span>
+        </div>
+        <div class="col-sm-6 mb-2">
+            <label class="input-group-text fw-bold">Motivo de migración</label>
+            <span class="form-control form-control-sm"><%= dm_strmotivodemigracion %></span>
+        </div>
+        <div class="col-sm-6 mb-2">
+            <label class="input-group-text fw-bold">Duración en el extranjero</label>
+            <span class="form-control form-control-sm"><%= dm_duracionextranhero %> meses</span>
+        </div>
+        <div class="col-sm-6">
+            <div class="input-group mb-2">
+                <div class="input-group-prepend">
+                    <label class="input-group-text fw-bold">¿Piensa volver a migrar?</label>
+                </div>
+                <span class="form-control form-control-sm"><%= dm_flgmigrar ? 'Sí' : 'No' %></span>
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <div class="input-group mb-2">
+                <div class="input-group-prepend">
+                    <label class="input-group-text fw-bold">¿Cuándo?</label>
+                </div>
+                <span class="form-control form-control-sm"><%= dm_migrarcuando ?? 'N/A' %></span>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Sección III -->
+<section class="mt-2">
+    <p class="border-bottom pb-1 text-uppercase fw-bolder">III. Situación Actual</p>
+    <div class="row g-1">
+        <div class="col-sm-6 mb-2">
+            <label class="input-group-text fw-bold">Actividad Económica Actual</label>
+            <span class="form-control form-control-sm"><%= sa_stractividadactual %></span>
+        </div>
+        <div class="col-sm-6 mb-2">
+            <label class="input-group-text fw-bold">Nivel Educativo</label>
+            <span class="form-control form-control-sm"><%= sa_strniveleducativo %></span>
+        </div>
+        <div class="col-sm-4 mb-2">
+            <label class="input-group-text fw-bold">¿Tiene oficio o habilidad?</label>
+            <span class="form-control form-control-sm"><%= sa_flgoficioohabilidadtecnica ? 'Sí' : 'No' %></span>
+        </div>
+        <div class="col-sm-8 mb-2">
+            <label class="input-group-text fw-bold">¿Cuál?</label>
+            <span class="form-control form-control-sm"><%= sa_flgoficioohabilidadtecnica ? sa_cualoficioohabilidadtecnica : 'N/A' %></span>
+        </div>
+        <div style="page-break-before: always;"></div>
+        <div class="col-sm-4 mb-2">
+            <label class="input-group-text fw-bold">¿Terreno propio?</label>
+            <span class="form-control form-control-sm"><%= sa_flgterrenopropiooaccesoatierra ? 'Sí' : 'No' %></span>
+        </div>
+        <div class="col-sm-4 mb-2">
+            <label class="input-group-text fw-bold">Tamaño m²</label>
+            <span class="form-control form-control-sm"><%= sa_flgterrenopropiooaccesoatierra ? formatNumber(sa_tamaniopropiedadm2,2)  : 'N/A' %></span>
+        </div>
+        <div class="col-sm-4 mb-2">
+            <label class="input-group-text fw-bold">¿Dónde?</label>
+            <span class="form-control form-control-sm"><%= sa_flgterrenopropiooaccesoatierra ? sa_dondeterrenopropiooaccesoatierra : 'N/A' %></span>
+        </div>
+        <div class="col-sm-5 mb-2">
+            <label for="sa_flginteresadocapacitarse" class="input-group-text fw-bold">¿Interesado en capacitarse?</label>
+            <span id="sa_flginteresadocapacitarse" class="form-control form-control-sm"><%= sa_flginteresadocapacitarse ? 'Sí' : 'No' %></span>
+        </div>
+        <div class="col-sm-7 mb-2">
+            <label for="sa_enquecapacitarse" class="input-group-text fw-bold">¿En qué?</label>
+            <span id="sa_enquecapacitarse" class="form-control form-control-sm"><%= sa_flginteresadocapacitarse ? sa_enquecapacitarse : 'N/A' %></span>
+        </div>
+    </div>
+</section>
+<!-- Sección IV y V -->
+<section class="mt-2">
+    <p class="border-bottom pb-1 text-uppercase fw-bolder">IV. Vulnerabilidades e Intereses</p>
+    <div class="row g-1">
+        <div class="col-sm-6 mb-2">
+            <table class="table table-sm table-bordered">
+                <thead>
+                <tr class="table-secondary"><th>Vulnerabilidades</th></tr>
+                </thead>
+                <tbody>
+                <%=  strvulnerabilidades.length > 0 ? strvulnerabilidades.split('|').map(v => `<tr><td>${v}</td></tr>`).join('') : '<tr><td>Sin vulnerabilidades</td></tr>'  %>
+                </tbody>
+            </table>
+        </div>
+        <div class="col-sm-6 mb-2">
+            <table class="table table-sm table-bordered">
+                <thead>
+                <tr class="table-secondary"><th>Intereses</th></tr>
+                </thead>
+                <tbody>
+                <%=
+                strintereses?.trim().length > 0
+                ? strintereses.split('|').map(i => `<tr><td>${i}</td></tr>`).join('')
+                : '<tr><td>Sin intereses</td></tr>'
+                 %>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</section>
+<!-- Sección VI -->
+<section class="mt-2">
+    <p class="border-bottom pb-1 text-uppercase fw-bolder">VI. Observaciones del Equipo PRL</p>
+    <div class="row g-1">
+        <div class="col-sm-9 mb-2">
+            <div class="input-group">
+                <div class="input-group-prepend">
+                    <span class="input-group-text fw-bold">Entrevistador</span>
+                </div>
+                <span class="form-control text-sm form-control-sm"><%= oe_strnombreentrevistador %></span>
+            </div>
+        </div>
+        <div class="col-sm-3 mb-2">
+            <div class="input-group">
+                <div class="input-group-prepend">
+                    <span class="input-group-text fw-bold">Fecha</span>
+                </div>
+                <span class="form-control text-xs form-control-sm"><%= (() => { const [a,m,d] = oe_datfecha.toISOString().slice(0,10).split('-'); return `${d}/${m}/${a}` })() %></span>
+            </div>
+        </div>
+        <div class="col-sm-12 mb-2">
+            <div class="input-group">
+                <div class="input-group-prepend">
+                    <label class="input-group-text fw-bold">Observaciones</label>
+                </div>
+                <span class="form-control text-truncate form-control-sm"><%= oe_strobservaciones %></span>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Sección VII -->
+<section class="mt-2">
+    <p class="border-bottom pb-1 text-uppercase fw-bolder">VII. Evaluación Final</p>
+    <div class="row g-1">
+        <div class="col-sm-6">
+            <label class="input-group-text fw-bold">Evaluación final</label>
+            <span class="form-control form-control-sm"><%= strevaluacionfinalperfil %></span>
+        </div>
+        <div class="col-sm-6">
+            <label class="input-group-text fw-bold">Rázon por la que no cumple</label>
+            <span class="form-control form-control-sm"><%= strrazonnocumple %></span>
+        </div>
+        <div class="col-sm-6">
+            <label class="input-group-text fw-bold">Tipo de Apoyo Autorizado</label>
+            <span class="form-control form-control-sm"><%= strtipoapoyoautorizado %></span>
+        </div>
+        <div class="col-sm-6">
+            <label class="input-group-text fw-bold">Otro tipo de apoyo</label>
+            <span class="form-control form-control-sm"><%= strotrotipoapoyo %></span>
+        </div>
+        <div class="col-sm-6">
+            <div class="input-group">
+                <div class="input-group-prepend">
+                    <label class="input-group-text fw-bold">Responsable PRL</label>
+                </div>
+                <span class="form-control form-control-sm"><%= strnombreresponsableprl %></span>
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <div class="input-group">
+                <div class="input-group-prepend">
+                    <label class="input-group-text fw-bold">Link evidencia</label>
+                </div>
+                <span class="form-control form-control-sm"><%= strlinkevidencia %></span>
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <div class="input-group">
+                <div class="input-group-prepend">
+                    <label class="input-group-text fw-bold">Fecha de decisión</label>
+                </div>
+                <span class="form-control form-control-sm"><%=  datfechadecision ? (() => { const [a,m,d] = datfechadecision.toISOString().slice(0,10).split('-'); return `${d}/${m}/${a}` })() : 'Sin fecha' %></span>
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <div class="input-group">
+                <div class="input-group-prepend">
+                    <label class="input-group-text fw-bold">Fecha de seguimiento</label>
+                </div>
+                <span class="form-control form-control-sm"><%=  datfechaseguimiento ? (() => { const [a,m,d] = datfechaseguimiento.toISOString().slice(0,10).split('-'); return `${d}/${m}/${a}` })() : 'Sin fecha' %></span>
+            </div>
+        </div>
+    </div>
+</section>
+</body>
+</html>

@@ -1,0 +1,1696 @@
+<%
+let Ficha = ficha != undefined ? ficha : {
+    datfchventa: ''
+}
+console.log(Ficha)
+%>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <%- include('../components/web-header') %>
+    <style>
+        tr {
+            cursor: pointer;
+        }
+
+        .form-check-lg {
+            width: 3.3em !important;
+            height: 3.3em !important;
+            margin-top: 0
+        }
+    </style>
+</head>
+<body id="kt_body"
+      class="header-fixed header-tablet-and-mobile-fixed toolbar-enabled toolbar-fixed toolbar-tablet-and-mobile-fixed aside-enabled aside-fixed"
+      style="--kt-toolbar-height:55px;--kt-toolbar-height-tablet-and-mobile:55px">
+<!--begin::Main-->
+<!--begin::Root-->
+<div class="d-flex flex-column flex-root">
+    <!--begin::Page-->
+    <div class="page d-flex flex-row flex-column-fluid">
+        <%- include('../components/left-aside.ejs') %>
+        <!--begin::Wrapper-->
+        <div class="wrapper d-flex flex-column flex-row-fluid" id="kt_wrapper">
+            <%- include('../components/kt-header.ejs') %>
+            <!--begin::Content-->
+            <div class="content d-flex flex-column flex-column-fluid" id="kt_content">
+                <div class="d-flex flex-column-fluid">
+                    <div class="container">
+                        <div class="row g-6">
+                            <div class="col-12">
+                                <div class="card gutter-b">
+                                    <div class="card-header justify-content-end ribbon ribbon-start ribbon-clip">
+                                        <div class="ribbon-label ">
+                                            <%- Ficha.codretornado || 0 %>
+                                            <span class="ribbon-inner bg-primary"></span>
+                                        </div>
+                                        <div class="card-title"><h3 class="card-label">Ficha de Deportados</h3></div>
+                                        <div class="card-toolbar">
+                                            <% if(id != 0) { %>
+                                                <div class="btn-group">
+                                                    <button type="button" class="btn btn-secondary dropdown-toggle"
+                                                            data-bs-toggle="dropdown" aria-expanded="false">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32"
+                                                             fill="currentColor" class="bi bi-filetype-pdf"
+                                                             viewBox="0 0 16 16">
+                                                            <path fill-rule="evenodd"
+                                                                  d="M14 4.5V14a2 2 0 0 1-2 2h-1v-1h1a1 1 0 0 0 1-1V4.5h-2A1.5 1.5 0 0 1 9.5 3V1H4a1 1 0 0 0-1 1v9H2V2a2 2 0 0 1 2-2h5.5zM1.6 11.85H0v3.999h.791v-1.342h.803q.43 0 .732-.173.305-.175.463-.474a1.4 1.4 0 0 0 .161-.677q0-.375-.158-.677a1.2 1.2 0 0 0-.46-.477q-.3-.18-.732-.179m.545 1.333a.8.8 0 0 1-.085.38.57.57 0 0 1-.238.241.8.8 0 0 1-.375.082H.788V12.48h.66q.327 0 .512.181.185.183.185.522m1.217-1.333v3.999h1.46q.602 0 .998-.237a1.45 1.45 0 0 0 .595-.689q.196-.45.196-1.084 0-.63-.196-1.075a1.43 1.43 0 0 0-.589-.68q-.396-.234-1.005-.234zm.791.645h.563q.371 0 .609.152a.9.9 0 0 1 .354.454q.118.302.118.753a2.3 2.3 0 0 1-.068.592 1.1 1.1 0 0 1-.196.422.8.8 0 0 1-.334.252 1.3 1.3 0 0 1-.483.082h-.563zm3.743 1.763v1.591h-.79V11.85h2.548v.653H7.896v1.117h1.606v.638z"/>
+                                                        </svg>
+                                                    </button>
+                                                    <ul class="dropdown-menu">
+                                                        <li>
+                                                            <button type="button" class="dropdown-item"
+                                                                    onclick="window.location.href='/mye/deportados/pdf/<%- id %>'">
+                                                                PDF
+                                                            </button>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            <% } %>
+                                        </div>
+                                    </div>
+                                    <div class="card-body">
+                                        <ul class="nav nav-tabs nav-line-tabs mb-5 fs-6">
+                                            <li class="nav-item">
+                                                <a href="#kt_tab_pane_1" class="nav-link active" data-bs-toggle="tab">
+                                                    Ficha de Perfil
+                                                </a>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a href="#kt_tab_pane_2" class="nav-link" data-bs-toggle="tab">
+                                                    Sección de Uso Interno - Decisión de Apoyo PRL
+                                                </a>
+                                            </li>
+                                        </ul>
+                                        <div class="tab-content" id="kt_content_tab">
+                                            <div class="tab-pane fade show active" id="kt_tab_pane_1" role="tabpanel">
+                                                <form class="" id="frmretornados">
+                                                    <div class="row g-2">
+                                                        <h5 class="col-sm-12">0. Proyecto</h5>
+                                                        <div class="col-sm-12">
+                                                            <label class="input-group-text" for="codproyecto">Proyecto</label>
+                                                                <select class="form-select"
+                                                                        id="codproyecto" required
+                                                                        name="codproyecto">
+                                                                </select>
+
+                                                        </div>
+                                                        <h5 class="col-sm-12">I. Datos Personales</h5>
+                                                        <input type="hidden" name="codretornado" id="codretornado"
+                                                               class="col-sm-12" value="<%- Ficha.codretornado %>">
+                                                        <div class="col-sm-12 col-md-4">
+                                                            <div class="input-group">
+                                                                <div class="input-group-prepend">
+                                                                    <label class="input-group-text"
+                                                                           for="numcui">CUI</label>
+                                                                </div>
+                                                                <input type="text" name="dp_numcui" id="numcui"
+                                                                       class="form-control" value="<%- Ficha.numcui %>"
+                                                                       required>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-sm-12 col-md-4">
+                                                            <div class="input-group">
+                                                                <div class="input-group-prepend">
+                                                                    <label class="input-group-text" for="strnombre">Nombre</label>
+                                                                </div>
+                                                                <input type="text" name="dp_strnombre" id="strnombre"
+                                                                       class="form-control text-uppercase"
+                                                                       value="<%- Ficha.strnombres %>" required>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-sm-12 col-md-4">
+                                                            <div class="input-group">
+                                                                <div class="input-group-prepend">
+                                                                    <label class="input-group-text" for="strapellido">Apellido</label>
+                                                                </div>
+                                                                <input type="text" name="dp_strapellido"
+                                                                       id="strapellido"
+                                                                       class="form-control text-uppercase"
+                                                                       value="<%- Ficha.strapellidos %>" required>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-sm-12 col-md-3">
+                                                            <label class="input-group-text" for="fchnacimiento">Fecha de
+                                                                Nacimiento</label>
+                                                            <input type="date" name="dp_fchnacimiento"
+                                                                   id="fchnacimiento" class="form-control"
+                                                                   value="<%= Ficha.dp_fchnacimiento ? new Date(Ficha.dp_fchnacimiento).toISOString().split('T')[0] : '' %>"
+                                                                   required>
+                                                        </div>
+                                                        <div class="col-sm-12 col-md-3">
+                                                            <label class="input-group-text" for="codsexo">Sexo</label>
+                                                            <select name="dp_codsexo" id="codsexo"
+                                                                    class="form-select form-select-solid" required>
+                                                                <option value="" disabled selected>Seleccione...</option>
+
+                                                                <option value="M" <%- Ficha.codgenero == 'M' ? 'selected' : '' %>>
+                                                                    Masculino
+                                                                </option>
+                                                                <option value="F" <%- Ficha.codgenero == 'F' ? 'selected' : '' %>>
+                                                                    Femenino
+                                                                </option>
+                                                            </select>
+                                                        </div>
+                                                        <div class="col-sm-12 col-md-3">
+                                                            <label class="input-group-text" for="codestadocivil">Estado
+                                                                Civil</label>
+                                                            <select name="dp_codestadocivil" id="codestadocivil"
+                                                                    class="form-select form-select-solid">
+                                                                <option value="" selected>Seleccione...</option>
+                                                                <option value="S" <%- Ficha.dp_codestadocivil == 'S' ? 'selected' : '' %>>
+                                                                    Soltero(a)
+                                                                </option>
+                                                                <option value="C" <%- Ficha.dp_codestadocivil == 'C' ? 'selected' : '' %>>
+                                                                    Casado(a)
+                                                                </option>
+                                                                <option value="D" <%- Ficha.dp_codestadocivil == 'D' ? 'selected' : '' %>>
+                                                                    Divorciado(a)
+                                                                </option>
+                                                                <option value="U" <%- Ficha.dp_codestadocivil == 'U' ? 'selected' : '' %>>
+                                                                    Unido(a)
+                                                                </option>
+                                                                <option value="V" <%- Ficha.dp_codestadocivil == 'V' ? 'selected' : '' %>>
+                                                                    Viudo(a)
+                                                                </option>
+                                                            </select>
+                                                        </div>
+                                                        <div class="col-sm-12 col-md-3">
+                                                            <label class="input-group-text"
+                                                                   for="codmunicipio">Municipio</label>
+                                                            <select name="dp_codmunicipioresidencia" id="codmunicipio"
+                                                                    class="form-select form-select-solid"></select>
+                                                        </div>
+                                                        <div class="col-sm-12 col-md-3">
+                                                            <div class="input-group">
+                                                                <div class="input-group-prepend">
+                                                                    <label class="input-group-text" for="numhijos">Número
+                                                                        de hijos/as</label>
+                                                                </div>
+                                                                <input type="number" name="dp_numhijos" id="numhijos"
+                                                                       class="form-control"
+                                                                       value="<%- Ficha.dp_numhijos %>" required>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-sm-12 col-md-9">
+                                                            <div class="input-group">
+                                                                <div class="input-group-prepend">
+                                                                    <label class="input-group-text" for="numtelefono">Teléfono
+                                                                        de contacto</label>
+                                                                </div>
+                                                                <input type="tel" name="dp_telefono" id="numtelefono"
+                                                                       class="form-control"
+                                                                       value="<%- Ficha.numcelular %>" required>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-sm-12 col-md-9">
+                                                            <div class="input-group">
+                                                                <div class="input-group-prepend">
+                                                                    <label class="input-group-text" for="stremail">Correo
+                                                                        electrónico</label>
+                                                                </div>
+                                                                <input type="email" name="dp_email" id="stremail"
+                                                                       class="form-control" value="<%- Ficha.email %>">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-sm-12 col-md-3">
+                                                            <div class="input-group">
+                                                                <div class="input-group-prepend">
+                                                                    <label class="input-group-text" for="flgjefe">
+                                                                        Es jefe/a de hogar
+                                                                    </label>
+                                                                </div>
+                                                                <input class="form-check-lg form-check-input "
+                                                                       type="checkbox" name="dp_flgjefehogar"
+                                                                       id="flgjefe" <%- Ficha.dp_flgjefehogar ? 'checked' : '' %> >
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <br>
+                                                    <div class="separator"></div>
+                                                    <br>
+                                                    <div class="row g-2">
+                                                        <h5 class="col-sm-12">II. Datos sobre migración</h5>
+                                                        <div class="col-sm-12 col-md-3">
+                                                            <label for="codestadodeportado" class="input-group-text">Estado
+                                                                del cual fue deportado</label>
+                                                            <select name="dm_codpaisdeportado" id="codestadodeportado"
+                                                                    class="form-select form-select-solid">
+                                                            </select>
+                                                        </div>
+                                                        <div class="col-sm-12 col-md-3">
+                                                            <label for="fchdeportacion" class="input-group-text">Fecha
+                                                                de deportación</label>
+                                                            <input type="date" name="dm_fchdeportacion"
+                                                                   id="fchdeportacion" class="form-control" required
+                                                                   value="<%= Ficha.dm_fchdeportacion ? new Date(Ficha.dm_fchdeportacion).toISOString().split('T')[0] : '' %>">
+                                                        </div>
+                                                        <div class="col-sm-12 col-md-6">
+                                                            <label for="numduracionestancia" class="input-group-text">Duración
+                                                                de estancia en el extranjero (meses)</label>
+                                                            <input type="number" name="dm_duracionextranhero"
+                                                                   id="numduracionestancia" class="form-control"
+                                                                   value="<%- Ficha.dm_duracionextranhero %>">
+                                                        </div>
+                                                        <div class="col-sm-12 col-md-6">
+                                                            <label for="codactividadeconomicaextranjero"
+                                                                   class="input-group-text">Actividad económica
+                                                                realizada en el extranjero</label>
+                                                            <select name="dm_codactividadeconomicaextranjero"
+                                                                    id="codactividadeconomicaextranjero"
+                                                                    class="form-select form-select-solid">
+                                                            </select>
+                                                        </div>
+                                                        <div class="col-sm-12 col-md-6" id="div_codactividadeconomicaextranjero_otros">
+                                                            <label for="codactividadeconomicaextranjero_otros"
+                                                                   class="input-group-text">Otras Actividades económicas</label>
+                                                            <input type="text" name="dm_codactividadeconomicaextranjero_otros"
+                                                                   id="codactividadeconomicaextranjero_otros"
+                                                                   class="form-control"
+                                                                   value="<%- Ficha.dm_codactividadeconomicaextranjero_otros %>">
+                                                        </div>
+                                                        <div class="col-sm-12 col-md-6">
+                                                            <label for="strmotivomigracion" class="input-group-text">Motivo
+                                                                de migración (breve)</label>
+                                                            <textarea name="dm_strmotivodemigracion"
+                                                                      id="strmotivomigracion" class="form-control"
+                                                                      rows="3"><%- Ficha.dm_strmotivodemigracion %></textarea>
+                                                        </div>
+                                                        <div class="col-sm-12 col-md-6">
+                                                            <div class="input-group">
+                                                                <div class="input-group-prepend">
+                                                                    <label for="dm_flgmigrar" class="input-group-text">¿Piensa
+                                                                        volver a migrar?</label>
+                                                                </div>
+                                                                <input type="checkbox" name="dm_flgmigrar"
+                                                                       id="dm_flgmigrar"
+                                                                       class="form-check-lg form-check-input" <%- Ficha.dm_flgmigrar ? 'checked' : '' %>>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-sm-12 col-md-6" id="cuando_piensa_migrar">
+                                                            <label for="dm_migrarcuando" class="input-group-text">¿Cuándo
+                                                                piensa volver a migrar?</label>
+                                                            <input type="date" name="dm_migrarcuando"
+                                                                   id="dm_migrarcuando" class="form-control"
+                                                                   value="<%= Ficha.dm_migrarcuando ? new Date(Ficha.dm_migrarcuando).toISOString().split('T')[0] : '' %>">
+                                                        </div>
+                                                    </div>
+                                                    <br>
+                                                    <div class="separator"></div>
+                                                    <br>
+                                                    <div class="row g-1">
+                                                        <h5 class="col-sm-12">III. Situación actual</h5>
+                                                        <div class="col-sm-12 col-md-4">
+                                                            <label for="codactividadactual" class="input-group-text">Actividad
+                                                                económica actual</label>
+                                                            <select name="sa_stractividadactual" id="codactividadactual"
+                                                                    class="form-select form-select-solid">
+                                                            </select>
+                                                        </div>
+                                                        <div class="col-sm-12 col-md-4" id="div_codactividadactual_otros">
+                                                            <label for="codactividadactual_otros"
+                                                                   class="input-group-text">Otras Actividades económicas</label>
+                                                            <input type="text" name="sa_stractividadactual_otros"
+                                                                   id="codactividadactual_otros" class="form-control"
+                                                                   value="<%- Ficha.sa_stractividadactual_otros %>">
+                                                        </div>
+                                                        <div class="col-dm-12 col-md-4">
+                                                            <label for="codniveleducativo" class="input-group-text">Nivel
+                                                                educativo</label>
+                                                            <select name="sa_codniveleducativo" id="codniveleducativo"
+                                                                    class="form-select form-select-solid">
+                                                            </select>
+                                                        </div>
+                                                        <div class="col-sm-12 col-md-4">
+                                                            <label for="sa_piensadedicar" class="input-group-text">a que
+                                                                se piensa dedicar en Guate</label>
+                                                            <select name="sa_piensadedicar" id="sa_piensadedicar"
+                                                                    class="form-select"></select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row g-2 mt-1">
+                                                        <div class="col-sm-12 col-md-4">
+                                                            <div class="input-group">
+                                                                <div class="input-group-prepend">
+                                                                    <label for="sa_flgoficioohabilidadtecnica"
+                                                                           class="input-group-text">Cuenta con oficio u
+                                                                        habilidad</label>
+                                                                </div>
+                                                                <input type="checkbox"
+                                                                       name="sa_flgoficioohabilidadtecnica"
+                                                                       id="sa_flgoficioohabilidadtecnica"
+                                                                       class="form-check-lg form-check-input" <%- Ficha.sa_flgoficioohabilidadtecnica ? 'checked' : '' %>>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-sm-12 col-md-8" id="panel_oficiohabilidad">
+                                                            <label for="sa_cualoficioohabilidadtecnica"
+                                                                   class="input-group-text">¿Cuál/es?</label>
+                                                            <input type="text" name="sa_cualoficioohabilidadtecnica"
+                                                                   id="sa_cualoficioohabilidadtecnica"
+                                                                   class="form-control"
+                                                                   value="<%- Ficha.sa_cualoficioohabilidadtecnica %>">
+                                                        </div>
+                                                    </div>
+                                                    <div class="row g-2 mt-2">
+                                                        <div class="col-sm-12 col-md-4">
+                                                            <div class="input-group">
+                                                                <div class="input-group-prepend">
+                                                                    <label for="flgterrenopropio"
+                                                                           class="input-group-text">Cuenta con terreno
+                                                                        propio o acceso a tierra</label>
+                                                                </div>
+                                                                <input type="checkbox"
+                                                                       name="sa_flgterrenopropiooaccesoatierra"
+                                                                       id="flgterrenopropio"
+                                                                       class="form-check-lg form-check-input" <%- Ficha.sa_flgterrenopropiooaccesoatierra ? 'checked' : '' %>>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-sm-12 col-md-4"
+                                                             id="div_dondetieneaccesoatierra">
+                                                            <label for="dondetieneaccesoatierra"
+                                                                   class="input-group-text">¿Dónde tiene acceso a
+                                                                tierra?</label>
+                                                            <input type="text"
+                                                                   name="sa_dondeterrenopropiooaccesoatierra"
+                                                                   id="dondetieneaccesoatierra" class="form-control"
+                                                                   value="<%- Ficha.sa_dondeterrenopropiooaccesoatierra %>">
+                                                        </div>
+                                                        <div class="col-sm-12 col-md-4" id="div_tamaniopropiedadm2">
+                                                            <label for="tamaniopropiedadm2" class="input-group-text">¿tamaño
+                                                                de la propiedad?</label>
+                                                            <input type="text" name="sa_tamaniopropiedadm2"
+                                                                   id="tamaniopropiedadm2" class="form-control"
+                                                                   value="<%- Ficha.sa_tamaniopropiedadm2 %>">
+                                                        </div>
+                                                    </div>
+                                                    <div class="row g-2 mt-2">
+                                                        <div class="col-sm-12 col-md-12">
+                                                            <div class="input-group">
+                                                                <div class="input-group-prepend">
+                                                                    <label for="sa_flgemprendimiento"
+                                                                           class="input-group-text">¿Esta interesado(a)
+                                                                        en emprender?</label>
+                                                                </div>
+                                                                <input type="checkbox" name="sa_flgemprendimiento"
+                                                                       id="sa_flgemprendimiento"
+                                                                       class="form-check-lg form-check-input" <%- Ficha.sa_flgemprendimiento ? 'checked' : '' %>>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-sm-12 col-md-4" id="div_sa_rubroemprendimiento">
+                                                            <label for="sa_rubroemprendimiento"
+                                                                   class="input-group-text">En que rubro desea
+                                                                emprender?</label>
+                                                            <select name="sa_rubroemprendimiento"
+                                                                    id="sa_rubroemprendimiento"
+                                                                    class="form-select"></select>
+                                                        </div>
+                                                        <div class="col-sm-12 col-md-4"
+                                                             id="div_sa_rubroemprendimiento_otros">
+                                                            <label class="input-group-text">Especifique Otros</label>
+                                                            <input type="text" class="form-control"
+                                                                   name="sa_rubroemprendimiento_otros"
+                                                                   id="sa_rubroemprendimiento_otros"
+                                                                   value="<%= Ficha.sa_rubroemprendimiento_otros %>">
+                                                        </div>
+                                                        <div class="col-sm-12 col-md-4"
+                                                             id="div_sa_quenecesitaparadesarrollar">
+                                                            <label for="sa_quenecesitaparadesarrollar"
+                                                                   class="input-group-text">Que necesita para
+                                                                desarrollar?</label>
+                                                            <input type="text" name="sa_quenecesitaparadesarrollar"
+                                                                   id="sa_quenecesitaparadesarrollar"
+                                                                   class="form-control"
+                                                                   value="<%- Ficha.sa_quenecesitaparadesarrollar %>">
+                                                        </div>
+                                                    </div>
+                                                    <div class="row g-2 mt-2">
+                                                        <div class="col-sm-12 col-md-4">
+                                                            <div class="input-group">
+                                                                <div class="input-group-prepend">
+                                                                    <label for="sa_flginteresadocapacitarseoemprender"
+                                                                           class="input-group-text">¿Esta interesado(a)
+                                                                        en capacitarse?</label>
+                                                                </div>
+                                                                <input type="checkbox"
+                                                                       name="sa_flginteresadocapacitarse"
+                                                                       id="sa_flginteresadocapacitarseoemprender"
+                                                                       class="form-check-lg form-check-input" <%- Ficha.sa_flginteresadocapacitarse ? 'checked' : '' %>>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-sm-12 col-md-4" id="div_sa_enquecapacitarse">
+                                                            <label for="sa_enquecapacitarse" class="input-group-text">¿En
+                                                                qué rubros está interesado(a)?</label>
+                                                            <select name="sa_enquecapacitarse" id="sa_enquecapacitarse"
+                                                                    class="form-select"></select>
+                                                        </div>
+                                                        <div class="col-sm-12 col-md-4"
+                                                             id="div_sa_enquecapacitarse_otros">
+                                                            <label class="input-group-text"
+                                                                   for="sa_enquecapacitarse_otros">Especifique
+                                                                otros</label>
+                                                            <input type="text" class="form-control"
+                                                                   name="sa_enquecapacitarse_otros"
+                                                                   id="sa_enquecapacitarse_otros"
+                                                                   value="<%= Ficha.sa_enquecapacitarse_otros %>">
+                                                        </div>
+                                                    </div>
+                                                    <br>
+                                                    <div class="separator"></div>
+                                                    <br>
+                                                    <div class="row g-2 mt-1">
+                                                        <h5 class="col-sm-12">IV. Vulnerabilidades identificadas</h5>
+                                                        <div class="col-sm-12 col-md-12">
+                                                            <label for="codvulnerabilidades" class="input-group-text">Seleccione
+                                                                las vulnerabilidades identificadas</label>
+                                                            <select name="codvulnerabilidades" id="codvulnerabilidades"
+                                                                    class="form-select" multiple></select>
+                                                        </div>
+                                                        <h5 class="col-sm-12">V. Intereses y expectativas</h5>
+                                                        <div class="col-sm-12 col-md-12">
+                                                            <label for="codintereses" class="input-group-text">Seleccione
+                                                                los intereses y expectativas</label>
+                                                            <select name="codintereses" id="codintereses"
+                                                                    class="form-select" multiple></select>
+                                                        </div>
+                                                    </div>
+                                                    <br>
+                                                    <div class="separator"></div>
+                                                    <br>
+                                                    <div class="row g-1 mt-1">
+                                                        <h5 class="col-sm-12">VI. Observaciones del equipo (Para uso
+                                                            interno)</h5>
+                                                        <div class="col-sm-12 col-md-6">
+                                                            <label for="oe_strnombreentrevistador"
+                                                                   class="input-group-text">Nombre del
+                                                                entrevistador</label>
+                                                            <input type="text" name="oe_strnombreentrevistador"
+                                                                   id="oe_strnombreentrevistador" class="form-control"
+                                                                   value="<%- Ficha.oe_strnombreentrevistador %>">
+                                                        </div>
+                                                        <div class="col-sm-12 col-md-6">
+                                                            <label for="oe_datfecha" class="input-group-text">Fecha de
+                                                                registro</label>
+                                                            <input type="date" name="oe_datfecha" id="oe_datfecha"
+                                                                   class="form-control"
+                                                                   value="<%= Ficha.oe_datfecha ? new Date(Ficha.oe_datfecha).toISOString().split('T')[0] : '' %>"
+                                                                   required>
+                                                        </div>
+                                                        <div class="col-sm-12 col-md-12">
+                                                            <label for="oe_strobservaciones" class="input-group-text">Observaciones</label>
+                                                            <textarea name="oe_strobservaciones"
+                                                                      id="oe_strobservaciones" class="form-control"
+                                                                      rows="3"><%- Ficha.oe_strobservaciones %></textarea>
+                                                        </div>
+                                                        <div class="col-sm-12 col-md-12">
+                                                            <div class="input-group">
+                                                                <div class="input-group-prepend">
+                                                                    <label for="oe_compartirinfo"
+                                                                           class="input-group-text">
+                                                                        En caso que RA no pueda atender sus intereses, autoriza que compartamos su información para derivar su caso a otra organización?
+                                                                    </label>
+                                                                </div>
+                                                                <input type="checkbox" name="oe_compartirinfo"
+                                                                       id="oe_compartirinfo"
+                                                                       class="form-check-lg form-check-input" <%- Ficha.oe_compartirinfo ? 'checked' : '' %>>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-12">
+                                                            <button type="submit" id="kt_submit_frmventas"
+                                                                    class="btn col-12 btn-success">
+                                                                <span class="indicator-label">Guardar Ficha</span>
+                                                                <span class="indicator-progress">Procesando...
+                                                                <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
+                                                            </span>
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                            <div class="tab-pane fade" id="kt_tab_pane_2" role="tabpanel">
+                                                <form action="" class="" id="frmdecisionesprl">
+                                                    <div class="row">
+                                                        <h5 class="col-sm-12">Sección de Uso Interno – Decisión de Apoyo
+                                                            </h5>
+                                                        <p class="col-sm-12 font-serif">Esta sección debe ser completada
+                                                            únicamente por personal autorizado del proyecto como parte del
+                                                            proceso de evaluación y selección de beneficiarios/as.</p>
+                                                        <br>
+                                                        <h2 style="text-align:center; margin: 12px 0;">Hoja de Criterios
+                                                            de Selección</h2>
+                                                        <!-- ====== ELEGIBILIDAD BÁSICA (OBLIGATORIOS) ====== -->
+                                                        <section
+                                                                style="border:1px solid #ddd; border-radius:8px; padding:16px; margin-bottom:16px;">
+                                                            <h3>Criterios de Elegibilidad Básica</h3>
+                                                            <label style="display:flex; gap:.5rem; align-items:flex-start; margin:.5rem 0;">
+                                                                <input type="checkbox" class="form-check-input check-elig-basic"
+                                                                       name="elig_basica[]"
+                                                                       value="persona_retornada_usa"/>
+                                                                <span>Persona guatemalteca retornada de Estados Unidos por vía de deportación/ auto deportada</span>
+                                                            </label>
+
+                                                            <label style="display:flex; gap:.5rem; align-items:flex-start; margin:.5rem 0;">
+                                                                <input type="checkbox" class="form-check-input check-elig-basic"
+                                                                       name="elig_basica[]" value="retorno_24m"/>
+                                                                <span>Proceso de retorno ocurrida dentro de los últimos 24 meses</span>
+                                                            </label>
+
+                                                            <label style="display:flex; gap:.5rem; align-items:flex-start; margin:.5rem 0;">
+                                                                <input type="checkbox" class="form-check-input check-elig-basic"
+                                                                       name="elig_basica[]" value="mayor_18"/>
+                                                                <span>Mayor de 18 años al momento de la identificación</span>
+                                                            </label>
+
+                                                            <label style="display:flex; gap:.5rem; align-items:flex-start; margin:.5rem 0;">
+                                                                <input type="checkbox" class="form-check-input check-elig-basic"
+                                                                       name="elig_basica[]"
+                                                                       value="residente_departamentos"/>
+                                                                <span>Residente actual o con intención de establecerse en uno de los departamentos priorizados: Petén, Huehuetenango, San Marcos, Totonicapán, Quiche, Alta Verapaz o Baja Verapaz</span>
+                                                            </label>
+
+                                                            <label style="display:flex; gap:.5rem; align-items:flex-start; margin:.5rem 0;">
+                                                                <input type="checkbox" class="form-check-input check-elig-basic"
+                                                                       name="elig_basica[]"
+                                                                       value="disposicion_permanecer"/>
+                                                                <span>Disposición de permanecer en Guatemala y participar activamente en procesos de reinserción</span>
+                                                            </label>
+
+                                                            <label style="display:flex; gap:.5rem; align-items:flex-start; margin:.5rem 0;">
+                                                                <input type="checkbox"
+                                                                       class="form-check-input check-elig-basic"
+                                                                       name="elig_basica[]"
+                                                                       value="Disposicion_organizaciones"/>
+                                                                <span>Disposición a integrarse a organizaciones comunitarias, asociaciones o cooperativas.</span>
+                                                            </label>
+
+                                                            <div style="margin-top:12px; font-weight:600;">
+                                                                Criterio: <span id="elig-result">no cumple</span>. Solo
+                                                                si cumple todos los ítems pasa el siguiente filtro.
+                                                            </div>
+
+                                                        </section>
+
+                                                        <!-- ====== PRIORIZACIÓN ====== -->
+                                                        <section id="crit-priorizacion"
+                                                                style="
+                                                                display: none;
+                                                                border:1px solid #ddd;
+                                                                border-radius:8px;
+                                                                padding:16px;
+                                                                margin-bottom:16px;">
+                                                            <h3 style="margin-top:0;">Criterios de Priorización
+                                                                (Ponderables según contexto)</h3>
+                                                            <p style="margin-top:0;">Las siguientes características no
+                                                                son obligatorias, pero suman valor al perfil de atención
+                                                                prioritaria:</p>
+
+                                                            <!-- Interés y potencial de reinserción económica -->
+                                                            <fieldset
+                                                                    style="border:1px dashed #bbb; border-radius:8px; padding:12px; margin-bottom:12px;">
+                                                                <legend style="font-weight:700;">Interés y potencial de
+                                                                    reinserción económica
+                                                                </legend>
+
+                                                                <!-- Nota: El documento trae A marcado; lo dejamos desmarcado para captura operativa -->
+                                                                <label style="display:flex; gap:.5rem; align-items:flex-start; margin:.5rem 0;">
+                                                                    <input type="checkbox"
+                                                                           class="chk-prio prio-reinsercion"
+                                                                           name="reinsercion[]"
+                                                                           value="A_Interes_emprender"/>
+                                                                    <span><strong>A</strong> Interés en emprender o desarrollar actividades económicas.</span>
+                                                                </label>
+
+                                                                <label style="display:flex; gap:.5rem; align-items:flex-start; margin:.5rem 0;">
+                                                                    <input type="checkbox"
+                                                                           class="chk-prio prio-reinsercion"
+                                                                           name="reinsercion[]"
+                                                                           value="B_Disposicion_capacitarse"/>
+                                                                    <span><strong>B</strong> Disposición a capacitarse y/o recibir asistencia técnica</span>
+                                                                </label>
+
+                                                                <label style="display:flex; gap:.5rem; align-items:flex-start; margin:.5rem 0;">
+                                                                    <input type="checkbox"
+                                                                           class="chk-prio prio-reinsercion"
+                                                                           name="reinsercion[]"
+                                                                           value="C_Experiencia_usa"/>
+                                                                    <span><strong>C</strong> Experiencia laboral en EE. UU. aprovechable en Guatemala.</span>
+                                                                </label>
+
+                                                                <label style="display:flex; gap:.5rem; align-items:flex-start; margin:.5rem 0;">
+                                                                    <input type="checkbox"
+                                                                           class="chk-prio prio-reinsercion"
+                                                                           name="reinsercion[]"
+                                                                           value="D_Acceso_tierra_redes"/>
+                                                                    <span><strong>D</strong> Acceso a tierra, bosque, equipo o redes familiares para iniciar emprendimiento</span>
+                                                                </label>
+
+                                                                <div style="margin-top:8px;">
+                                                                    <em>Criterio de elegibilidad:</em> Si cumple con dos
+                                                                    o más ítems es elegible
+                                                                </div>
+
+                                                                <div style="margin-top:8px;">
+                                                                    <label>Total Reinserción:&nbsp;
+                                                                        <input type="number" id="total-reinsercion"
+                                                                               name="treinsercion" value="<%= Ficha.treinsercion %>"
+                                                                               readonly
+                                                                               style="width:70px; text-align:center;">
+                                                                    </label>
+                                                                </div>
+                                                            </fieldset>
+
+                                                            <!-- Condición socioeconómica y vulnerabilidad -->
+                                                            <fieldset
+                                                                    style="border:1px dashed #bbb; border-radius:8px; padding:12px; margin-bottom:12px;">
+                                                                <legend style="font-weight:700;">Condición
+                                                                    socioeconómica y vulnerabilidad
+                                                                </legend>
+
+                                                                <label style="display:flex; gap:.5rem; align-items:flex-start; margin:.5rem 0;">
+                                                                    <input type="checkbox"
+                                                                           class="chk-prio prio-vulnerabilidad"
+                                                                           name="vulnerabilidad[]"
+                                                                           value="sin_empleo_formal"/>
+                                                                    <span>Sin empleo formal ni fuente de ingresos estable.</span>
+                                                                </label>
+
+                                                                <label style="display:flex; gap:.5rem; align-items:flex-start; margin:.5rem 0;">
+                                                                    <input type="checkbox"
+                                                                           class="chk-prio prio-vulnerabilidad"
+                                                                           name="vulnerabilidad[]"
+                                                                           value="escolaridad_incompleta"/>
+                                                                    <span>Escolaridad incompleta o bajo nivel educativo.</span>
+                                                                </label>
+
+                                                                <label style="display:flex; gap:.5rem; align-items:flex-start; margin:.5rem 0;">
+                                                                    <input type="checkbox"
+                                                                           class="chk-prio prio-vulnerabilidad"
+                                                                           name="vulnerabilidad[]"
+                                                                           value="jefatura_hogar"/>
+                                                                    <span>Jefatura de hogar monoparental o con múltiples dependientes.</span>
+                                                                </label>
+
+                                                                <label style="display:flex; gap:.5rem; align-items:flex-start; margin:.5rem 0;">
+                                                                    <input type="checkbox"
+                                                                           class="chk-prio prio-vulnerabilidad"
+                                                                           name="vulnerabilidad[]"
+                                                                           value="endeudamiento_dependencia"/>
+                                                                    <span>Endeudamiento significativo o dependencia económica.</span>
+                                                                </label>
+
+                                                                <label style="display:flex; gap:.5rem; align-items:flex-start; margin:.5rem 0;">
+                                                                    <input type="checkbox"
+                                                                           class="chk-prio prio-vulnerabilidad"
+                                                                           name="vulnerabilidad[]"
+                                                                           value="sin_servicios_financieros"/>
+                                                                    <span>Sin acceso a servicios financieros o formales (créditos, cuentas, seguros).</span>
+                                                                </label>
+
+                                                                <label style="display:flex; gap:.5rem; align-items:flex-start; margin:.5rem 0;">
+                                                                    <input type="checkbox"
+                                                                           class="chk-prio prio-vulnerabilidad"
+                                                                           name="vulnerabilidad[]"
+                                                                           value="grupo_excluido"/>
+                                                                    <span>Perteneciente a grupo históricamente excluido: Mujer, Joven (comprendidos entre18–30 años).</span>
+                                                                </label>
+
+                                                                <div style="margin-top:8px;">
+                                                                    <em>Criterio de elegibilidad:</em> Cumple con uno o
+                                                                    más de los ítems.
+                                                                </div>
+
+                                                                <div style="margin-top:8px;">
+                                                                    <label>Total Vulnerabilidad:&nbsp;
+                                                                        <input type="number" id="total-vulnerabilidad"
+                                                                               name="tvulnerabilidad" value="<%= Ficha.tvulnerabilidad %>"
+                                                                               readonly
+                                                                               style="width:70px; text-align:center;">
+                                                                    </label>
+                                                                </div>
+                                                            </fieldset>
+
+                                                            <!-- Compatibilidad con líneas técnicas del PRL -->
+                                                            <fieldset
+                                                                    style="border:1px dashed #bbb; border-radius:8px; padding:12px;">
+                                                                <legend style="font-weight:700;">Compatibilidad con
+                                                                    líneas técnicas del proyecto
+                                                                </legend>
+
+                                                                <label style="display:flex; gap:.5rem; align-items:flex-start; margin:.5rem 0;">
+                                                                    <input type="checkbox"
+                                                                           class="chk-prio prio-compatibilidad"
+                                                                           name="compatibilidad[]"
+                                                                           value="maderables_no_maderables"/>
+                                                                    <span>Manejo de productos forestales maderables y no maderables</span>
+                                                                </label>
+
+                                                                <label style="display:flex; gap:.5rem; align-items:flex-start; margin:.5rem 0;">
+                                                                    <input type="checkbox"
+                                                                           class="chk-prio prio-compatibilidad"
+                                                                           name="compatibilidad[]"
+                                                                           value="apicultura_agroforestal_viveri"/>
+                                                                    <span>Apicultura, producción agroforestal, viverismo</span>
+                                                                </label>
+
+                                                                <label style="display:flex; gap:.5rem; align-items:flex-start; margin:.5rem 0;">
+                                                                    <input type="checkbox"
+                                                                           class="chk-prio prio-compatibilidad"
+                                                                           name="compatibilidad[]"
+                                                                           value="pecuaria_bajo_impacto"/>
+                                                                    <span>Producción pecuaria de bajo impacto</span>
+                                                                </label>
+
+                                                                <label style="display:flex; gap:.5rem; align-items:flex-start; margin:.5rem 0;">
+                                                                    <input type="checkbox"
+                                                                           class="chk-prio prio-compatibilidad"
+                                                                           name="compatibilidad[]"
+                                                                           value="oficios_tecnicos"/>
+                                                                    <span>Oficios técnicos (carpintería, construcción, manejo de maquinaria y jardinería).</span>
+                                                                </label>
+
+                                                                <label style="display:flex; gap:.5rem; align-items:flex-start; margin:.5rem 0;">
+                                                                    <input type="checkbox"
+                                                                           class="chk-prio prio-compatibilidad"
+                                                                           name="compatibilidad[]"
+                                                                           value="servicios_comunitarios_turismo"/>
+                                                                    <span>Servicios comunitarios o turismo rural</span>
+                                                                </label>
+
+                                                                <div style="margin-top:8px;">
+                                                                    <em>Criterio de elegibilidad:</em> Cumple con uno o
+                                                                    más de los ítems.
+                                                                </div>
+
+                                                                <div style="margin-top:8px;">
+                                                                    <label>Total Compatibilidad:&nbsp;
+                                                                        <input type="number" id="total-compatibilidad"
+                                                                               name="tcompatibilidad"
+                                                                               value="<%= Ficha.tcompatibilidad %>"
+                                                                               readonly
+                                                                               style="width:70px; text-align:center;">
+                                                                    </label>
+                                                                </div>
+                                                            </fieldset>
+                                                        </section>
+
+                                                        <!-- ====== TOTALES ====== -->
+                                                        <section class="row">
+                                                            <div class="form-floating mb-7 col-sm-12 col-md-3">
+                                                                <input type="number"
+                                                                       id="total-reinsercion-2"
+                                                                       value="<%= Ficha.treinsercion %>"
+                                                                       class="form-control"
+                                                                       readonly>
+                                                                <label for="total-reinsercion-2">Total Reinserción</label>
+                                                            </div>
+                                                            <div class="form-floating mb-7 col-sm-12 col-md-3">
+                                                                <input type="number" id="total-vulnerabilidad-2"
+                                                                       class="form-control"
+                                                                       value="<%= Ficha.tvulnerabilidad %>" readonly>
+                                                                <label for="total-vulnerabilidad-2">Total Vulnerabilidad</label>
+                                                            </div>
+                                                            <div class="form-floating mb-7 col-sm-12 col-md-3">
+                                                                <input type="number" id="total-compatibilidad-2"
+                                                                       value="<%= Ficha.tcompatibilidad %>" readonly
+                                                                       class="form-control">
+                                                                <label for="total-compatibilidad-2">Total Compatibilidad</label>
+                                                            </div>
+                                                            <div class="form-floating mb-7 col-sm-12 col-md-3">
+                                                                <input type="number" id="total-general"
+                                                                       class="form-control"
+                                                                       name="tpuntaje" value="<%= Ficha.tpuntaje %>"
+                                                                       readonly>
+                                                                <label for="total-general" class="fw-bold">Total de puntaje</label>
+                                                            </div>
+                                                        </section>
+                                                    </div>
+                                                    <div class="row g-3 mb-2">
+                                                        <div class="col-sm-12 col-md-6 mb-2">
+                                                            <label for="flgevaluacionfinal"
+                                                                   class="input-group-text fw-bold">Evaluación final del
+                                                                Perfil</label>
+                                                            <select name="flgevaluacionfinalperfil"
+                                                                    id="flgevaluacionfinal"
+                                                                    class="form-select form-select-lg">
+                                                            </select>
+                                                        </div>
+
+                                                        <div class="col-sm-12 col-md-6 mb-2" id="div_strrazoncumple">
+                                                            <label for="strrazoncumple"
+                                                                   class="input-group-text fw-bold">
+                                                                Razón por la que cumple
+                                                            </label>
+                                                            <textarea id="strrazoncumple" name="strrazoncumple"
+                                                                      class="form-control"><%= Ficha.strrazoncumple %></textarea>
+                                                        </div>
+
+                                                        <div class="col-sm-12 col-md-6 mb-2" id="div_strrazonnocumple">
+                                                            <label for="strrazonnocumple"
+                                                                   class="input-group-text fw-bold">
+                                                                Razón por la que no cumple
+                                                            </label>
+                                                            <textarea id="strrazonnocumple" name="strrazonnocumple"
+                                                                      class="form-control"><%= Ficha.strrazonnocumple %></textarea>
+                                                        </div>
+
+                                                    </div>
+                                                    <div class="row g-3 mb-2">
+                                                        <div class="col-sm-12 col-md-6 mb-2">
+                                                            <label for="codtipoapoyoautorizado"
+                                                                   class="input-group-text fw-bold">Tipo de apoyo
+                                                                autorizado</label>
+                                                            <select name="codtipoapoyoautorizado"
+                                                                    id="codtipoapoyoautorizado"
+                                                                    class="form-select form-select-lg">
+                                                            </select>
+                                                        </div>
+                                                        <div class="col-sm-12 col-md-6 mb-2" id="div_strotrotipoapoyo">
+                                                            <label for="strotrotipoapoyo"
+                                                                   class="input-group-text fw-bold">Especifique otro
+                                                                tipo de apoyo</label>
+                                                            <textarea id="strotrotipoapoyo" name="strotrotipoapoyo"
+                                                                      class="form-control"><%= Ficha.strotrotipoapoyo %></textarea>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row g-3 mb-2">
+                                                        <div class="col-sm-12 col-md-6 mb-2">
+                                                            <div class="input-group">
+                                                                <div class="input-group-prepend">
+                                                                    <label for="flgmodnegocio" class="input-group-text">
+                                                                        ¿Posee plan de negocio?
+                                                                    </label>
+                                                                </div>
+                                                                <select name="flgmodnegocio" id="flgmodnegocio"
+                                                                        class="form-control form-select">
+                                                                    <option value="N" selected>No</option>
+                                                                    <option value="P" selected>En Proceso</option>
+                                                                    <option value="N" selected>Sí</option>
+                                                                </select>
+                                                                <!--
+                                                                <input class="form-check-lg form-check-input"
+                                                                       type="checkbox"
+                                                                       <%- Ficha.flgmodnegocio ? 'checked' : '' %>
+                                                                       name="flgmodnegocio"
+                                                                       id="flgmodnegocio">
+                                                                -->
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-sm-12 col-md-6 mb-2" id="div_modnegocio_monto">
+                                                            <div class="input-group">
+                                                                <div class="input-group-prepend">
+                                                                    <label  for="modnegocio_monto"
+                                                                            class="input-group-text">
+                                                                        Monto (GTQ)
+                                                                    </label>
+                                                                </div>
+                                                                <input type="number"
+                                                                       class="form-control"
+                                                                       id="modnegocio_monto"
+                                                                       required
+                                                                       value="<%- Ficha.modnegocio_monto %>"
+                                                                       name="modnegocio_monto">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-sm-12 col-md-12 mb-2" id="div_modnegocio_cv">
+                                                            <label class="input-group-text"
+                                                                   for="modnegocio_cv">
+                                                                Cadena de valor
+                                                            </label>
+                                                            <select name="modnegocio_cv"
+                                                                    id="modnegocio_cv" multiple="multiple"
+                                                                    class="form-select form-select-lg">
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row g-3 mb-2">
+                                                        <div class="col-sm-12 col-md-6 mb-2">
+                                                            <div class="input-group">
+                                                                <div class="input-group-prepend">
+                                                                    <label for="strnombreresponsableprl"
+                                                                           class="input-group-text fw-bold">Responsable
+                                                                        PRL</label>
+                                                                </div>
+                                                                <input type="text" id="strnombreresponsableprl"
+                                                                       name="strnombreresponsableprl"
+                                                                       class="form-control"
+                                                                       value="<%= Ficha.strnombreresponsableprl %>">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-sm-12 col-md-6 mb-2">
+                                                            <div class="input-group">
+                                                                <div class="input-group-prepend">
+                                                                    <label for="strlinkevidencia"
+                                                                           class="input-group-text fw-bold">Link
+                                                                        Evidencia</label>
+                                                                </div>
+                                                                <input type="url" id="strlinkevidencia"
+                                                                       name="strlinkevidencia" class="form-control"
+                                                                       value="<%= Ficha.strlinkevidencia %>">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-sm-12 col-md-6 mb-2">
+                                                            <div class="input-group">
+                                                                <div class="input-group-prepend">
+                                                                    <label for="datfechadecision"
+                                                                           class="input-group-text">Fecha de
+                                                                        decisión</label>
+                                                                </div>
+                                                                <input type="date" name="datfechadecision"
+                                                                       id="datfechadecision" class="form-control"
+                                                                       value="<%= Ficha.datfechadecision ? new Date(Ficha.datfechadecision).toISOString().split('T')[0] : '' %>">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-sm-12 col-md-6 mb-2">
+                                                            <div class="input-group">
+                                                                <div class="input-group-prepend">
+                                                                    <label for="datfechaseguimiento"
+                                                                           class="input-group-text">Fecha de
+                                                                        seguimiento</label>
+                                                                </div>
+                                                                <input type="date" name="datfechaseguimiento"
+                                                                       id="datfechaseguimiento" class="form-control"
+                                                                       value="<%= Ficha.datfechaseguimiento ? new Date(Ficha.datfechaseguimiento).toISOString().split('T')[0] : '' %>">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-sm-12">
+                                                            <button type="submit" class="btn btn-primary col-sm-12 mt-2"
+                                                                    id="kt_submit_prl">
+                                                                <span class="indicator-label">Guardar Decisión PRL</span>
+                                                                <span class="indicator-progress">Procesando...
+                                                                    <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
+                                                                </span>
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <!--end::Content-->
+            <%- include('../components/bottom-footer.ejs', {ip: ip}) %>
+        </div>
+        <!--end::Wrapper-->
+    </div>
+    <!--end::Page-->
+    <!-- begin::modals -->
+
+    <!-- end::modals -->
+</div>
+<!--end::Root-->
+
+
+<%- include('../components/kt-scrolltop.ejs') %>
+<!--end::Main-->
+<%- include('../components/web-footer.ejs') %>
+<!--begin::Page Custom Javascript(used by this page)-->
+<script src="assets/js/custom/widgets.js"></script>
+<script>
+
+	const url = `${window.location.origin}/api`;
+	const codSocio = '<%- UserInfo.codsocio %>'
+	const codRole = '<%- UserInfo.codrole %>'
+	const codPais = '<%- UserInfo.codpais %>'
+
+	const filtSocioUrl = codRole == 1 ? '' : `/codsocio/${codSocio}`;
+	let codmunicipio = $("#codmunicipio")
+	let codestadodeportado = $("#codestadodeportado")
+	let codactividadeconomicaextranjero = $("#codactividadeconomicaextranjero")
+	let codactividadactual = $("#codactividadactual")
+	let codniveleducativo = $("#codniveleducativo")
+	let codvulnerabilidades = $("#codvulnerabilidades")
+	let codintereses = $("#codintereses")
+	let sa_piensadedicar = $("#sa_piensadedicar")
+	let sa_rubroemprendimiento = $("#sa_rubroemprendimiento")
+	let sa_enquecapacitarse = $("#sa_enquecapacitarse")
+	let flgevaluacionfinal = $("#flgevaluacionfinal")
+	let codtipoapoyoautorizado = $("#codtipoapoyoautorizado")
+	let dm_flgmigrar = $("#dm_flgmigrar")
+	let sa_flgoficioohabilidadtecnica = $("#sa_flgoficioohabilidadtecnica")
+	let flgterrenopropio = $("#flgterrenopropio")
+	let sa_flgemprendimiento = $("#sa_flgemprendimiento")
+	let sa_flginteresadocapacitarseoemprender = $("#sa_flginteresadocapacitarseoemprender")
+    let flgmodnegocio = $("#flgmodnegocio")
+    let modnegocio_cv = $("#modnegocio_cv")
+    let codproyecto = $("#codproyecto")
+
+	const codretornado = '<%- id %>'
+
+
+	/* :::BEGIN::: */
+	let sToast = Swal.mixin({
+		toast: true,
+		position: "top-end",
+		showConfirmButton: false,
+		timer: 3000,
+		timerProgressBar: true,
+		didOpen: (toast) => {
+			toast.onmouseenter = Swal.stopTimer;
+			toast.onmouseleave = Swal.resumeTimer;
+		}
+	})
+
+	function fnToast(res) {
+		const {code, message} = res
+		console.log(res)
+
+		if (code == undefined) {
+			console.error(res)
+			throw 'Formato invalido'
+		}
+		sToast.fire({
+			icon: code == 'true' || code == 1 ? 'success' : 'error',
+			title: message
+		})
+	}
+
+	function delBase(message, path) {
+		Swal.fire({
+			text: message,
+			showCancelButton: true,
+			icon: "warning",
+			buttonsStyling: false,
+			confirmButtonText: "Eliminar",
+			cancelButtonText: "Cancelar",
+			customClass: {
+				confirmButton: "order-2 btn btn-danger",
+				cancelButton: "order-1 btn btn-light"
+			}
+		}).then(function (action) {
+			if (action.isConfirmed) {
+				buttonDeleteDetalle.setAttribute('data-kt-indicator', 'on');
+				buttonDeleteDetalle.disabled = true;
+				$.ajax({
+					url: `${url}/catalogo/${path}`,
+					type: 'delete'
+				}).done(function (request) {
+					sToast.fire({
+						icon: "success",
+						title: "Registro Eliminado"
+					})
+					tableDetalle.ajax.reload(null, false);
+				}).fail(function (reason) {
+					console.log(reason)
+					sToast.fire({
+						icon: "error",
+						title: "Se produjo un error"
+					})
+				}).always(function () {
+					buttonDeleteDetalle.removeAttribute('data-kt-indicator')
+					buttonDeleteDetalle.disabled = false;
+				})
+			}
+		})
+	}
+
+	function upBase(message, icon, path, data) {
+		Swal.fire({
+			text: message,
+			showCancelButton: true,
+			icon: icon,
+			buttonsStyling: false,
+			confirmButtonText: "Procesar"
+		})
+	}
+
+	let GTQ = new Intl.NumberFormat('es-GT', {
+		style: 'currency',
+		currency: 'GTQ'
+	})
+	let USD = new Intl.NumberFormat('us-US', {
+		style: 'currency',
+		currency: 'USD'
+	})
+	/* :::END::: */
+
+	dm_flgmigrar.on('change', function () {
+		if (dm_flgmigrar.is(':checked')) {
+			$("#cuando_piensa_migrar").show();
+			$("#dm_migrarcuando").prop('required', true);
+		} else {
+			$("#cuando_piensa_migrar").hide();
+			$("#dm_migrarcuando").prop('required', false);
+		}
+	})
+
+	sa_flgoficioohabilidadtecnica.on('change', function () {
+		if (sa_flgoficioohabilidadtecnica.is(':checked')) {
+			$("#panel_oficiohabilidad").show();
+			$("#sa_cualoficioohabilidadtecnica").prop('required', true);
+		} else {
+			$("#panel_oficiohabilidad").hide();
+			$("#sa_cualoficioohabilidadtecnica").prop('required', false);
+		}
+	})
+
+	flgterrenopropio.on('change', function () {
+		if (flgterrenopropio.is(':checked')) {
+			$("#div_dondetieneaccesoatierra").show();
+			$("#div_tamaniopropiedadm2").show();
+			$("#dondetieneaccesoatierra, #tamaniopropiedadm2").prop('required', true);
+		} else {
+			$("#div_dondetieneaccesoatierra").hide();
+			$("#div_tamaniopropiedadm2").hide();
+			$("#dondetieneaccesoatierra, #tamaniopropiedadm2").prop('required', false);
+		}
+	})
+
+	sa_flgemprendimiento.on('change', function () {
+		if (sa_flgemprendimiento.is(':checked')) {
+			$("#div_sa_rubroemprendimiento").show();
+			$("#div_sa_quenecesitaparadesarrollar").show();
+			$("#sa_rubroemprendimiento").prop('required', true);
+			$("#sa_quenecesitaparadesarrollar").prop('required', true);
+		} else {
+
+			$("#div_sa_rubroemprendimiento").hide();
+			$("#div_sa_quenecesitaparadesarrollar").hide();
+			$("#div_sa_rubroemprendimiento_otros").val('').hide();
+			$("#sa_rubroemprendimiento").prop('required', false).val('').trigger('change');
+			$("#sa_quenecesitaparadesarrollar").prop('required', false);
+		}
+	})
+
+    flgmodnegocio.on('change', function () {
+		if (flgmodnegocio.val() == 'S') {
+			$("#modnegocio_monto").prop('required', true);
+			$("#modnegocio_cv").prop('required', true);
+			$("#div_modnegocio_monto").show();
+			$("#div_modnegocio_cv").show();
+        } else {
+			$("#div_modnegocio_cv").hide();
+			$("#div_modnegocio_monto").hide();
+			$("#modnegocio_monto").prop('required', false);
+			$("#modnegocio_cv").prop('required', false).val('').trigger('change');
+        }
+    })
+
+	sa_rubroemprendimiento.on('change', function () {
+		$("#div_sa_rubroemprendimiento_otros").hide();
+		if (sa_rubroemprendimiento.val() == '1003')
+			$("#div_sa_rubroemprendimiento_otros").show();
+
+	})
+
+	sa_flginteresadocapacitarseoemprender.on('change', function () {
+		if (sa_flginteresadocapacitarseoemprender.is(':checked')) {
+			$("#div_sa_enquecapacitarse").show();
+			$("#sa_enquecapacitarse").prop('required', true);
+		} else {
+			$("#div_sa_enquecapacitarse").hide();
+			$("#sa_enquecapacitarse").prop('required', false).val('').trigger('change');
+		}
+	})
+
+	sa_enquecapacitarse.on('change', function () {
+		$("#div_sa_enquecapacitarse_otros").hide();
+		if (sa_enquecapacitarse.val() == '1006')
+			$("#div_sa_enquecapacitarse_otros").show();
+
+	})
+
+	codactividadeconomicaextranjero.on('change', function () {
+
+    })
+
+	flgevaluacionfinal.on('change', function () {
+		const strrazonnocumple = $("#strrazonnocumple");
+		const strrazoncumple = $("#strrazoncumple");
+		const div_strrazonnocumple = $("#div_strrazonnocumple");
+		const div_strrazoncumple = $("#div_strrazoncumple")
+
+		if (flgevaluacionfinal.val() === '3') {
+			div_strrazoncumple.hide()
+			div_strrazonnocumple.show()
+			strrazoncumple.prop('required', false);
+			strrazonnocumple.prop('required', true);
+
+
+		} else if (flgevaluacionfinal.val() === '1'){
+			div_strrazonnocumple.hide()
+			div_strrazoncumple.show()
+			strrazonnocumple.prop('required', false);
+			strrazoncumple.prop('required', true);
+
+
+        } else {
+
+			strrazonnocumple.prop('required', false);
+			strrazoncumple.prop('required', false);
+			div_strrazonnocumple.hide()
+			div_strrazoncumple.hide()
+		}
+	})
+
+	codtipoapoyoautorizado.on('change', function () {
+		const strotrotipoapoyo = $("#strotrotipoapoyo");
+		const div = $("#div_strotrotipoapoyo");
+		if (codtipoapoyoautorizado.val() == '1003') {
+			strotrotipoapoyo.prop('required', true);
+			div.show();
+		} else {
+			strotrotipoapoyo.prop('required', false).val('');
+			div.hide();
+		}
+	})
+
+
+	function validarCUI(cui) {
+		// Eliminar espacios
+		const limpio = cui.replace(/\s+/g, '');
+
+		// Validar longitud exacta de 13 dígitos
+		if (!/^\d{13}$/.test(limpio)) return false;
+
+		// Separar bloques
+		const bloque1 = limpio.slice(0, 4);
+		const bloque2 = limpio.slice(4, 9); // los primeros 4 del bloque 2
+		const verificador = parseInt(limpio[8]); // el 5to del bloque 2
+		const bloque3 = limpio.slice(9, 13);
+
+		const digitosParaVerificar = bloque1 + bloque2;
+
+		// Calcular suma ponderada
+		let suma = 0;
+		for (let i = 0; i < digitosParaVerificar.length; i++) {
+			const digito = parseInt(digitosParaVerificar[i], 10);
+			suma += digito * (i + 1);
+		}
+
+		const residuo = suma % 11;
+
+		return residuo === verificador;
+	}
+
+	const s1 = $.ajax({
+		url: `${url}/catalogo/select2/geografica.vw_deptmun/codmunicipio/strmunicipio`,
+		type: 'get'
+	}).done(function (result) {
+		codmunicipio.select2({
+			placeholder: 'Seleccione un municipio',
+			data: result.results
+		})
+	})
+
+	const s2 = $.ajax({
+		url: `${url}/catalogo/select2/geografica.vw_estados840/coddepartamento/strdepartamento`,
+		type: 'get'
+	}).done(function (result) {
+		codestadodeportado.select2({
+			placeholder: 'Seleccione un estado',
+			data: result.results,
+			allowClear: true
+		})
+	})
+
+	const s3 = $.ajax({
+		url: `${url}/catalogo/select2/retornados.actividadeconomicaextranj/codactividadeconextranj/stractividadeconomica`,
+		type: 'get'
+	}).done(function (result) {
+		codactividadeconomicaextranjero.select2({
+			placeholder: 'Seleccione una actividad económica',
+			data: result.results
+		})
+		codactividadactual.select2({
+			placeholder: 'Seleccione una actividad económica',
+			data: result.results
+		})
+	})
+
+	const s4 = $.ajax({
+		url: `${url}/catalogo/select2/retornados.niveleducativo/codniveleducativo/strniveleducativo`,
+		type: 'get'
+	}).done(function (result) {
+		codniveleducativo.select2({
+			placeholder: 'Seleccione el nivel educativo',
+			data: result.results
+		})
+	})
+
+	const s5 = $.ajax({
+		url: `${url}/catalogo/select2/retornados.oficiogt/codoficiogt/stroficiogt`,
+		type: 'get'
+	}).done(function (result) {
+		sa_piensadedicar.select2({
+			placeholder: 'Seleccione una opción',
+			data: result.results
+		})
+	})
+
+	const s6 = $.ajax({
+		url: `${url}/catalogo/select2/retornados.rubroemprendimiento/codrubroemprendimiento/strrubroemprendiemiento`,
+		type: 'get'
+	}).done(function (result) {
+		sa_rubroemprendimiento.select2({
+			placeholder: "seleccione una opción",
+			data: result.results
+		})
+	})
+
+	const s7 = $.ajax({
+		url: `${url}/catalogo/select2/retornados.rubroscapacitacion/codrubrocapacitacion/strrubrocap`,
+		type: 'get'
+	}).done(function (result) {
+		sa_enquecapacitarse.select2({
+			placeholder: "seleccione una opción",
+			data: result.results
+		})
+	})
+
+	const s8 = $.ajax({
+		url: `${url}/catalogo/select2/retornados.vulnerabilidades/codvulnerabilidad/strvulnerabilidad`,
+		type: 'get'
+	}).done(function (result) {
+		codvulnerabilidades.select2({
+			placeholder: 'Seleccione las vulnerabilidades',
+			data: result.results
+		})
+	})
+
+	const s9 = $.ajax({
+		url: `${url}/catalogo/select2/retornados.intereses/codintereses/strintereses`,
+		type: 'get'
+	}).done(function (result) {
+		codintereses.select2({
+			placeholder: 'Seleccione los intereses',
+			data: result.results
+		})
+	})
+
+	const s10 = $.ajax({
+		url: `${url}/catalogo/select2/retornados.vw_evaluacionperfil_enable/codevaluacionperfil/strevaluacionperfil`,
+		type: 'get'
+	}).done(function (result) {
+		flgevaluacionfinal.select2({
+			placeholder: 'Seleccione una evaluación',
+			data: result.results
+		})
+	})
+	const s11 = $.ajax({
+		url: `${url}/catalogo/select2/retornados.tipoapoyo/codtipoapoyo/strtipoapoyo`,
+		type: 'get'
+	}).done(function (result) {
+		codtipoapoyoautorizado.select2({
+			placeholder: 'Seleccione un tipo de apoyo',
+			data: result.results
+		})
+	})
+
+    const s12 = $.ajax({
+		url: `${url}/catalogo/select2/cadenavalor.vw_catycadenavalor/codcadenavalor/strcadenavalor`,
+        type: 'get'
+    }).done(function (result) {
+		modnegocio_cv.select2({
+            placeholder: 'Seleccione una cadena de valor',
+            data: result.results
+        })
+    })
+
+    const s13 = $.ajax({
+		url: `${url}/catalogo/select2/proyecto.vw_proyecto_busqueda/codproyecto/strproyecto`,
+		type: 'get',
+		data: {
+			colname: 'codsocio',
+			colvalue: codSocio
+		}
+    }).done(function(result){
+		codproyecto.select2({
+            placeholder: 'Seleccione una proyecto',
+            data: result.results
+        })
+    })
+
+    <% if(id != 0) { %>
+	Promise.all([s1, s2, s3, s4, s5, s6, s7, s8, s9, s10, s11, s12, s13]).then(function () {
+
+        const elig_basica = '<%- Ficha.elig_basica %>';
+		const reinsercion = '<%- Ficha.reinsercion %>';
+		const vulnerabilidad = '<%- Ficha.vulnerabilidad %>';
+		const compatibilidad = '<%- Ficha.compatibilidad %>';
+
+
+		// Convertir a array
+		const marcados_eligbasica = elig_basica.split(',').map(v => v.trim());
+        const marcados_reinsercion = reinsercion.split(',').map(v => v.trim());
+		const marcados_vulnerabilidad = vulnerabilidad.split(',').map(v => v.trim());
+		const marcados_compatibilidad = compatibilidad.split(',').map(v => v.trim());
+
+
+		// Marcar los checkboxes correspondientes
+        document.querySelectorAll('.check-elig-basic').forEach(cb => {
+			if (marcados_eligbasica.includes(cb.value)) {
+				cb.checked = true;
+				cb.dispatchEvent(new Event('change')); // Disparar el evento change para actualizar el estado
+			}
+		});
+
+		document.querySelectorAll('.prio-reinsercion').forEach(cb => {
+            if (marcados_reinsercion.includes(cb.value)) {
+                cb.checked = true;
+                cb.dispatchEvent(new Event('change')); // Disparar el evento change para actualizar el estado
+            }
+        });
+
+		document.querySelectorAll('.prio-vulnerabilidad').forEach(cb => {
+            if (marcados_vulnerabilidad.includes(cb.value)) {
+                cb.checked = true;
+                cb.dispatchEvent(new Event('change')); // Disparar el evento change para actualizar el estado
+            }
+        });
+
+		document.querySelectorAll('.prio-compatibilidad').forEach(cb => {
+            if (marcados_compatibilidad.includes(cb.value)) {
+                cb.checked = true;
+                cb.dispatchEvent(new Event('change')); // Disparar el evento change para actualizar el estado
+            }
+        });
+
+		codmunicipio.val('<%= Ficha.dp_codmunicipioresidencia %>').trigger('change');
+		codestadodeportado.val('<%= Ficha.dm_codpaisdeportado %>').trigger('change');
+		codactividadeconomicaextranjero.val('<%= Ficha.dm_codactividadeconomicaextranjero %>').trigger('change');
+		codactividadactual.val('<%= Ficha.sa_codactividadactual %>').trigger('change');
+		codniveleducativo.val('<%= Ficha.sa_codniveleducativo %>').trigger('change');
+		sa_piensadedicar.val('<%= Ficha.sa_piensadedicar %>').trigger('change');
+		sa_rubroemprendimiento.val('<%= Ficha.sa_rubroemprendimiento %>').trigger('change');
+		sa_enquecapacitarse.val('<%= Ficha.sa_enquecapacitarse %>').trigger('change');
+		let vulnerabilidades = '<%- Ficha.codvulnerabilidades %>'
+		codvulnerabilidades.val(vulnerabilidades ? vulnerabilidades.split(',') : []).trigger('change');
+		let intereses = '<%- Ficha.codintereses %>'
+		codintereses.val(intereses ? intereses.split(',') : []).trigger('change');
+		let mn_cadenavalor = '<%- Ficha.modnegocio_cv %>'
+		modnegocio_cv.val(mn_cadenavalor ? mn_cadenavalor.split(',') : []).trigger('change');
+		flgevaluacionfinal.val('<%= Ficha.codevaluacionfinalperfil %>').trigger('change');
+		codtipoapoyoautorizado.val('<%= Ficha.codtipoapoyoautorizado %>').trigger('change');
+		codproyecto.val('<%= Ficha.codproyecto %>').trigger('change');
+		$("#strrazonnocumple").val(`<%= Ficha.strrazonnocumple %>`)
+		$("#strrazoncumple").val(`<%= Ficha.strrazoncumple %>`)
+
+		renderDatosCargados()
+	})
+    <% } %>
+
+	$("#frmretornados").submit(function (e) {
+		e.preventDefault();
+		let method = codretornado == 0 ? 'POST' : 'PUT';
+
+		$.ajax({
+			url: `${url}/mye/deportados/${codretornado}`,
+			type: method,
+			data: $(this).serialize(),
+			beforeSend: function () {
+				$("#kt_submit_frmventas").attr("data-kt-indicator", "on");
+				$("#kt_submit_frmventas").prop("disabled", true);
+			},
+			success: function (res) {
+				// console.log('success', res)
+				fnToast(res);
+				$("#kt_submit_frmventas").removeAttr("data-kt-indicator");
+				$("#kt_submit_frmventas").prop("disabled", false);
+				if (res.code == 'true' || res.code == true) {
+					// Si es un nuevo registro, redirigir a la página de detalles
+					if (res.message.includes('|')) {
+						console.log('split')
+						let idretornado = res.message.split('|')[1]
+						console.log('idretornado', idretornado)
+						window.location.href = `/mye/deportados/registro/${idretornado}`;
+					}
+				}
+			},
+			error: function (err) {
+				console.error(err);
+				$("#kt_submit_frmventas").removeAttr("data-kt-indicator");
+				$("#kt_submit_frmventas").prop("disabled", false);
+				sToast.fire({
+					icon: "error",
+					title: "Se produjo un error al guardar la ficha"
+				})
+			}
+		})
+	})
+
+	$("#frmdecisionesprl").submit(function (e) {
+		e.preventDefault();
+		let submitButton = $("#kt_submit_prl");
+		$.ajax({
+			url: `${url}/mye/deportados/${codretornado}`,
+			type: 'patch',
+			data: $(this).serialize(),
+			beforeSend: function () {
+				submitButton.attr("data-kt-indicator", "on");
+				submitButton.prop("disabled", true);
+			},
+			success: function (res) {
+				fnToast(res);
+				submitButton.removeAttr("data-kt-indicator");
+				submitButton.prop("disabled", false);
+				if (res.code == 'true')
+					window.location.href = `/mye/deportados/registro/${codretornado}`;
+
+			},
+			error: function (err) {
+				console.error(err);
+				submitButton.removeAttr("data-kt-indicator");
+				submitButton.prop("disabled", false);
+				sToast.fire({
+					icon: "error",
+					title: "Se produjo un error al guardar la ficha"
+				})
+			}
+		})
+	})
+
+	function renderDatosCargados() {
+		dm_flgmigrar.change()
+		sa_flgoficioohabilidadtecnica.change()
+		flgterrenopropio.change()
+		sa_flgemprendimiento.change()
+		sa_flginteresadocapacitarseoemprender.change()
+		flgevaluacionfinal.change()
+		codtipoapoyoautorizado.change()
+        flgmodnegocio.val(`<%= Ficha.flgmodnegocio ?? 'N' %>`).change()
+		$("#strrazonnocumple").val(`<%= Ficha.strrazonnocumple %>`)
+		$("#strrazoncumple").val(`<%= Ficha.strrazoncumple %>`)
+	}
+
+	// ===== Cálculo de elegibilidad y puntajes =====
+    const critPriorizacion = document.getElementById('crit-priorizacion');
+	const chkBasic = Array.from(document.querySelectorAll('.check-elig-basic'));
+
+	const chkReinsercion = Array.from(document.querySelectorAll('.prio-reinsercion'));
+	const chkVulnerabilidad = Array.from(document.querySelectorAll('.prio-vulnerabilidad'));
+	const chkCompatibilidad = Array.from(document.querySelectorAll('.prio-compatibilidad'));
+
+	const eligResult = document.getElementById('elig-result');
+	const tRein1 = document.getElementById('total-reinsercion');
+	const tVul1 = document.getElementById('total-vulnerabilidad');
+	const tCom1 = document.getElementById('total-compatibilidad');
+
+	const tRein2 = document.getElementById('total-reinsercion-2');
+	const tVul2 = document.getElementById('total-vulnerabilidad-2');
+	const tCom2 = document.getElementById('total-compatibilidad-2');
+	const tGen = document.getElementById('total-general');
+
+	/*
+	    actualizado el 28-11-2025
+	    debe tener al menos 3 seleccionados
+	 */
+	//function updateBasics() {
+	//	const allChecked = chkBasic.every(c => c.checked);
+	//	eligResult.textContent = allChecked ? 'cumple' : 'no cumple';
+	//	critPriorizacion.style.display = allChecked ? 'block' : 'none';
+    //	}
+	function updateBasics() {
+		// Checkbox obligatorio: "Mayor de 18 años"
+		const mayor18Check = chkBasic.find(c => c.value === 'mayor_18');
+
+		const totalMarcados = chkBasic.filter(c => c.checked).length;
+
+		const cumple = mayor18Check && mayor18Check.checked && totalMarcados >= 3;
+
+		eligResult.textContent = cumple ? 'cumple' : 'no cumple';
+		critPriorizacion.style.display = cumple ? 'block' : 'none';
+	}
+
+	function updateTotals() {
+		const rein = chkReinsercion.filter(c => c.checked).length;
+		const vul = chkVulnerabilidad.filter(c => c.checked).length;
+		const com = chkCompatibilidad.filter(c => c.checked).length;
+
+		tRein1.value = rein;
+		tRein2.value = rein;
+		tVul1.value = vul;
+		tVul2.value = vul;
+		tCom1.value = com;
+		tCom2.value = com;
+
+		tGen.value = rein + vul + com;
+	}
+
+	[...chkBasic, ...chkReinsercion, ...chkVulnerabilidad, ...chkCompatibilidad]
+		.forEach(c => c.addEventListener('change', () => {
+			updateBasics();
+			updateTotals();
+		}));
+
+
+	document.addEventListener("DOMContentLoaded", function () {
+		const numcui = document.getElementById("numcui");
+		Inputmask("9999 99999 9999").mask(numcui);
+		renderDatosCargados();
+		numcui.addEventListener("keydown", function(event){
+			if (event.key === 'C' && event.shiftKey) {
+				if (numcui.value.length === 0) {
+					event.preventDefault();
+					const cui = generarCuiFicticio()
+					numcui.value = cui;
+					numcui.dispatchEvent(new Event('input', { bubbles: true }));
+				}
+			}
+		});
+
+		// Estado inicial
+		updateBasics();
+		updateTotals();
+	})
+
+	function generarCuiFicticio() {
+		// Generar los primeros 8 dígitos (el primero fijo en 9)
+		let d = [];
+		d[0] = 9;
+
+		for (let i = 1; i < 8; i++) {
+			d[i] = Math.floor(Math.random() * 10);
+		}
+
+		// Cálculo del sumatorio ponderado (POS=1..8 → peso=POS+1)
+		let suma = 0;
+		for (let i = 0; i < 8; i++) {
+			suma += (i + 2) * d[i];
+		}
+
+		let verificador = suma % 11;
+
+		// Si el verificador da 10 (no es de 1 dígito), regeneramos
+		if (verificador === 10) {
+			return generarCuiFicticio();
+		}
+
+		const ultimos = [0, 0, 0, 0];
+		const todos = d.concat(verificador, ultimos);
+		const str = todos.join('');
+
+		// Formato: 9### ####D 0000
+		return `${str.slice(0, 4)} ${str.slice(4, 8)}${str[8]} ${str.slice(9)}`;
+	}
+</script>
+<!--end::Page Custom Javascript-->
+<!--end::Javascript-->
+</body>
+</html>

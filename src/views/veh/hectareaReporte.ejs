@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reporte de Hectáreas</title>
+    <link href="/assets/css/output.css" rel="stylesheet">
+</head>
+<body class="m-8">
+<!-- Encabezado -->
+<div class="flex items-center justify-between mb-8">
+    <img src="/assets/media/logos/logo-ra.png" alt="Logo" class="w-24">
+    <div class="text-center flex-grow">
+        <h1 class="text-2xl font-bold">Registro Trimestral de Hectáreas por Pyme</h1>
+        <h2 class="text-xl font-semibold"><%- encabezado.strproyectos %></h2>
+    </div>
+</div>
+
+<!-- Información General -->
+<div class="mb-8 space-y-2">
+    <p><strong>ID Plataforma:</strong> <span class="text-gray-700"><%- encabezado.codhectarea %></span></p>
+    <p><strong>Socio que reporta:</strong> <span class="text-gray-700"><%- encabezado.strsocio %></span></p>
+    <p><strong>Fecha Inicio:</strong> <span class="text-gray-700"><%- encabezado.datfchregistro %></span></p>
+    <p><strong>Estrategia:</strong> <span class="text-gray-700"><%- poa.map(a => a.strestrategia).join(', ') %></span></p>
+    <p><strong>No. Actividad del POA:</strong> <span class="text-gray-700"><%- poa.map(a => a.codactividad).join(', ') %></span></p>
+    <p><strong>Año Fiscal:</strong> <span class="text-gray-700"><%- encabezado.strtrimestre_usaid.split('-')[1] %></span></p>
+    <p><strong>Trimestre:</strong> <span class="text-gray-700"><%- encabezado.strtrimestre_usaid.split('-')[0] %></span></p>
+    <p><strong>Total Hectáreas:</strong> <span class="text-gray-700"><%- detalle.reduce((sum, item) => sum + item.dblareaimpactada, 0) %></span></p>
+</div>
+
+<!-- Tabla de Detalles -->
+<table class="table-auto w-full border-collapse border border-gray-400 text-sm mb-8">
+    <thead class="bg-gray-200">
+    <tr>
+        <th class="border border-gray-400 px-2 py-1">Organización</th>
+        <th class="border border-gray-400 px-2 py-1">Categoría</th>
+        <th class="border border-gray-400 px-2 py-1">Cadena de Valor</th>
+        <th class="border border-gray-400 px-2 py-1">Uso de Suelo</th>
+        <th class="border border-gray-400 px-2 py-1">Tipo de Certificación</th>
+        <th class="border border-gray-400 px-2 py-1">Hectáreas Impactadas</th>
+        <th class="border border-gray-400 px-2 py-1">Hectáreas Reportadas</th>
+    </tr>
+    </thead>
+    <tbody>
+    <% detalle.forEach(item => { %>
+        <tr>
+            <td class="border border-gray-400 px-2 py-1"><%- item.strorganizacion %></td>
+            <td class="border border-gray-400 px-2 py-1"><%- item.strcategoria %></td>
+            <td class="border border-gray-400 px-2 py-1"><%- item.strcadenavalor %></td>
+            <td class="border border-gray-400 px-2 py-1"><%- item.strusosuelo %></td>
+            <td class="border border-gray-400 px-2 py-1"><%- item.strtipocertificacion %></td>
+            <td class="border border-gray-400 px-2 py-1"><%- item.dblareaimpactada %></td>
+            <td class="border border-gray-400 px-2 py-1"><%- item.dblareareportadatrim %></td>
+        </tr>
+    <% }) %>
+    </tbody>
+    <tfoot>
+    <tr class="font-bold bg-gray-200">
+        <td colspan="6" class="border border-gray-400 px-2 py-1 text-right">TOTAL</td>
+        <td class="border border-gray-400 px-2 py-1"><%- detalle.reduce((sum, item) => sum + item.dblareaimpactada, 0) %></td>
+        <td class="border border-gray-400 px-2 py-1"><%- detalle.reduce((sum, item) => sum + item.dblareareportadatrim, 0) %></td>
+    </tr>
+    </tfoot>
+</table>
+
+<!-- Espacio para Firmas -->
+<div class="space-y-12">
+    <div>
+        <strong>Nombre, puesto [firma y sello] de autoridad de PYME que garantiza veracidad de la información:</strong>
+        <br><br><br>
+        <div class="border-t border-gray-400 mt-6 w-1/2 mx-auto"></div>
+    </div>
+    <div>
+        <strong>Nombre, puesto [firma y sello] de personal de proyecto que garantiza veracidad de la información:</strong>
+        <br><br><br>
+        <div class="border-t border-gray-400 mt-6 w-1/2 mx-auto"></div>
+    </div>
+</div>
+</body>
+</html>
