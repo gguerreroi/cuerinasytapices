@@ -1,62 +1,39 @@
-import {connection, mssql} from "../../../config/database";
 import outApi from "../../../utils/out-api";
-const {DB_USER, DB_PASSWORD, DB_NAME, DB_HOST} = process.env;
 
 async function authController(request, username, password, done){
 
+	try {
+		// Validación directa sin base de datos
+		if (username === "cuerinas@1" && password === "tapices") {
 
-    let Connection = null;
-    try{
+			// Usuario simulado
+			const User = {
+				codusuario: 1,
+				strusuario: username,
+				permission: ["/","/cyt/envios","/cyt/envios/registro", "/cyt/envios/pdf"], // Puedes modificar esto si deseas permisos reales
+				username,
+				password,
+				database: null
+			};
 
-        Connection = await connection(DB_USER, DB_PASSWORD, DB_HOST, DB_NAME)
+			return done(null, User);
+		}
 
-        if (Connection.code > 500) throw {code: Connection.code, message: Connection.message}
+		// Si no coincide usuario o clave
+		return done(null, false, outApi(
+			401,
+			"Usuario o contraseña incorrectos",
+			null
+		));
 
-        const stmt = await Connection.request();
-
-        stmt.input('strusuario', mssql.VarChar(100), username)
-        stmt.input('strpassword', mssql.VarChar(100), password)
-        stmt.output('spCodeMessage', mssql.Bit)
-        stmt.output('spStrMessage', mssql.VarChar(100))
-
-        await stmt.execute('usuarios.sp_inicio_sesion', function(err, result) {
-
-            if (err) {
-                done(null, false, outApi(
-                    401,
-                    'Fail run [usuarios].[sp_inicio_sesion]',
-                    err
-                ))
-            }else {
-                const {output, recordsets} = result;
-
-                if (output.spCodeMessage){
-                    let User = recordsets[0][0];
-
-                    User.permission = recordsets[0][0]['PermisosWeb'] != null ? JSON.parse(recordsets[0][0]['PermisosWeb']).map(function (item){
-                        return item.IDENOMBRE;
-                    }) : ['/']
-
-                    User.username = DB_USER
-                    User.password = DB_PASSWORD
-                    User.database = DB_NAME
-                    done(null, User)
-                }else {
-                    done(null, false, outApi(
-                        401,
-                        output.spStrMessage,
-                        err
-                    ))
-                }
-            }
-        })
-    }catch (e) {
-        console.log(e, 'error authController')
-        done(null, false, outApi(
-            500,
-            `${e.message}`,
-            e))
-    }
+	} catch (e) {
+		console.log(e, "error authController");
+		return done(null, false, outApi(
+			500,
+			`${e.message}`,
+			e
+		));
+	}
 }
 
-export default authController
+export default authController;

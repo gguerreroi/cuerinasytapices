@@ -8,13 +8,4 @@ router.get('/registro', appAuth, function(request, response, next){
     response.render('capacitaciones/capacitacion', i);
     })
 
-router.get('/personas', appAuth, function(request, response, next){
-    const i = getInfo(request)
-    response.render('capacitaciones/personas', i);
-})
-
-router.get("/organizaciones", appAuth, function(request, response, next){
-    const i = getInfo(request)
-    response.render('capacitaciones/organizaciones', i)
-})
 export default router

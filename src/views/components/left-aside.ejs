@@ -50,89 +50,13 @@ if (spath.length > 2) {
                  id="#kt_aside_menu" data-kt-menu="true">
                 <div data-kt-menu-trigger="click"
                      class="menu-item menu-accordion <%- 'mye' === module_name ? 'show here' : '' %>">
-                    <%- include("menu-accordion",{title:'MYE',icon:'bi-people'}) %>
+                    <%- include("menu-accordion",{title:'CyT',icon:'bi-people'}) %>
                     <div class="menu-sub menu-sub-accordion menu-active-bg">
-                        <%- include("menu-item", {me: `${me}`, href: "/mye/capacitaciones/organizaciones", icon: 'bullet', title:'Registro de Organizaciones'}) %>
-                        <%- include("menu-item", {me: `${me}`, href: "/mye/capacitaciones/personas", icon: 'bullet', title:'Registro de Personas'}) %>
-                        <%- include("menu-item", {me: `${me}`, href: "/mye/capacitaciones/registro", icon: 'bullet', title:'Registro de Eventos'}) %>
-                        <%- include("menu-item", {me: `${me}`, href: "/mye/ventas/registro", icon: 'bullet', title:'Registro de Ventas'}) %>
-                        <%- include("menu-item", {me: `${me}`, href: "/mye/empleos/registro", icon: 'bullet', title:'Registro de Empleos'}) %>
-                        <%- include("menu-item", {me: `${me}`, href: "/mye/hectareas/registro", icon: 'bullet', title:'Registro de Hectareas'}) %>
-                        <%- include("menu-item", {me: `${me}`, href: "/mye/deportados/registro", icon: 'bullet', title:'Perfil de Deportados'}) %>
-                        <%- include("menu-item", {me: `${me}`, href: "/mye/riesgo/registro", icon: 'bullet', title:'Perfil de Riesgo'}) %>
-                        <%- include("menu-item", {me: `${me}`, href: "/mye/trimestre/registro", icon: 'bullet', title:'Trimestre'}) %>
-                    </div>
-                </div>
-                <div data-kt-menu-trigger="click"
-                     class="menu-item menu-accordion <%- 'catalogo' === module_name ? 'show here' : '' %>">
-                    <%- include("menu-accordion",{title:'Catalogos',icon:'bi-book'}) %>
-                    <div class="menu-sub menu-sub-accordion menu-active-bg">
-                        <div data-kt-menu-trigger="click"
-                             class="menu-item menu-accordion <%- 'organizaciones' === module_section ? 'show here' : '' %>">
-                            <%- include('menu-subaccordion', {title: "Organizaciones"}) %>
-                            <div class="menu-sub menu-sub-accordion menu-active-bg">
-                                <%- include("menu-item", {me: `${me}`, href: "/catalogo/organizaciones/tipoorganizacion", icon: 'bullet', title:'Tipo Organización'}) %>
-                            </div>
-                        </div>
-                        <div data-kt-menu-trigger="click"
-                             class="menu-item menu-accordion <%- 'general' === module_section ? 'show here' : '' %>">
-                            <%- include('menu-subaccordion', {title: "General"}) %>
-                            <div class="menu-sub menu-sub-accordion menu-active-bg">
-                                <%- include("menu-item", {me: `${me}`, href: "/catalogo/general/tipoeventos", icon: 'bullet', title:'Tipo Eventos'}) %>
-                                <%- include("menu-item", {me: `${me}`, href: "/catalogo/general/tema", icon: 'bullet', title:'Temas'}) %>
-                                <%- include("menu-item", {me: `${me}`, href: "/catalogo/general/cadenavalor", icon: 'bullet', title:'Categorias Cadena de Valor'}) %>
-                                <%- include("menu-item", {me: `${me}`, href: "/catalogo/general/comunidadlinguistica", icon: 'bullet', title:'Comunidad Linguistica'}) %>
-                                <%- include("menu-item", {me: `${me}`, href: "/catalogo/general/unidadmedida", icon: 'bullet', title:'Unidad de Medida'}) %>
-                                <%- include("menu-item", {me: `${me}`, href: "/catalogo/general/usosuelo", icon: 'bullet', title:'Uso de suelo'}) %>
-                                <%- include("menu-item", {me: `${me}`, href: "/catalogo/general/certificacion", icon: 'bullet', title:'Certificación'}) %>
-                                <%- include("menu-item", {me: `${me}`, href: "/catalogo/general/donante", icon: 'bullet', title:'Donante'}) %>
-                                <%- include("menu-item", {me: `${me}`, href: "/catalogo/general/proyecto", icon: 'bullet', title:'Proyectos'}) %>
-                            </div>
-                        </div>
-                        <div data-kt-menu-trigger="click"
-                             class="menu-item menu-accordion <%- 'poa' === module_section ? 'show here' : '' %>">
-                            <%- include('menu-subaccordion', {title: "Poa"}) %>
-                            <div class="menu-sub menu-sub-accordion menu-active-bg">
-                                <%- include("menu-item", {me: `${me}`, href: "/catalogo/poa/poa", icon: 'bullet', title:'Actividades POA'}) %>
-                                <%- include("menu-item", {me: `${me}`, href: "/catalogo/poa/socio", icon: 'bullet', title:'Socios'}) %>
-                                <%- include("menu-item", {me: `${me}`, href: "/catalogo/poa/estrategias", icon: 'bullet', title:'Estrategias / Resultados / Indicadores'}) %>
-                            </div>
-                        </div>
-                        <div data-kt-menu-trigger="click"
-                             class="menu-item menu-accordion <%- 'deportados' === module_section ? 'show here' : '' %>">
-                            <%- include('menu-subaccordion', {title: "Ficha de Deportados"}) %>
-                            <div class="menu-sub menu-sub-accordion menu-active-bg">
-                                <%- include("menu-item", {me: `${me}`, href: "/catalogo/deportados/niveleducativo", icon: 'bullet', title:'Nivel educativo'}) %>
-                                <%- include("menu-item", {me: `${me}`, href: "/catalogo/deportados/rubroscapacitacion", icon: 'bullet', title:'Rubros Capacitación'}) %>
-                                <%- include("menu-item", {me: `${me}`, href: "/catalogo/deportados/vulnerabilidades", icon: 'bullet', title:'Vulnerabilidades'}) %>
-                                <%- include("menu-item", {me: `${me}`, href: "/catalogo/deportados/intereses", icon: 'bullet', title:'Intereses y Expectativas'}) %>
-                                <%- include("menu-item", {me: `${me}`, href: "/catalogo/deportados/evaluacionperfil", icon: 'bullet', title:'Evaluación del perfil'}) %>
-                                <%- include("menu-item", {me: `${me}`, href: "/catalogo/deportados/tipoapoyo", icon: 'bullet', title:'Tipo apoyo'}) %>
-                                <%- include("menu-item", {me: `${me}`, href: "/catalogo/deportados/oficiogt", icon: 'bullet', title:'Oficio en Guatemala'}) %>
-                                <%- include("menu-item", {me: `${me}`, href: "/catalogo/deportados/necesidademprender", icon: 'bullet', title:'¿Qué necesita para emprender?'}) %>
-                                <%- include("menu-item", {me: `${me}`, href: "/catalogo/deportados/rubroemprendimiento", icon: 'bullet', title:'¿Qué emprendimiento realizará?'}) %>
-                                <%- include("menu-item", {me: `${me}`, href: "/catalogo/deportados/actividadeconomicaextranjero", icon: 'bullet', title:'Actividad Economica Extranjero'}) %>
+                        <%- include("menu-item", {me: `${me}`, href: "/cyt/envios/registro", icon: 'bullet', title:'Registro de Envios'}) %>
 
-                            </div>
-                        </div>
-                        <div data-kt-menu-trigger="click"
-                             class="menu-item menu-accordion <%- 'geografica' === module_section ? 'show here' : '' %>">
-                            <%- include('menu-subaccordion', {title: "Geografica"}) %>
-                            <div class="menu-sub menu-sub-accordion menu-active-bg">
-                                <%- include("menu-item", {me: `${me}`, href: "/catalogo/geografica/geografica", icon: 'bullet', title:'Geografica'}) %>
-                            </div>
-                        </div>
-                        <div data-kt-menu-trigger="click"
-                             class="menu-item menu-accordion <%- 'usuarios' === module_section ? 'show here' : '' %>">
-                            <%- include('menu-subaccordion', {title: "Usuarios"}) %>
-                            <div class="menu-sub menu-sub-accordion menu-active-bg">
-                                <%- include("menu-item", {me: `${me}`, href: "/catalogo/usuarios/usuarios", icon: 'bullet', title:'Usuarios'}) %>
-                                <%- include("menu-item", {me: `${me}`, href: "/catalogo/usuarios/roles", icon: 'bullet', title:'Roles'}) %>
-                                <%- include("menu-item", {me: `${me}`, href: "/catalogo/usuarios/permisos", icon: 'bullet', title:'Permisos'}) %>
-                            </div>
-                        </div>
                     </div>
                 </div>
+
 
                 <!--   end : items menu -->
             </div>
