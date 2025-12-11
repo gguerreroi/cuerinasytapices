@@ -7,7 +7,7 @@ import outApi from "../../../utils/out-api";
 
 const { DB_HOST } = process.env;
 
-async function ventasDetalle(request, response) {
+async function enviosDetalle(request, response) {
     const { Username, Database, Password } = get_credentials(request);
     const { id } = request.params;
     const {
@@ -73,4 +73,4 @@ async function ventasDetalle(request, response) {
     }
 }
 
-export default ventasDetalle;
+export default enviosDetalle;

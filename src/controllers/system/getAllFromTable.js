@@ -5,6 +5,7 @@ const {DB_HOST} = process.env;
 
 async function getAllFromTable(req, res) {
     const {Username, Database, Password} = get_credentials(req);
+	console.log(Username, Database, Password);
     const { view } = req.params;
 
     let Connection = null
@@ -23,6 +24,7 @@ async function getAllFromTable(req, res) {
 
         });
     }catch(e){
+		console.log('error in getAllFromTable',e)
         return res.status(500).send(outApi('500', 'Error in controller getAllFromTable', e));
     }
 }

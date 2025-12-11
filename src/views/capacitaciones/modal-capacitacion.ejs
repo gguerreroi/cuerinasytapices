@@ -1,188 +1,209 @@
-<div class="modal bg-body fade" tabindex="-1" id="kt_modal">
+
+<div class="modal bg-body fade" tabindex="-1" id="kt_modal_envios">
     <div class="modal-dialog modal-fullscreen">
         <div class="modal-content shadow-none">
             <div class="modal-header">
-                <h5 class="modal-title">Eventos</h5>
+                <h5 class="modal-title">Envíos - Encabezado</h5>
                 <!--begin::Close-->
-                <div class="btn btn-icon btn-sm btn-active-light-primary ms-2" data-bs-dismiss="modal"
+                <div class="btn btn-icon btn-sm btn-active-light-primary ms-2"
+                     data-bs-dismiss="modal"
                      aria-label="Close">
                     <i class="bi bi-x fs-3x"></i>
                 </div>
                 <!--end::Close-->
             </div>
             <div class="modal-body">
-                <form method="post" class="row g-3"
-                      name="form_event" id="form_event">
-                    <div class="col-sm-12">
+                <form method="post"
+                      class="row g-3"
+                      name="form_envio"
+                      id="form_envio">
+
+                    <% if (typeof csrfToken !== 'undefined') { %>
+                        <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                    <% } %>
+
+                    <!-- ID interno -->
+                    <div class="col-sm-12 col-md-2">
                         <div class="form-floating">
                             <input type="number"
-                                   id="codevento"
-                                   name="codevento"
+                                   id="codenvio"
+                                   name="codenvio"
                                    class="form-control"
-                                   value="0" readonly>
-                            <label for="codevento">#</label>
+                                   value="<%= Envio.codenvio %>"
+                                   readonly>
+                            <label for="codenvio">#</label>
                         </div>
                     </div>
-                    <div class="col-sm-12">
-                        <div class="form-floating">
-                            <textarea class="form-control"
-                                      placeholder="Titulo de la actividad"
-                                      id="strevento"
-                                      name="strevento"
-                                      style="height: 100px"></textarea>
-                            <label for="strevento"><span class="required">Título de la Actividad</span></label>
-                        </div>
-                    </div>
-                    <div class="col-sm-12 col-md-6">
-                        <label for="codproyecto" class="input-group-text">Proyecto</label>
-                        <select id="codproyecto"
-                                name="codproyecto"
-                                multiple
-                                required
-                                data-dropdown-parent="#kt_modal"
-                                class="form-control"></select>
-                    </div>
-                    <div class="col-sm-12 col-md-6">
-                        <label for="qfy" class="input-group-text">Trimestre</label>
-                        <select id="qfy"
-                                name="qfy"
-                                class="form-control"
-                                required
-                                data-dropdown-parent="#kt_modal">
-                        </select>
-                    </div>
-                    <div class=" col-sm-12">
-                        <label class="input-group-text" for="codtipoevento">
-                            <span class="required">Tipo de Evento</span>
-                        </label>
-                        <select class="form-control"
-                                id="codtipoevento"
-                                name="codtipoevento"
-                                required>
-                        </select>
-                    </div>
-                    <div class="col-sm-12 col-md-3">
-                        <div class="form-floating">
-                            <input type="date"
-                                   id="datfchinicio"
-                                   name="datfchinicio"
-                                   class="form-control">
-                            <label for="datfchinicio">Fecha Inicio</label>
-                        </div>
-                    </div>
-                    <div class="col-sm-12 col-md-3">
-                        <div class="form-floating">
-                            <input type="date"
-                                   id="datfchfin"
-                                   name="datfchfin"
-                                   class="form-control">
-                            <label for="datfchfin">Fecha Final</label>
-                        </div>
-                    </div>
+
+                    <!-- # DOCUMENTO -->
                     <div class="col-sm-12 col-md-3">
                         <div class="form-floating">
                             <input type="number"
-                                   id="numhoras"
-                                   step="0.01"
-                                   name="numhoras"
+                                   id="numdocumento"
+                                   name="numdocumento"
                                    class="form-control"
-                                   value="0" required>
-                            <label for="numhoras">Duración del evento
-                                <span class="fw-light">(horas)</span>
+                                   required
+                                   value="<%= Envio.numdocumento %>">
+                            <label for="numdocumento">
+                                <span class="required"># Documento</span>
                             </label>
                         </div>
                     </div>
-                    <div class="col-sm-12 col-md-3" id="div_numcosto">
+
+                    <!-- # CAJA -->
+                    <div class="col-sm-12 col-md-3">
                         <div class="form-floating">
                             <input type="number"
-                                   id="numcosto"
-                                   name="numcosto"
+                                   id="numcaja"
+                                   name="numcaja"
                                    class="form-control"
-                                   step="0.01" value="0" required>
-                            <label for="numcosto"><span class="required">Costo</span></label>
+                                   value="<%= Envio.numcaja %>">
+                            <label for="numcaja"># Caja</label>
                         </div>
                     </div>
+
+                    <!-- FECHA DOCUMENTO -->
                     <div class="col-sm-12 col-md-4">
-                        <label class="input-group-text" for="codmunicipio">
-                            Seleccione el lugar donde se realizo el
-                            evento</label>
-                        <select class="form-select"
-                                id="codmunicipio"
-                                name="codmunicipio"
-                                required>
-                        </select>
-                    </div>
-                    <div class="col-sm-12 col-md-4">
-                        <label class="input-group-text" for="codtema">
-                            Categoria del tema</label>
-                        <select class="form-select"
-                                id="codtema"
-                                name="codtema"
-                                required>
-                        </select>
-                    </div>
-                    <div class="col-sm-12 col-md-4">
-                        <label class="input-group-text" for="codcategoria">
-                            Categoría de la cadena de
-                            valor</label>
-                        <select class="form-select"
-                                id="codcategoria"
-                                name="codcategoria"
-                                required>
-                        </select>
-                    </div>
-                    <div class="col-sm-12">
-                        <label class="input-group-text" for="codactividad">
-                            Actividad del POA</label>
-                        <select class="form-select"
-                                id="codactividad"
-                                name="codactividad"
-                                multiple
-                                required>
-                        </select>
-                    </div>
-                    <div class="col-sm-12 col-md-6">
                         <div class="form-floating">
-                            <input type="url"
-                                   id="strlinkevidencia"
-                                   name="strlinkevidencia"
-                                   class="form-control">
-                            <label for="strlinkevidencia">Link de Evidencia</label>
+                            <input type="date"
+                                   id="datfchdocumento"
+                                   name="datfchdocumento"
+                                   class="form-control"
+                                   required
+                                   value="<%= Envio.datfchdocumento %>">
+                            <label for="datfchdocumento">
+                                <span class="required">Fecha</span>
+                            </label>
                         </div>
                     </div>
+
+                    <!-- # PEDIDO -->
+                    <div class="col-sm-12 col-md-3">
+                        <div class="form-floating">
+                            <input type="number"
+                                   id="numpedido"
+                                   name="numpedido"
+                                   class="form-control"
+                                   required
+                                   value="<%= Envio.numpedido %>">
+                            <label for="numpedido">
+                                <span class="required"># Pedido</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- FECHA PEDIDO -->
+                    <div class="col-sm-12 col-md-3">
+                        <div class="form-floating">
+                            <input type="date"
+                                   id="datfchpedido"
+                                   name="datfchpedido"
+                                   class="form-control"
+                                   required
+                                   value="<%= Envio.datfchpedido %>">
+                            <label for="datfchpedido">
+                                <span class="required">Fecha Pedido</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- CLIENTE -->
                     <div class="col-sm-12 col-md-6">
                         <div class="form-floating">
                             <input type="text"
-                            id="strresponsable"
-                            name="strresponsable"
-                            class="form-control">
-                            <label for="strresponsable">Responsable</label>
+                                   id="strcliente"
+                                   name="strcliente"
+                                   class="form-control"
+                                   required
+                                   value="<%= Envio.strcliente %>">
+                            <label for="strcliente">
+                                <span class="required">Cliente</span>
+                            </label>
                         </div>
                     </div>
-                    <div class="col-sm-12">
-                        <label for="codparticipantes" class="input-group-text">Participantes</label>
-                        <select class="form-control form-control-lg form-select-lg"
-                                id="codparticipantes"
-                                name="codparticipantes"
-                                multiple></select>
+
+                    <!-- NIT -->
+                    <div class="col-sm-12 col-md-3">
+                        <div class="form-floating">
+                            <input type="text"
+                                   id="strnit"
+                                   name="strnit"
+                                   class="form-control"
+                                   required
+                                   value="<%= Envio.strnit %>">
+                            <label for="strnit">
+                                <span class="required">NIT</span>
+                            </label>
+                        </div>
                     </div>
-                    <div class="col-sm-12">
-                        <table class="table" id="tbparticipantes">
-                            <thead class="text-uppercase fw-bold">
-                              <tr>
-                                  <th>#</th>
-                                  <th>Nombre</th>
-                                  <th>Organizacion</th>
-                                  <th></th>
-                              </tr>
-                            </thead>
-                            <tbody></tbody>
-                        </table>
+
+                    <!-- CÓDIGO -->
+                    <div class="col-sm-12 col-md-3">
+                        <div class="form-floating">
+                            <input type="text"
+                                   id="strcodigo"
+                                   name="strcodigo"
+                                   class="form-control"
+                                   value="<%= Envio.strcodigo %>">
+                            <label for="strcodigo">Código</label>
+                        </div>
                     </div>
+
+                    <!-- AGENTE -->
+                    <div class="col-sm-12 col-md-4">
+                        <div class="form-floating">
+                            <input type="text"
+                                   id="stragente"
+                                   name="stragente"
+                                   class="form-control"
+                                   value="<%= Envio.stragente %>">
+                            <label for="stragente">Agente</label>
+                        </div>
+                    </div>
+
+                    <!-- DIRECCIÓN DE ENTREGA -->
+                    <div class="col-sm-12 col-md-8">
+                        <div class="form-floating">
+                            <input type="text"
+                                   id="strdireccionentrega"
+                                   name="strdireccionentrega"
+                                   class="form-control"
+                                   value="<%= Envio.strdireccionentrega %>">
+                            <label for="strdireccionentrega">Dirección de Entrega</label>
+                        </div>
+                    </div>
+
+                    <!-- FORMA DE PAGO -->
+                    <div class="col-sm-12 col-md-6">
+                        <div class="form-floating">
+                            <input type="text"
+                                   id="strformapago"
+                                   name="strformapago"
+                                   class="form-control"
+                                   value="<%= Envio.strformapago %>">
+                            <label for="strformapago">Forma de Pago</label>
+                        </div>
+                    </div>
+
+                    <!-- TRANSPORTE -->
+                    <div class="col-sm-12 col-md-6">
+                        <div class="form-floating">
+                            <input type="text"
+                                   id="strtransporte"
+                                   name="strtransporte"
+                                   class="form-control"
+                                   value="<%= Envio.strtransporte %>">
+                            <label for="strtransporte">Transporte</label>
+                        </div>
+                    </div>
+
+                    <!-- BOTÓN GUARDAR -->
                     <div class="col-sm-12">
-                        <button type="submit" id="btnformsave"
+                        <button type="submit"
+                                id="btnformsave_envio"
                                 class="btn btn-primary col-sm-12 w-full">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                 fill="currentColor"
                                  class="bi bi-save" viewBox="0 0 16 16">
                                 <path d="M2 1a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H9.5a1 1 0 0 0-1 1v7.293l2.646-2.647a.5.5 0 0 1 .708.708l-3.5 3.5a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L7.5 9.293V2a2 2 0 0 1 2-2H14a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h2.5a.5.5 0 0 1 0 1z"/>
                             </svg>
@@ -192,7 +213,11 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-light" data-bs-dismiss="modal">Cancelar</button>
+                <button type="button"
+                        class="btn btn-light"
+                        data-bs-dismiss="modal">
+                    Cancelar
+                </button>
             </div>
         </div>
     </div>

@@ -13,54 +13,7 @@
             <div class="modal-body">
                 <form action="<%- %>" method="post" class="row g-3"
                       name="frm_modal_report" id="frm_modal_report">
-                    <% if (UserInfo.codrole == 1 || UserInfo.codrole == 1004) { %>
-                        <div class="col-sm-12">
-                            <label for="rep_codsocio" class="input-group-text">Socio</label>
-                            <select class="form-control form-control-lg form-select-lg form-select "
-                                    data-dropdown-parent="#kt_modal_report" multiple
-                                    name="codsocio" id="rep_codsocio">
-                            </select>
-                        </div>
-                        <script>
-							document.addEventListener("DOMContentLoaded", function() {
 
-								$('#rep_codsocio').select2({
-									placeholder: "Seleccione un socio",
-									allowClear: true,
-									ajax: {
-										url: '/api/catalogo/select2/poa.socio/codsocio/strsocio',
-										type: 'get',
-										dataType: 'json',
-										data: function (params) {
-											return {
-												term: params.term,
-												page: params.page || 10
-											};
-										},
-									},
-									templateResult: formatRepo,
-									templateSelection: formatRepoSelection
-								});
-
-								function formatRepo(repo) {
-									if (repo.loading)
-										return repo.text;
-
-									return $(
-										"<div class='select2-result-repository clearfix'>" +
-										"<div class='select2-result-repository__meta'>" +
-										`<div class='select2-result-repository__title'>${repo.text}</div>` +
-										"</div>" +
-										"</div>"
-									);
-								}
-
-								function formatRepoSelection(repo) {
-									return repo.text;
-								}
-							});
-                        </script>
-                    <% } %>
 
                     <div class="col-sm-12">
                         <label for="rep_trimestre" class="input-group-text"><span class="required">Trimestre / Año</span></label>
@@ -108,7 +61,6 @@
 		parent_id,
 		split = false
 	){
-
 		$.ajax({
 			url: `${url}/catalogo/select2/${table_name}/${column_id}/${column_value}`,
 			type: 'get'
@@ -138,7 +90,6 @@
 
 	function OpenModalReport(url){
 		$("#frm_modal_report").trigger('reset')
-		$("#rep_codsocio").val(null).trigger('change')
 		$("#rep_trimestre").val(null).trigger('change')
 		$("#rep_proyecto").val(null).trigger('change')
 		$("#frm_modal_report").attr('action', url)
@@ -152,52 +103,6 @@
 			console.log('serial',$(this).serialize())
 			window.location.href= $(this).attr('action') + '&' + $(this).serialize()
 		})
-
-		$("#rep_trimestre").select2({
-			placeholder: "Seleccione un trimestre",
-			allowClear: true,
-			ajax: {
-				url: '/api/catalogo/select2/proyecto.vw_trimestre/quarter_usaid/quarter_usaid',
-				type: 'get',
-				dataType: 'json',
-				data: function (params) {
-					return {
-						term: params.term,
-						page: params.page || 10
-					};
-				},
-			},
-			templateResult: function(state){
-				if (!state.id)
-					return state.text
-
-				const [a, b] = state.text.split(' ')
-				let template = '<div>'
-				template += `<p class="fs-6 fw-bold">${a}</p>`
-				template += '</div>'
-				return $(template)
-
-			},
-			templateSelection: function(state){
-				if (!state.id)
-					return state.text
-
-				const [a, b] = state.text.split(' ')
-				let template = '<div>'
-				template += `<p class="fs-6 fw-bold">${a}</p>`
-				template += '</div>'
-				return $(template)
-			}
-		})
-
-		bindSelectStatic(
-			'proyecto.vw_proyectos',
-			'strproyecto',
-			'strproyecto',
-			'rep_proyecto',
-			'#kt_modal_report',
-			false
-		)
 
 	})
 </script>

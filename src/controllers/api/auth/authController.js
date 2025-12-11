@@ -1,4 +1,5 @@
 import outApi from "../../../utils/out-api";
+const {DB_USER, DB_PASSWORD, DB_NAME, DB_HOST} = process.env;
 
 async function authController(request, username, password, done){
 
@@ -15,6 +16,10 @@ async function authController(request, username, password, done){
 				password,
 				database: null
 			};
+
+			User.username = DB_USER
+			User.password = DB_PASSWORD
+			User.database = DB_NAME
 
 			return done(null, User);
 		}

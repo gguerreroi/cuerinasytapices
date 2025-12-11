@@ -1,0 +1,477 @@
+<%
+let Encabezado = encabezado !== undefined ? encabezado : {
+    codenvio: 0,
+    datfecha: '',
+    numdocumento: '',
+    numcaja: '',
+    numpedido: '',
+    datfpedido: '',
+    strcliente: '',
+    numnit: '',
+    strdireccion: '',
+    stragente: '',
+    strformadepago: '',
+    strtransporte: '',
+    numflete: 0,
+    numdescuento: 0,
+    numtotal: 0
+};
+
+let Detalle = detalle !== undefined ? detalle : [];
+%>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <%- include('../components/web-header') %>
+    <style>
+        tr{
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body id="kt_body"
+      class="header-fixed header-tablet-and-mobile-fixed toolbar-enabled toolbar-fixed toolbar-tablet-and-mobile-fixed aside-enabled aside-fixed"
+      style="--kt-toolbar-height:55px;--kt-toolbar-height-tablet-and-mobile:55px">
+<!--begin::Main-->
+<!--begin::Root-->
+<div class="d-flex flex-column flex-root">
+    <!--begin::Page-->
+    <div class="page d-flex flex-row flex-column-fluid">
+        <%- include('../components/left-aside.ejs') %>
+        <!--begin::Wrapper-->
+        <div class="wrapper d-flex flex-column flex-row-fluid" id="kt_wrapper">
+            <%- include('../components/kt-header.ejs') %>
+            <!--begin::Content-->
+            <div class="content d-flex flex-column flex-column-fluid" id="kt_content">
+                <div class="d-flex flex-column-fluid">
+                    <div class="container">
+                        <div class="row g-6">
+                            <div class="col-12">
+                                <div class="card gutter-b">
+                                    <div class="card-header justify-content-end ribbon ribbon-start ribbon-clip">
+                                        <div class="ribbon-label">
+                                            <%- Encabezado.codenvio || 0 %>
+                                            <span class="ribbon-inner bg-primary"></span>
+                                        </div>
+                                        <div class="card-title">
+                                            <h3 class="card-label">Registro de Envíos</h3>
+                                        </div>
+                                        <div class="card-toolbar">
+                                            <% if (id != 0) { %>
+                                                <div class="btn-group">
+                                                    <button type="button" class="btn btn-secondary dropdown-toggle"
+                                                            data-bs-toggle="dropdown" aria-expanded="false">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32"
+                                                             fill="currentColor" class="bi bi-filetype-pdf"
+                                                             viewBox="0 0 16 16">
+                                                            <path fill-rule="evenodd"
+                                                                  d="M14 4.5V14a2 2 0 0 1-2 2h-1v-1h1a1 1 0 0 0 1-1V4.5h-2A1.5 1.5 0 0 1 9.5 3V1H4a1 1 0 0 0-1 1v9H2V2a2 2 0 0 1 2-2h5.5zM1.6 11.85H0v3.999h.791v-1.342h.803q.43 0 .732-.173.305-.175.463-.474a1.4 1.4 0 0 0 .161-.677q0-.375-.158-.677a1.2 1.2 0 0 0-.46-.477q-.3-.18-.732-.179m.545 1.333a.8.8 0 0 1-.085.38.57.57 0 0 1-.238.241.8.8 0 0 1-.375.082H.788V12.48h.66q.327 0 .512.181.185.183.185.522m1.217-1.333v3.999h1.46q.602 0 .998-.237a1.45 1.45 0 0 0 .595-.689q.196-.45.196-1.084 0-.63-.196-1.075a1.43 1.43 0 0 0-.589-.68q-.396-.234-1.005-.234zm.791.645h.563q.371 0 .609.152a.9.9 0 0 1 .354.454q.118.302.118.753a2.3 2.3 0 0 1-.068.592 1.1 1.1 0 0 1-.196.422.8.8 0 0 1-.334.252 1.3 1.3 0 0 1-.483.082h-.563zm3.743 1.763v1.591h-.79V11.85h2.548v.653H7.896v1.117h1.606v.638z"/>
+                                                        </svg>
+                                                    </button>
+                                                    <ul class="dropdown-menu">
+                                                        <li>
+                                                            <button type="button" class="dropdown-item"
+                                                                    onclick="window.location.href='/envios/reporte/<%- id %>'">
+                                                                Pantalla
+                                                            </button>
+                                                        </li>
+                                                        <li>
+                                                            <button type="button" class="dropdown-item"
+                                                                    onclick="window.location.href='/envios/pdf/<%- id %>'">
+                                                                PDF
+                                                            </button>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            <% } %>
+                                        </div>
+                                    </div>
+                                    <div class="card-body">
+                                        <!-- ENCABEZADO ENVÍO -->
+                                        <form class="row g-3" id="frmenvios">
+                                            <div class="col-sm-12 col-md-3">
+                                                <label class="input-group-text" for="datfecha">Fecha envío</label>
+                                                <input type="date"
+                                                       name="datfecha"
+                                                       id="datfecha"
+                                                       class="form-control"
+                                                       value="<%- Encabezado.datfecha ? Encabezado.datfecha.toISOString ? Encabezado.datfecha.toISOString().substring(0,10) : Encabezado.datfecha.substring(0,10) : '' %>"
+                                                       required>
+                                            </div>
+                                            <div class="col-sm-12 col-md-3">
+                                                <label class="input-group-text" for="numdocumento"># Documento</label>
+                                                <input type="number"
+                                                       name="numdocumento"
+                                                       id="numdocumento"
+                                                       class="form-control"
+                                                       value="<%- Encabezado.numdocumento || '' %>"
+                                                       required>
+                                            </div>
+                                            <div class="col-sm-12 col-md-3">
+                                                <label class="input-group-text" for="numcaja"># Caja</label>
+                                                <input type="number"
+                                                       name="numcaja"
+                                                       id="numcaja"
+                                                       class="form-control"
+                                                       value="<%- Encabezado.numcaja || '' %>">
+                                            </div>
+
+                                            <div class="col-sm-12 col-md-3">
+                                                <label class="input-group-text" for="numpedido"># Pedido</label>
+                                                <input type="number"
+                                                       name="numpedido"
+                                                       id="numpedido"
+                                                       class="form-control"
+                                                       value="<%- Encabezado.numpedido || '' %>">
+                                            </div>
+                                            <div class="col-sm-12 col-md-3">
+                                                <label class="input-group-text" for="datfpedido">Fecha pedido</label>
+                                                <input type="date"
+                                                       name="datfpedido"
+                                                       id="datfpedido"
+                                                       class="form-control"
+                                                       value="<%- Encabezado.datfpedido ? Encabezado.datfpedido.toISOString ? Encabezado.datfpedido.toISOString().substring(0,10) : Encabezado.datfpedido.substring(0,10) : '' %>">
+                                            </div>
+
+                                            <div class="col-sm-12 col-md-6">
+                                                <label class="input-group-text" for="strcliente">Cliente</label>
+                                                <input type="text"
+                                                       name="strcliente"
+                                                       id="strcliente"
+                                                       class="form-control text-uppercase"
+                                                       value="<%- Encabezado.strcliente || '' %>"
+                                                       required>
+                                            </div>
+
+                                            <div class="col-sm-12 col-md-3">
+                                                <label class="input-group-text" for="numnit">NIT</label>
+                                                <input type="text"
+                                                       name="numnit"
+                                                       id="numnit"
+                                                       class="form-control"
+                                                       value="<%- Encabezado.numnit || '' %>">
+                                            </div>
+
+                                            <div class="col-sm-12 col-md-4">
+                                                <label class="input-group-text" for="strdireccion">Dirección entrega</label>
+                                                <input type="text"
+                                                       name="strdireccion"
+                                                       id="strdireccion"
+                                                       class="form-control text-uppercase"
+                                                       value="<%- Encabezado.strdireccion || '' %>">
+                                            </div>
+
+                                            <div class="col-sm-12 col-md-4">
+                                                <label class="input-group-text" for="stragente">Agente</label>
+                                                <select
+                                                        name="stragente"
+                                                        id="stragente"
+                                                        class="form-select text-uppercase">
+                                                    <option value="" disabled>-- SELECCIONE --</option>
+                                                    <option value="KAREN"    <%= Encabezado.stragente === 'KAREN'    ? 'selected' : '' %> >KAREN</option>
+                                                    <option value="EDUARDO"  <%= Encabezado.stragente === 'EDUARDO'  ? 'selected' : '' %> >EDUARDO</option>
+                                                    <option value="KEVIN"    <%= Encabezado.stragente === 'KEVIN'    ? 'selected' : '' %> >KEVIN</option>
+                                                    <option value="CLEMENTE" <%= Encabezado.stragente === 'CLEMENTE' ? 'selected' : '' %> >CLEMENTE</option>
+                                                    <option value="JEREMY"   <%= Encabezado.stragente === 'JEREMY'   ? 'selected' : '' %> >JEREMY</option>
+                                                </select>
+                                            </div>
+
+                                            <div class="col-sm-12 col-md-4">
+                                                <label class="input-group-text" for="strformadepago">Forma de Pago</label>
+
+                                                <select name="strformadepago" id="strformadepago"
+                                                        class="form-select text-uppercase" multiple required>
+
+                                                    <option value="EFECTIVO"
+                                                            <%= (Encabezado.strformadepago || '').includes('EFECTIVO') ? 'selected' : '' %>>
+                                                        EFECTIVO
+                                                    </option>
+
+                                                    <option value="CHEQUE"
+                                                            <%= (Encabezado.strformadepago || '').includes('CHEQUE') ? 'selected' : '' %>>
+                                                        CHEQUE
+                                                    </option>
+
+                                                    <option value="TARJETA"
+                                                            <%= (Encabezado.strformadepago || '').includes('TARJETA') ? 'selected' : '' %>>
+                                                        TARJETA
+                                                    </option>
+
+                                                    <option value="DEPOSITO"
+                                                            <%= (Encabezado.strformadepago || '').includes('DEPOSITO') ? 'selected' : '' %>>
+                                                        DEPOSITO
+                                                    </option>
+
+                                                </select>
+                                            </div>
+                                            <div class="col-sm-12 col-md-4">
+                                                <label class="input-group-text">Transporte</label>
+                                                <input type="text"
+                                                       class="form-control"
+                                                       name="strtransporte"
+                                                       value="<%- Encabezado.strtransporte || '' %>"
+                                                       >
+                                            </div>
+
+                                            <div class="col-sm-12 col-md-4">
+                                                <label class="input-group-text">Flete</label>
+                                                <input type="number"
+                                                       step="0.01"
+                                                       class="form-control"
+                                                       name="numflete"
+                                                       id="numflete"
+                                                       value="<%- Encabezado.numflete || 0 %>">
+                                            </div>
+                                            <div class="col-sm-12 col-md-4">
+                                                <label class="input-group-text">Descuento</label>
+                                                <input type="number"
+                                                       step="0.01"
+                                                       class="form-control"
+                                                       name="numdescuento"
+                                                       id="numdescuento"
+                                                       value="<%- Encabezado.numdescuento || 0 %>">
+                                            </div>
+
+
+                                            <div class="col-12">
+                                                <button type="submit" id="kt_submit_frmenvios"
+                                                        class="btn col-12 btn-success">
+                                                    <span class="indicator-label">Guardar Encabezado</span>
+                                                    <span class="indicator-progress">Procesando...
+                                                        <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
+                                                    </span>
+                                                </button>
+                                            </div>
+                                        </form>
+
+                                        <% if (id != 0) { %>
+                                            <!-- TABLA DETALLE -->
+                                            <div class="row g-4 mt-4">
+                                                <div class="separator"></div>
+                                                <div class="table-responsive">
+                                                    <table class="col-12 table table-bordered table-sm" id="tb-envio-detalle">
+                                                        <thead class="fw-bolder">
+                                                        <tr>
+                                                            <th>#</th>
+                                                            <th>Código</th>
+                                                            <th>Descripción</th>
+                                                            <th>Cantidad</th>
+                                                            <th>Precio unitario</th>
+                                                            <th>Importe Q.</th>
+                                                        </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                        <% Detalle.forEach(function(row, idx) { %>
+                                                            <tr>
+                                                                <td><%- idx + 1 %></td>
+                                                                <td><%- row.codproducto || '' %></td>
+                                                                <td class="text-uppercase"><%- row.strdescripcion || '' %></td>
+                                                                <td class="text-end"><%- Number(row.numcantidad || 0).toFixed(2) %></td>
+                                                                <td class="text-end"><%- Number(row.numpreciounitario || 0).toFixed(2) %></td>
+                                                                <td class="text-end"><%- Number(row.numimporte || 0).toFixed(2) %></td>
+                                                            </tr>
+                                                        <% }) %>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                            <div class="separator"></div>
+                                        <% } %>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <% if (id != 0) { %>
+                                <!-- FORMULARIO DETALLE (alta/edición de líneas) -->
+                                <div class="col-12">
+                                    <div class="card">
+                                        <div class="card-header">
+                                            <div class="card-title">Registro de detalle de Envío</div>
+                                        </div>
+                                        <div class="card-body">
+                                            <form class="row g-4" id="frmenvios_detalle">
+                                                <input type="hidden"
+                                                       class="form-control form-control-sm"
+                                                       id="coddetalle"
+                                                       name="coddetalle"
+                                                       value="0"
+                                                       readonly>
+
+                                                <div class="col-sm-12 col-md-4">
+                                                    <label for="codproducto" class="input-group-text">Código</label>
+                                                    <input type="number"
+                                                           class="form-control form-control-sm"
+                                                           id="codproducto"
+                                                           name="codproducto">
+                                                </div>
+                                                <div class="col-sm-12 col-md-8">
+                                                    <label for="strdescripcion" class="input-group-text">Descripción</label>
+                                                    <input type="text"
+                                                           class="form-control form-control-sm text-uppercase"
+                                                           id="strdescripcion"
+                                                           name="strdescripcion"
+                                                           required>
+                                                </div>
+                                                <div class="col-sm-12 col-md-4">
+                                                    <label for="numcantidad" class="input-group-text">Cantidad</label>
+                                                    <input type="number"
+                                                           step="0.01"
+                                                           class="form-control form-control-sm"
+                                                           id="numcantidad"
+                                                           name="numcantidad"
+                                                           value="0.00"
+                                                           required>
+                                                </div>
+                                                <div class="col-sm-12 col-md-4">
+                                                    <label for="numpreciounitario" class="input-group-text">Precio unitario</label>
+                                                    <input type="number"
+                                                           step="0.01"
+                                                           class="form-control form-control-sm"
+                                                           id="numpreciounitario"
+                                                           name="numpreciounitario"
+                                                           value="0.00"
+                                                           required>
+                                                </div>
+                                                <div class="col-sm-12 col-md-4">
+                                                    <label for="numimporte" class="input-group-text">Importe Q.</label>
+                                                    <input type="number"
+                                                           step="0.01"
+                                                           class="form-control form-control-sm"
+                                                           id="numimporte"
+                                                           name="numimporte"
+                                                           value="0.00"
+                                                           readonly>
+                                                </div>
+                                                <div class="col-sm-12 col-md-6">
+                                                    <button type="submit"
+                                                            id="kt_submit_frmdetalleenvios"
+                                                            class="btn col-12 btn-success">
+                                                    <span class="indicator-label">
+                                                        <i class="bi bi-save"></i> Guardar
+                                                    </span>
+                                                        <span class="indicator-progress">Procesando...
+                                                        <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
+                                                    </span>
+                                                    </button>
+                                                </div>
+                                                <div class="col-sm-12 col-md-6">
+                                                    <button type="button"
+                                                            id="kt_delete_frmdetalleenvios"
+                                                            class="btn col-12 btn-danger">
+                                                    <span class="indicator-label">
+                                                        <i class="bi bi-trash"></i> Borrar
+                                                    </span>
+                                                        <span class="indicator-progress">Procesando...
+                                                        <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
+                                                    </span>
+                                                    </button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            <% } %>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--end::Content-->
+            <%- include('../components/bottom-footer.ejs', {ip: ip}) %>
+        </div>
+        <!--end::Wrapper-->
+    </div>
+    <!--end::Page-->
+</div>
+<!--end::Root-->
+
+<%- include('../components/kt-scrolltop.ejs') %>
+<%- include('../components/web-footer.ejs') %>
+
+<script src="assets/js/custom/widgets.js"></script>
+<script>
+	const url = `${window.location.origin}/api`;
+	const codEnvio = '<%- id %>';
+
+	const formEnvios = $("#frmenvios");
+	const btnHeader = document.querySelector('#kt_submit_frmenvios');
+
+	let sToast = Swal.mixin({
+		toast: true,
+		position: "top-end",
+		showConfirmButton: false,
+		timer: 3000,
+		timerProgressBar: true,
+		didOpen: (toast) => {
+			toast.onmouseenter = Swal.stopTimer;
+			toast.onmouseleave = Swal.resumeTimer;
+		}
+	});
+
+	function fnToast(res) {
+		const {code, message} = res;
+		sToast.fire({
+			icon: code === 'true' ? 'success' : 'error',
+			title: message
+		});
+	}
+
+	formEnvios.submit(function (e) {
+		e.preventDefault();
+		btnHeader.disabled = true;
+		btnHeader.setAttribute('data-kt-indicator', 'on');
+
+		let method = codEnvio != 0 ? 'put' : 'post';
+
+		$.ajax({
+			url: `${url}/cyt/envios/registro/${codEnvio}`,
+			type: method,
+			data: formEnvios.serializeArray()
+		}).done(function (result) {
+			const {code, message, data} = result;
+			const {CodEnvio} = data[0];
+
+			fnToast({
+				code: code !== undefined ? 'true' : '500',
+				message: code !== undefined ? message : 'No se puede leer el mensaje del servidor'
+			});
+
+			setTimeout(function () {
+				btnHeader.disabled = false;
+				btnHeader.removeAttribute('data-kt-indicator');
+				window.location.href = "/cyt/envios/registro/" + CodEnvio;
+			}, 500);
+		}).fail(function (reason) {
+			console.log(reason);
+			const msg = reason.responseJSON && reason.responseJSON.message
+				? reason.responseJSON.message
+				: 'Se produjo un error al guardar';
+			fnToast({code: 'false', message: msg});
+			btnHeader.disabled = false;
+			btnHeader.removeAttribute('data-kt-indicator');
+		});
+	});
+
+    <% if (id != 0) { %>
+	// Calcula importe en el formulario de detalle
+	const numCantidad = document.querySelector('#numcantidad');
+	const numPU = document.querySelector('#numpreciounitario');
+	const numImporte = document.querySelector('#numimporte');
+
+	function calcImporte() {
+		const c = parseFloat(numCantidad.value || 0);
+		const p = parseFloat(numPU.value || 0);
+		numImporte.value = (c * p).toFixed(2);
+	}
+	numCantidad.addEventListener('input', calcImporte);
+	numPU.addEventListener('input', calcImporte);
+
+	// Aquí puede agregar la lógica AJAX para guardar / borrar detalle:
+	//   POST /envios/detalle/:codenvio
+	//   PUT  /envios/detalle/:codenvio
+	//   DELETE /envios/detalle/coddetalle/:id
+
+
+    <% } %>
+</script>
+</body>
+</html>
