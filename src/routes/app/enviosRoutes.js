@@ -63,7 +63,6 @@ router.get("/pdf/:id", appAuth, async function(request, response){
 	const i = getInfo(request)
 	i.id = request.params.id
 	const ventas = getDatabyId(request, 'ventas.vw_ventas', 'codventa', request.params.id)
-	const poa = getDatabyId(request, 'ventas.vw_rel_core_poa', 'codventa', request.params.id)
 	const detalle = getDatabyId(request, 'ventas.vw_detalle', 'codventa', request.params.id)
 
 	Promise.all([ventas, poa, detalle])

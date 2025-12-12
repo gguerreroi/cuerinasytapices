@@ -71,13 +71,13 @@ let Detalle = detalle !== undefined ? detalle : [];
                                                     <ul class="dropdown-menu">
                                                         <li>
                                                             <button type="button" class="dropdown-item"
-                                                                    onclick="window.location.href='/envios/reporte/<%- id %>'">
+                                                                    onclick="window.location.href='/cyt/envios/reporte/<%- id %>'">
                                                                 Pantalla
                                                             </button>
                                                         </li>
                                                         <li>
                                                             <button type="button" class="dropdown-item"
-                                                                    onclick="window.location.href='/envios/pdf/<%- id %>'">
+                                                                    onclick="window.location.href='/cyt/envios/pdf/<%- id %>'">
                                                                 PDF
                                                             </button>
                                                         </li>
@@ -252,25 +252,18 @@ let Detalle = detalle !== undefined ? detalle : [];
                                                     <table class="col-12 table table-bordered table-sm" id="tb-envio-detalle">
                                                         <thead class="fw-bolder">
                                                         <tr>
+                                                            <th>coddetalle</th>
+                                                            <th>codenvio</th>
                                                             <th>#</th>
-                                                            <th>Código</th>
+                                                            <th>Código Producto</th>
                                                             <th>Descripción</th>
                                                             <th>Cantidad</th>
                                                             <th>Precio unitario</th>
-                                                            <th>Importe Q.</th>
+                                                            <th>Total</th>
+                                                            <th></th>
                                                         </tr>
                                                         </thead>
                                                         <tbody>
-                                                        <% Detalle.forEach(function(row, idx) { %>
-                                                            <tr>
-                                                                <td><%- idx + 1 %></td>
-                                                                <td><%- row.codproducto || '' %></td>
-                                                                <td class="text-uppercase"><%- row.strdescripcion || '' %></td>
-                                                                <td class="text-end"><%- Number(row.numcantidad || 0).toFixed(2) %></td>
-                                                                <td class="text-end"><%- Number(row.numpreciounitario || 0).toFixed(2) %></td>
-                                                                <td class="text-end"><%- Number(row.numimporte || 0).toFixed(2) %></td>
-                                                            </tr>
-                                                        <% }) %>
                                                         </tbody>
                                                     </table>
                                                 </div>
@@ -333,7 +326,7 @@ let Detalle = detalle !== undefined ? detalle : [];
                                                            required>
                                                 </div>
                                                 <div class="col-sm-12 col-md-4">
-                                                    <label for="numimporte" class="input-group-text">Importe Q.</label>
+                                                    <label for="numimporte" class="input-group-text">Total</label>
                                                     <input type="number"
                                                            step="0.01"
                                                            class="form-control form-control-sm"
@@ -393,7 +386,10 @@ let Detalle = detalle !== undefined ? detalle : [];
 	const codEnvio = '<%- id %>';
 
 	const formEnvios = $("#frmenvios");
+	const frmenvios_detalle = $("#frmenvios_detalle");
 	const btnHeader = document.querySelector('#kt_submit_frmenvios');
+	const btnDetalle = document.querySelector('#kt_submit_frmdetalleenvios');
+    const buttonDeleteDetalle = document.querySelector('#kt_delete_frmdetalleenvios');
 
 	let sToast = Swal.mixin({
 		toast: true,
@@ -414,6 +410,57 @@ let Detalle = detalle !== undefined ? detalle : [];
 			title: message
 		});
 	}
+
+	function delBase(message, path) {
+		Swal.fire({
+			text: message,
+			showCancelButton: true,
+			icon: "warning",
+			buttonsStyling: false,
+			confirmButtonText: "Eliminar",
+			cancelButtonText: "Cancelar",
+			customClass: {
+				confirmButton: "order-2 btn btn-danger",
+				cancelButton: "order-1 btn btn-light"
+			}
+		}).then(function (action) {
+			if (action.isConfirmed) {
+				buttonDeleteDetalle.setAttribute('data-kt-indicator', 'on');
+				buttonDeleteDetalle.disabled = true;
+				$.ajax({
+					url: `${url}/catalogo/${path}`,
+					type: 'delete'
+				}).done(function (request) {
+					sToast.fire({
+						icon: "success",
+						title: "Registro Eliminado"
+					})
+					tableDetalle.ajax.reload(null, false);
+				}).fail(function (reason) {
+					console.log(reason)
+					sToast.fire({
+						icon: "error",
+						title: "Se produjo un error"
+					})
+				}).always(function(){
+					buttonDeleteDetalle.removeAttribute('data-kt-indicator')
+					buttonDeleteDetalle.disabled = false;
+				})
+			}
+		})
+	}
+	function delVentaDetalle(id){
+		delBase('¿Esta seguro que desea eliminar este registro?', `envios.detalle/coddetalle/${id}`)
+		cleanFormDetalle()
+    }
+	let GTQ = new Intl.NumberFormat('es-GT', {
+		style: 'currency',
+		currency: 'GTQ'
+	})
+	let USD = new Intl.NumberFormat('us-US', {
+		style: 'currency',
+		currency: 'USD'
+	})
 
 	formEnvios.submit(function (e) {
 		e.preventDefault();
@@ -457,6 +504,80 @@ let Detalle = detalle !== undefined ? detalle : [];
 	const numPU = document.querySelector('#numpreciounitario');
 	const numImporte = document.querySelector('#numimporte');
 
+	var tbDetalle;
+    let inputsDetalle = {
+		coddetalle: $("#coddetalle"),
+		codproducto: $("#codproducto"),
+		strdescripcion: $("#strdescripcion"),
+		numcantidad: $("#numcantidad"),
+		numpreciounitario: $("#numpreciounitario"),
+		numimporte: $("#numimporte")
+	}
+	tbDetalle = $("#tb-envio-detalle").DataTable({
+		search: false,
+		ajax: `${url}/catalogo/view/envios.vw_detalle/codenvio/${codEnvio}`,
+		columns: [
+			{data: "coddetalle"},
+			{data: "codenvio"},
+			{data: "codlinea"},
+			{data: "codproducto"},
+			{data: "strdescripcion"},
+			{data: "numcantidad"},
+			{data: "numpreciounitario"},
+			{data: "numimporte"},
+			{data: null}
+		],
+		columnDefs: [
+			{
+				targets: [0, 1],
+                visible: false
+			},{
+				targets: [6, 7],
+				render: function(data, type, row){
+					return `${GTQ.format(data)}`
+				}
+			}, {
+				targets: [8],
+				visible: false,
+				render: function(data, type, row) {
+					let s0 = `<button onclick="delVentaDetalle('${row.coddetalle}')" class="btn btn-icon btn-circle btn-light-danger"><i class="bi bi-trash"></i></button>`
+					return `${s0}`
+				}
+			}
+		]
+	})
+	function fillDetalleWithSelect(data){
+
+		if (data != undefined){
+			inputsDetalle.coddetalle.val(data.coddetalle)
+			inputsDetalle.codproducto.val(data.codproducto)
+			inputsDetalle.strdescripcion.val(data.strdescripcion)
+			inputsDetalle.numcantidad.val(data.numcantidad).trigger('change')
+			inputsDetalle.numpreciounitario.val(data.numpreciounitario).trigger('change')
+			inputsDetalle.numimporte.val(data.numimporte)
+		}
+	}
+	function cleanFormDetalle(){
+		frmenvios_detalle.trigger('reset')
+	}
+
+	tbDetalle.on('click', 'tbody tr', function(e){
+		let classList = e.currentTarget.classList;
+		var data = tbDetalle.row(this).data();
+		if (data != undefined)
+			if (classList.contains('selected')) {
+				classList.remove('selected');
+				buttonDeleteDetalle.style.display = "none";
+				cleanFormDetalle()
+			}
+			else {
+				tbDetalle.rows('.selected').nodes().each((row) => row.classList.remove('selected'));
+				classList.add('selected');
+				buttonDeleteDetalle.style.display = "block";
+				fillDetalleWithSelect(data)
+			}
+	})
+
 	function calcImporte() {
 		const c = parseFloat(numCantidad.value || 0);
 		const p = parseFloat(numPU.value || 0);
@@ -469,7 +590,42 @@ let Detalle = detalle !== undefined ? detalle : [];
 	//   POST /envios/detalle/:codenvio
 	//   PUT  /envios/detalle/:codenvio
 	//   DELETE /envios/detalle/coddetalle/:id
+	frmenvios_detalle.submit(function (e) {
+		e.preventDefault();
+		btnDetalle.disabled = true;
+		btnDetalle.setAttribute('data-kt-indicator', 'on');
 
+		let method = codEnvio != 0 ? 'put' : 'post';
+
+		$.ajax({
+			url: `${url}/cyt/envios/detalle/${codEnvio}`,
+			type: method,
+			data: frmenvios_detalle.serializeArray()
+		}).done(function (result) {
+			const {code, message, data} = result;
+			const {CodEnvio} = data[0];
+
+			fnToast({
+				code: code !== undefined ? 'true' : '500',
+				message: code !== undefined ? message : 'No se puede leer el mensaje del servidor'
+			});
+
+			setTimeout(function () {
+				btnDetalle.disabled = false;
+				btnDetalle.removeAttribute('data-kt-indicator');
+				//window.location.href = "/cyt/envios/detalle/" + CodEnvio;
+				tbDetalle.ajax.reload(null, false)
+			}, 500);
+		}).fail(function (reason) {
+			console.log(reason);
+			const msg = reason.responseJSON && reason.responseJSON.message
+				? reason.responseJSON.message
+				: 'Se produjo un error al guardar';
+			fnToast({code: 'false', message: msg});
+			btnDetalle.disabled = false;
+			btnDetalle.removeAttribute('data-kt-indicator');
+		});
+	});
 
     <% } %>
 </script>
