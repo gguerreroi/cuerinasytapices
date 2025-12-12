@@ -2,9 +2,9 @@
 let Encabezado = encabezado !== undefined ? encabezado : {
     codenvio: 0,
     datfecha: '',
-    numdocumento: '',
-    numcaja: '',
-    numpedido: '',
+    numdocumento: '0',
+    numcaja: '1',
+    numpedido: '0',
     datfpedido: '',
     strcliente: '',
     numnit: '',
@@ -105,7 +105,7 @@ let Detalle = detalle !== undefined ? detalle : [];
                                                        id="numdocumento"
                                                        class="form-control"
                                                        value="<%- Encabezado.numdocumento || '' %>"
-                                                       required>
+                                                       readonly>
                                             </div>
                                             <div class="col-sm-12 col-md-3">
                                                 <label class="input-group-text" for="numcaja"># Caja</label>
@@ -113,6 +113,7 @@ let Detalle = detalle !== undefined ? detalle : [];
                                                        name="numcaja"
                                                        id="numcaja"
                                                        class="form-control"
+
                                                        value="<%- Encabezado.numcaja || '' %>">
                                             </div>
 
@@ -122,6 +123,7 @@ let Detalle = detalle !== undefined ? detalle : [];
                                                        name="numpedido"
                                                        id="numpedido"
                                                        class="form-control"
+                                                       readonly
                                                        value="<%- Encabezado.numpedido || '' %>">
                                             </div>
                                             <div class="col-sm-12 col-md-3">
