@@ -243,7 +243,7 @@
 			{
 				targets: [9],
 				render: function (data, type, row) {
-					let s0 = `<button class="btn btn-icon btn-circle btn-light-info btn-hover-scale" onclick="showReporte('/envios/reporte/${row.codenvio}')"><i class="bi bi-eye fs-2 me-1"></i></button>`
+					let s0 = `<button class="btn btn-icon btn-circle btn-light-info btn-hover-scale" onclick="showReporte('/cyt/envios/reporte/${row.codenvio}')"><i class="bi bi-eye fs-2 me-1"></i></button>`
 					let s3 = `<button class="btn btn-icon btn-circle btn-danger btn-hover-scale" onclick="delEnvio('${row.codenvio}')"><i class="bi bi-trash fs-2 me-1"></i></button>`
 					return `${s0}  ${s3}`
 				}
