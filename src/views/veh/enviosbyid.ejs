@@ -561,6 +561,7 @@ let Detalle = detalle !== undefined ? detalle : [];
 	}
 	function cleanFormDetalle(){
 		frmenvios_detalle.trigger('reset')
+        inputsDetalle.coddetalle.val('0')
 	}
 
 	tbDetalle.on('click', 'tbody tr', function(e){
