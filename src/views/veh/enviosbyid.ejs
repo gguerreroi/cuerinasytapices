@@ -69,12 +69,14 @@ let Detalle = detalle !== undefined ? detalle : [];
                                                         </svg>
                                                     </button>
                                                     <ul class="dropdown-menu">
+                                                        <!--
                                                         <li>
                                                             <button type="button" class="dropdown-item"
                                                                     onclick="window.location.href='/cyt/envios/reporte/<%- id %>'">
                                                                 Pantalla
                                                             </button>
                                                         </li>
+                                                        -->
                                                         <li>
                                                             <button type="button" class="dropdown-item"
                                                                     onclick="window.location.href='/cyt/envios/pdf/<%- id %>'">
@@ -618,6 +620,7 @@ let Detalle = detalle !== undefined ? detalle : [];
 				btnDetalle.removeAttribute('data-kt-indicator');
 				//window.location.href = "/cyt/envios/detalle/" + CodEnvio;
 				tbDetalle.ajax.reload(null, false)
+                cleanFormDetalle()
 			}, 500);
 		}).fail(function (reason) {
 			console.log(reason);
